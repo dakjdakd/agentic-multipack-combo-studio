@@ -1,0 +1,78 @@
+{
+  "targetRmb": 1700.0,
+  "spentRmb": 72.073,
+  "remainingRmb": 1627.927,
+  "forecastRmb": 122.073,
+  "llmInputTokens": 163596,
+  "llmOutputTokens": 67546,
+  "imageGenerationsCount": 280,
+  "webSearchesCount": 16,
+  "retriesCount": 0,
+  "cachedSavingsRmb": 3.51,
+  "perAgentCosts": [
+    {
+      "name": "Research Cache",
+      "calls": 28,
+      "tokens": "25,200",
+      "latency": "8ms",
+      "costRmb": 0.0,
+      "efficiency": "tracked"
+    },
+    {
+      "name": "Supervisor",
+      "calls": 70,
+      "tokens": "28,700",
+      "latency": "535ms",
+      "costRmb": 0.1436,
+      "efficiency": "tracked"
+    },
+    {
+      "name": "Compliance",
+      "calls": 35,
+      "tokens": "26,600",
+      "latency": "740ms",
+      "costRmb": 0.1119,
+      "efficiency": "tracked"
+    },
+    {
+      "name": "Critic",
+      "calls": 35,
+      "tokens": "32,900",
+      "latency": "880ms",
+      "costRmb": 0.13,
+      "efficiency": "tracked"
+    },
+    {
+      "name": "Image",
+      "calls": 70,
+      "tokens": "44,100",
+      "latency": "2200ms",
+      "costRmb": 70.7369,
+      "efficiency": "tracked"
+    },
+    {
+      "name": "Copy",
+      "calls": 70,
+      "tokens": "81,942",
+      "latency": "1208ms",
+      "costRmb": 0.2881,
+      "efficiency": "tracked"
+    },
+    {
+      "name": "Product Loader",
+      "calls": 35,
+      "tokens": "11,900",
+      "latency": "520ms",
+      "costRmb": 0.0665,
+      "efficiency": "tracked"
+    },
+    {
+      "name": "Research",
+      "calls": 4,
+      "tokens": "5,000",
+      "latency": "0ms",
+      "costRmb": 0.5959,
+      "efficiency": "tracked"
+    }
+  ]
+}

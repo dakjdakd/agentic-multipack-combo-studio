@@ -1,0 +1,37 @@
+{
+  "sku": "MAT-ECO-02",
+  "workflowType": "listing",
+  "title": {
+    "before": "ZenFlow 6mm Eco-Friendly TPE Gym Yoga Mat - Non-Slip Dual Texture Alignment Lines",
+    "after": "ZenFlow Yoga Mats - Forest Green Thermoplastic Elastomer (TPE), Measured 72.0 x 24.0 x 0.24 in"
+  },
+  "unitCount": {
+    "before": 1,
+    "after": 1
+  },
+  "weight": {
+    "before": {
+      "value": 1.9,
+      "unit": "lb"
+    },
+    "after": null
+  },
+  "dimensions": {
+    "before": {
+      "length": 72.0,
+      "width": 24.0,
+      "height": 0.24,
+      "unit": "in"
+    },
+    "after": null
+  },
+  "images": {
+    "after": {
+      "main": "/artifacts/job_08b51f3b04/main.jpg",
+      "lifestyle": "/artifacts/job_08b51f3b04/lifestyle.jpg",
+      "infographic": "/artifacts/job_08b51f3b04/infographic.jpg",
+      "aPlus": "/artifacts/job_08b51f3b04/a_plus_hero.jpg"
+    }
+  },
+  "compliancePassed": true
+}

@@ -1,0 +1,45 @@
+{
+  "sku": "MUG-STEEL-01",
+  "workflowType": "combo",
+  "title": {
+    "before": "AeroTherm Matte Black Stainless Steel Travel Mug - 16oz Vacuum Insulated Tumbler",
+    "after": "AeroTherm Tumblers with ErgoLift Laptop Stands (STAND-ALUM-09) - Matte Black 18/8 Double-Wall Stainless Steel, Measured 10.2 x 8.9 x 8.4 in"
+  },
+  "unitCount": {
+    "before": 1,
+    "after": 2
+  },
+  "weight": {
+    "before": {
+      "value": 0.75,
+      "unit": "lb"
+    },
+    "after": {
+      "value": 2.36,
+      "unit": "lb"
+    }
+  },
+  "dimensions": {
+    "before": {
+      "length": 3.2,
+      "width": 3.2,
+      "height": 6.8,
+      "unit": "in"
+    },
+    "after": {
+      "length": 10.2,
+      "width": 8.9,
+      "height": 8.4,
+      "unit": "in"
+    }
+  },
+  "images": {
+    "after": {
+      "main": "/artifacts/job_69fbaa42c1/main.jpg",
+      "lifestyle": "/artifacts/job_69fbaa42c1/lifestyle.jpg",
+      "infographic": "/artifacts/job_69fbaa42c1/infographic.jpg",
+      "aPlus": "/artifacts/job_69fbaa42c1/a_plus_hero.jpg"
+    }
+  },
+  "compliancePassed": false
+}

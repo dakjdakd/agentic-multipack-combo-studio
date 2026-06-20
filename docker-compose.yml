@@ -1,0 +1,50 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    ports:
+      - "8000:8000"
+    environment:
+      DEMO_MODE: ${DEMO_MODE:-true}
+      APP_ENV: ${APP_ENV:-local}
+      APP_DB_URL: ${APP_DB_URL:-sqlite:///./data/app.db}
+      ARTIFACT_DIR: ${ARTIFACT_DIR:-./artifacts}
+      SAMPLES_DIR: ${SAMPLES_DIR:-./samples}
+      SSB_DB_DIALECT: ${SSB_DB_DIALECT:-mysql}
+      SSB_DB_HOST: ${SSB_DB_HOST:-}
+      SSB_DB_PORT: ${SSB_DB_PORT:-3306}
+      SSB_DB_USER: ${SSB_DB_USER:-}
+      SSB_DB_PASSWORD: ${SSB_DB_PASSWORD:-}
+      SSB_DB_NAME: ${SSB_DB_NAME:-}
+      SSB_DB_CHARSET: ${SSB_DB_CHARSET:-utf8mb4}
+      LLM_PROVIDER: ${LLM_PROVIDER:-openai_compatible}
+      LLM_BASE_URL: ${LLM_BASE_URL:-}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      LLM_MODEL: ${LLM_MODEL:-}
+      VISION_MODEL: ${VISION_MODEL:-}
+      IMAGE_PROVIDER: ${IMAGE_PROVIDER:-openai_compatible}
+      IMAGE_BASE_URL: ${IMAGE_BASE_URL:-}
+      IMAGE_API_KEY: ${IMAGE_API_KEY:-}
+      IMAGE_MODEL: ${IMAGE_MODEL:-}
+      SEARCH_PROVIDER: ${SEARCH_PROVIDER:-serpapi}
+      SEARCH_API_KEY: ${SEARCH_API_KEY:-}
+      BUDGET_TARGET_RMB: ${BUDGET_TARGET_RMB:-1700}
+      USD_TO_RMB: ${USD_TO_RMB:-7.2}
+      CACHE_TTL_HOURS: ${CACHE_TTL_HOURS:-24}
+      MAX_IMAGE_RETRIES: ${MAX_IMAGE_RETRIES:-2}
+    volumes:
+      - ./artifacts:/app/artifacts
+      - ./data:/app/data
+      - ./samples:/app/samples
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+      args:
+        VITE_API_BASE_URL: http://localhost:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api

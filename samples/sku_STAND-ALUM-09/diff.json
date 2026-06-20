@@ -1,0 +1,45 @@
+{
+  "sku": "STAND-ALUM-09",
+  "workflowType": "listing",
+  "title": {
+    "before": "ErgoLift Aluminum Laptop Stand - 6-Angle Adjustable Portable Notebook Riser",
+    "after": "ErgoLift Laptop Stands - Space Gray 6000-Series Aerospace Grade Aluminum, Measured 9.8 x 8.5 x 1.2 in"
+  },
+  "unitCount": {
+    "before": 1,
+    "after": 1
+  },
+  "weight": {
+    "before": {
+      "value": 1.4,
+      "unit": "lb"
+    },
+    "after": {
+      "value": 1.4,
+      "unit": "lb"
+    }
+  },
+  "dimensions": {
+    "before": {
+      "length": 9.8,
+      "width": 8.5,
+      "height": 1.2,
+      "unit": "in"
+    },
+    "after": {
+      "length": 9.8,
+      "width": 8.5,
+      "height": 1.2,
+      "unit": "in"
+    }
+  },
+  "images": {
+    "after": {
+      "main": "/artifacts/job_8435863feb/main.jpg",
+      "lifestyle": "/artifacts/job_8435863feb/lifestyle.jpg",
+      "infographic": "/artifacts/job_8435863feb/infographic.jpg",
+      "aPlus": "/artifacts/job_8435863feb/a_plus_hero.jpg"
+    }
+  },
+  "compliancePassed": false
+}

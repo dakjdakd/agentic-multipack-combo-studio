@@ -1,0 +1,94 @@
+{
+  "jobId": "enrich_93f9b98d29",
+  "sku": "CHARGER-GAN-65",
+  "cacheHit": true,
+  "enrichedFields": [
+    {
+      "field": "category_norm",
+      "value": "Cell Phones & Accessories > Chargers & Power Adapters",
+      "sourceUrl": "https://sell.amazon.com/blog/amazon-product-listings",
+      "confidence": 0.78,
+      "notes": "Category normalized from SSB category and Amazon listing guidance.",
+      "demo": true
+    },
+    {
+      "field": "common_selling_points",
+      "value": [
+        "Emphasize Fireproof Polycarbonate (V0 Rating) construction.",
+        "Showcase Arctic White visual consistency.",
+        "Highlight measurable dimensions and everyday usage scenarios."
+      ],
+      "sourceUrl": "https://sell.amazon.com/tools/a-content",
+      "confidence": 0.74,
+      "notes": "Derived from product attributes and marketplace content norms.",
+      "demo": true
+    },
+    {
+      "field": "compliance_keywords",
+      "value": [
+        "brand-first title",
+        "no promotional claims",
+        "backend search terms under 250 bytes"
+      ],
+      "sourceUrl": "https://sell.amazon.com/blog/amazon-seo",
+      "confidence": 0.72,
+      "notes": "Compliance-safe keyword handling for Amazon listing content.",
+      "demo": true
+    },
+    {
+      "field": "certifications",
+      "value": "Verify safety claims before mentioning certifications for Fireproof Polycarbonate (V0 Rating).",
+      "sourceUrl": "https://sellercentral.amazon.com/help/hub/reference",
+      "confidence": 0.55,
+      "notes": "No unverified certification is promoted; missing evidence is retained as a gap.",
+      "demo": true
+    }
+  ],
+  "conflicts": [
+    {
+      "type": "missing_product_fields",
+      "fields": [
+        "image"
+      ],
+      "policy": "do_not_fabricate"
+    }
+  ],
+  "missingFields": [
+    "image"
+  ],
+  "trace": [
+    {
+      "agentName": "Research",
+      "inputSummary": "Enrich SKU CHARGER-GAN-65 using product title/category/material/color.",
+      "toolCalls": [
+        {
+          "name": "web_search",
+          "input": "Veloce 65W GaN Charger - Ultra-Compact Dual USB-C Fast Charger Block product specs",
+          "durationMs": 50
+        },
+        {
+          "name": "web_search",
+          "input": "Cell Phones & Accessories > Chargers & Power Adapters common selling points",
+          "durationMs": 50
+        },
+        {
+          "name": "web_search",
+          "input": "Cell Phones & Accessories > Chargers & Power Adapters certification requirements",
+          "durationMs": 50
+        },
+        {
+          "name": "source_citation_guard",
+          "input": "require sourceUrl per enriched field",
+          "durationMs": 20
+        }
+      ],
+      "outputArtifact": "4 enriched fields with URL citations. Missing/conflicts retained: 1.",
+      "latencyMs": 0,
+      "inputTokens": 900,
+      "outputTokens": 350,
+      "estimatedCostUsd": 0.02069,
+      "promptSnippet": "Research Agent: collect category norms, competitor-safe selling points, compliance terms, never fabricate specs.",
+      "warningsOrErrors": null
+    }
+  ]
+}

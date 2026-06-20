@@ -1,0 +1,94 @@
+{
+  "jobId": "enrich_7443eb1880",
+  "sku": "MAT-ECO-02",
+  "cacheHit": true,
+  "enrichedFields": [
+    {
+      "field": "category_norm",
+      "value": "Sports & Outdoors > Exercise & Fitness > Yoga Mats",
+      "sourceUrl": "https://sell.amazon.com/blog/amazon-product-listings",
+      "confidence": 0.78,
+      "notes": "Category normalized from SSB category and Amazon listing guidance.",
+      "demo": true
+    },
+    {
+      "field": "common_selling_points",
+      "value": [
+        "Emphasize Thermoplastic Elastomer (TPE) construction.",
+        "Showcase Forest Green visual consistency.",
+        "Highlight measurable dimensions and everyday usage scenarios."
+      ],
+      "sourceUrl": "https://sell.amazon.com/tools/a-content",
+      "confidence": 0.74,
+      "notes": "Derived from product attributes and marketplace content norms.",
+      "demo": true
+    },
+    {
+      "field": "compliance_keywords",
+      "value": [
+        "brand-first title",
+        "no promotional claims",
+        "backend search terms under 250 bytes"
+      ],
+      "sourceUrl": "https://sell.amazon.com/blog/amazon-seo",
+      "confidence": 0.72,
+      "notes": "Compliance-safe keyword handling for Amazon listing content.",
+      "demo": true
+    },
+    {
+      "field": "certifications",
+      "value": "Verify safety claims before mentioning certifications for Thermoplastic Elastomer (TPE).",
+      "sourceUrl": "https://sellercentral.amazon.com/help/hub/reference",
+      "confidence": 0.55,
+      "notes": "No unverified certification is promoted; missing evidence is retained as a gap.",
+      "demo": true
+    }
+  ],
+  "conflicts": [
+    {
+      "type": "missing_product_fields",
+      "fields": [
+        "image"
+      ],
+      "policy": "do_not_fabricate"
+    }
+  ],
+  "missingFields": [
+    "image"
+  ],
+  "trace": [
+    {
+      "agentName": "Research",
+      "inputSummary": "Enrich SKU MAT-ECO-02 using product title/category/material/color.",
+      "toolCalls": [
+        {
+          "name": "web_search",
+          "input": "ZenFlow 6mm Eco-Friendly TPE Gym Yoga Mat - Non-Slip Dual Texture Alignment Lines product specs",
+          "durationMs": 50
+        },
+        {
+          "name": "web_search",
+          "input": "Sports & Outdoors > Exercise & Fitness > Yoga Mats common selling points",
+          "durationMs": 50
+        },
+        {
+          "name": "web_search",
+          "input": "Sports & Outdoors > Exercise & Fitness > Yoga Mats certification requirements",
+          "durationMs": 50
+        },
+        {
+          "name": "source_citation_guard",
+          "input": "require sourceUrl per enriched field",
+          "durationMs": 20
+        }
+      ],
+      "outputArtifact": "4 enriched fields with URL citations. Missing/conflicts retained: 1.",
+      "latencyMs": 0,
+      "inputTokens": 900,
+      "outputTokens": 350,
+      "estimatedCostUsd": 0.02069,
+      "promptSnippet": "Research Agent: collect category norms, competitor-safe selling points, compliance terms, never fabricate specs.",
+      "warningsOrErrors": null
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "sku": "CHARGER-GAN-65",
+  "workflowType": "listing",
+  "title": {
+    "before": "Veloce 65W GaN Charger - Ultra-Compact Dual USB-C Fast Charger Block",
+    "after": "Veloce Chargers & Power Adapters - Arctic White Fireproof Polycarbonate (V0 Rating), Measured 2.1 x 1.5 x 1.5 in"
+  },
+  "unitCount": {
+    "before": 1,
+    "after": 1
+  },
+  "weight": {
+    "before": {
+      "value": 0.32,
+      "unit": "lb"
+    },
+    "after": {
+      "value": 0.32,
+      "unit": "lb"
+    }
+  },
+  "dimensions": {
+    "before": {
+      "length": 2.1,
+      "width": 1.5,
+      "height": 1.5,
+      "unit": "in"
+    },
+    "after": {
+      "length": 2.1,
+      "width": 1.5,
+      "height": 1.5,
+      "unit": "in"
+    }
+  },
+  "images": {
+    "after": {
+      "main": "/artifacts/job_d334b103ae/main.jpg",
+      "lifestyle": "/artifacts/job_d334b103ae/lifestyle.jpg",
+      "infographic": "/artifacts/job_d334b103ae/infographic.jpg",
+      "aPlus": "/artifacts/job_d334b103ae/a_plus_hero.jpg"
+    }
+  },
+  "compliancePassed": false
+}

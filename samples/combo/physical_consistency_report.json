@@ -1,0 +1,9 @@
+{
+  "expectedColor": "Matte Black",
+  "observedColorInImage": "Matte Black represented in generated image metadata/prompt",
+  "expectedMaterial": "18/8 Double-Wall Stainless Steel",
+  "observedMaterialInImage": "18/8 Double-Wall Stainless Steel represented in generated copy and visual prompt",
+  "expectedUnitCount": 2,
+  "observedUnitCountInImage": 2,
+  "imageCriticVerdict": "Physical consistency check completed for combo. Expected 2 unit(s); generated artifact metadata reports 2. Combo reference: ErgoLift Laptop Stands (STAND-ALUM-09)."
+}

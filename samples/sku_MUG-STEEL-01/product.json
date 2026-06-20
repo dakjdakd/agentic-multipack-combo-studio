@@ -1,0 +1,47 @@
+{
+  "sku": "MUG-STEEL-01",
+  "title": "AeroTherm Matte Black Stainless Steel Travel Mug - 16oz Vacuum Insulated Tumbler",
+  "brand": "AeroTherm",
+  "category": "Kitchen & Dining > Drinkware > Tumblers",
+  "color": "Matte Black",
+  "material": "18/8 Double-Wall Stainless Steel",
+  "dimensions": {
+    "length": 3.2,
+    "width": 3.2,
+    "height": 6.8,
+    "unit": "in"
+  },
+  "weight": {
+    "value": 0.75,
+    "unit": "lb"
+  },
+  "image": "",
+  "normalizedJson": "{\n  \"sku\": \"MUG-STEEL-01\",\n  \"title\": \"AeroTherm Matte Black Stainless Steel Travel Mug - 16oz Vacuum Insulated Tumbler\",\n  \"brand\": \"AeroTherm\",\n  \"category\": \"Kitchen & Dining > Drinkware > Tumblers\",\n  \"color\": \"Matte Black\",\n  \"material\": \"18/8 Double-Wall Stainless Steel\",\n  \"dimensions\": {\n    \"length\": 3.2,\n    \"width\": 3.2,\n    \"height\": 6.8,\n    \"unit\": \"in\"\n  },\n  \"weight\": {\n    \"value\": 0.75,\n    \"unit\": \"lb\"\n  },\n  \"unitCount\": 1,\n  \"variation\": {\n    \"relationType\": \"C\",\n    \"size\": \"16oz\",\n    \"volume\": \"16oz\",\n    \"scent\": null,\n    \"flavour\": null,\n    \"styleCode\": null,\n    \"variance\": null\n  }\n}",
+  "rawFields": {
+    "sku": "MUG-STEEL-01",
+    "title": "AeroTherm Matte Black Stainless Steel Travel Mug - 16oz Vacuum Insulated Tumbler",
+    "brand": "AeroTherm",
+    "sku_category": "Kitchen & Dining > Drinkware > Tumblers",
+    "sku_color": "Matte Black",
+    "sku_composition": "18/8 Double-Wall Stainless Steel",
+    "sku_length": "3.2",
+    "sku_width": "3.2",
+    "sku_height": "6.8",
+    "sku_weight": "0.75",
+    "image_url": "",
+    "remark": "Pack of 1",
+    "cost": 5.4,
+    "sku_relation_type": "C",
+    "sku_size": "16oz",
+    "sku_volume": "16oz",
+    "sku_description": "Vacuum insulated travel mug with spill-resistant slider lid."
+  },
+  "missingFields": [
+    "image"
+  ],
+  "unitCount": 1,
+  "source": "demo",
+  "warnings": [
+    "Demo product: live SSB MySQL was unavailable or DEMO_MODE is enabled."
+  ]
+}

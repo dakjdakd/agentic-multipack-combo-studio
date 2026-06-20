@@ -1,0 +1,47 @@
+{
+  "sku": "CHARGER-GAN-65",
+  "title": "Veloce 65W GaN Charger - Ultra-Compact Dual USB-C Fast Charger Block",
+  "brand": "Veloce",
+  "category": "Cell Phones & Accessories > Chargers & Power Adapters",
+  "color": "Arctic White",
+  "material": "Fireproof Polycarbonate (V0 Rating)",
+  "dimensions": {
+    "length": 2.1,
+    "width": 1.5,
+    "height": 1.5,
+    "unit": "in"
+  },
+  "weight": {
+    "value": 0.32,
+    "unit": "lb"
+  },
+  "image": "",
+  "normalizedJson": "{\n  \"sku\": \"CHARGER-GAN-65\",\n  \"title\": \"Veloce 65W GaN Charger - Ultra-Compact Dual USB-C Fast Charger Block\",\n  \"brand\": \"Veloce\",\n  \"category\": \"Cell Phones & Accessories > Chargers & Power Adapters\",\n  \"color\": \"Arctic White\",\n  \"material\": \"Fireproof Polycarbonate (V0 Rating)\",\n  \"dimensions\": {\n    \"length\": 2.1,\n    \"width\": 1.5,\n    \"height\": 1.5,\n    \"unit\": \"in\"\n  },\n  \"weight\": {\n    \"value\": 0.32,\n    \"unit\": \"lb\"\n  },\n  \"unitCount\": 1,\n  \"variation\": {\n    \"relationType\": \"C\",\n    \"size\": \"65W\",\n    \"volume\": null,\n    \"scent\": null,\n    \"flavour\": null,\n    \"styleCode\": \"Dual USB-C\",\n    \"variance\": null\n  }\n}",
+  "rawFields": {
+    "sku": "CHARGER-GAN-65",
+    "title": "Veloce 65W GaN Charger - Ultra-Compact Dual USB-C Fast Charger Block",
+    "brand": "Veloce",
+    "sku_category": "Cell Phones & Accessories > Chargers & Power Adapters",
+    "sku_color": "Arctic White",
+    "sku_composition": "Fireproof Polycarbonate (V0 Rating)",
+    "sku_length": "2.1",
+    "sku_width": "1.5",
+    "sku_height": "1.5",
+    "sku_weight": "0.32",
+    "image_url": "",
+    "remark": "Pack of 1",
+    "cost": 6.1,
+    "sku_relation_type": "C",
+    "sku_size": "65W",
+    "sku_style_code": "Dual USB-C",
+    "sku_description": "Compact GaN wall charger with dual USB-C ports."
+  },
+  "missingFields": [
+    "image"
+  ],
+  "unitCount": 1,
+  "source": "demo",
+  "warnings": [
+    "Demo product: live SSB MySQL was unavailable or DEMO_MODE is enabled."
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "sku": "MAT-ECO-02",
+  "title": "ZenFlow 6mm Eco-Friendly TPE Gym Yoga Mat - Non-Slip Dual Texture Alignment Lines",
+  "brand": "ZenFlow",
+  "category": "Sports & Outdoors > Exercise & Fitness > Yoga Mats",
+  "color": "Forest Green",
+  "material": "Thermoplastic Elastomer (TPE)",
+  "dimensions": {
+    "length": 72.0,
+    "width": 24.0,
+    "height": 0.24,
+    "unit": "in"
+  },
+  "weight": {
+    "value": 1.9,
+    "unit": "lb"
+  },
+  "image": "",
+  "normalizedJson": "{\n  \"sku\": \"MAT-ECO-02\",\n  \"title\": \"ZenFlow 6mm Eco-Friendly TPE Gym Yoga Mat - Non-Slip Dual Texture Alignment Lines\",\n  \"brand\": \"ZenFlow\",\n  \"category\": \"Sports & Outdoors > Exercise & Fitness > Yoga Mats\",\n  \"color\": \"Forest Green\",\n  \"material\": \"Thermoplastic Elastomer (TPE)\",\n  \"dimensions\": {\n    \"length\": 72.0,\n    \"width\": 24.0,\n    \"height\": 0.24,\n    \"unit\": \"in\"\n  },\n  \"weight\": {\n    \"value\": 1.9,\n    \"unit\": \"lb\"\n  },\n  \"unitCount\": 1,\n  \"variation\": {\n    \"relationType\": \"C\",\n    \"size\": \"6mm\",\n    \"volume\": null,\n    \"scent\": null,\n    \"flavour\": null,\n    \"styleCode\": null,\n    \"variance\": null\n  }\n}",
+  "rawFields": {
+    "sku": "MAT-ECO-02",
+    "title": "ZenFlow 6mm Eco-Friendly TPE Gym Yoga Mat - Non-Slip Dual Texture Alignment Lines",
+    "brand": "ZenFlow",
+    "sku_category": "Sports & Outdoors > Exercise & Fitness > Yoga Mats",
+    "sku_color": "Forest Green",
+    "sku_composition": "Thermoplastic Elastomer (TPE)",
+    "sku_length": "72",
+    "sku_width": "24",
+    "sku_height": "0.24",
+    "sku_weight": "1.9",
+    "image_url": "",
+    "remark": "Pack of 1",
+    "cost": 7.8,
+    "sku_relation_type": "C",
+    "sku_size": "6mm",
+    "sku_description": "Eco-friendly TPE yoga mat with alignment guide lines."
+  },
+  "missingFields": [
+    "image"
+  ],
+  "unitCount": 1,
+  "source": "demo",
+  "warnings": [
+    "Demo product: live SSB MySQL was unavailable or DEMO_MODE is enabled."
+  ]
+}

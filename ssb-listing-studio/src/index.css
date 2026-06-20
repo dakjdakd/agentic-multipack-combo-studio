@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;650;720&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  body {
+    background-color: #F0EBE1;
+  }
+}
+
+/* Custom fade-in container transition utility */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Custom classic manual background tint variables */
+.bg-yellow-105 {
+  background-color: #FCF7EA;
+}
+.border-yellow-405 {
+  border-color: #DAB975;
+}
+.ring-yellow-250 {
+  --tw-ring-color: #E2C08A;
+}
+
+/* Custom blue overrides */
+.text-indigo-905 {
+  color: #0B2545;
+}
+.border-blue-150 {
+  border-color: #E1E8F0;
+}
+.bg-blue-150 {
+  background-color: #E1E8F0;
+}
+.text-orange-750 {
+  color: #C2410C;
+}
+.border-orange-250 {
+  border-color: #FED7AA;
+}

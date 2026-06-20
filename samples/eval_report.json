@@ -1,0 +1,19 @@
+{
+  "evalId": "eval_082bda93",
+  "selectedSkus": [
+    "MUG-STEEL-01"
+  ],
+  "complianceScore": 93.8,
+  "physicalConsistencyScore": 100.0,
+  "listingQualityScore": 100.0,
+  "overallScore": 97.5,
+  "items": [
+    {
+      "sku": "MUG-STEEL-01",
+      "complianceScore": 93.8,
+      "physicalConsistencyScore": 100,
+      "listingQualityScore": 100
+    }
+  ],
+  "createdAt": "2026-06-20T17:56:51.813906"
+}

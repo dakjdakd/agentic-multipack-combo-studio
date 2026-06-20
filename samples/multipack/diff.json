@@ -1,0 +1,45 @@
+{
+  "sku": "MUG-STEEL-01",
+  "workflowType": "multipack",
+  "title": {
+    "before": "AeroTherm Matte Black Stainless Steel Travel Mug - 16oz Vacuum Insulated Tumbler",
+    "after": "AeroTherm Tumblers, Pack of 3 - Matte Black 18/8 Double-Wall Stainless Steel, Measured 3.4 x 3.4 x 20.6 in"
+  },
+  "unitCount": {
+    "before": 1,
+    "after": 3
+  },
+  "weight": {
+    "before": {
+      "value": 0.75,
+      "unit": "lb"
+    },
+    "after": {
+      "value": 2.43,
+      "unit": "lb"
+    }
+  },
+  "dimensions": {
+    "before": {
+      "length": 3.2,
+      "width": 3.2,
+      "height": 6.8,
+      "unit": "in"
+    },
+    "after": {
+      "length": 3.4,
+      "width": 3.4,
+      "height": 20.6,
+      "unit": "in"
+    }
+  },
+  "images": {
+    "after": {
+      "main": "/artifacts/job_32f855c49f/main.jpg",
+      "lifestyle": "/artifacts/job_32f855c49f/lifestyle.jpg",
+      "infographic": "/artifacts/job_32f855c49f/infographic.jpg",
+      "aPlus": "/artifacts/job_32f855c49f/a_plus_hero.jpg"
+    }
+  },
+  "compliancePassed": true
+}

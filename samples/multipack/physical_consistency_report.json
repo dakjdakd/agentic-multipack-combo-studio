@@ -1,0 +1,9 @@
+{
+  "expectedColor": "Matte Black",
+  "observedColorInImage": "Matte Black represented in generated image metadata/prompt",
+  "expectedMaterial": "18/8 Double-Wall Stainless Steel",
+  "observedMaterialInImage": "18/8 Double-Wall Stainless Steel represented in generated copy and visual prompt",
+  "expectedUnitCount": 3,
+  "observedUnitCountInImage": 3,
+  "imageCriticVerdict": "Physical consistency check completed for multipack. Expected 3 unit(s); generated artifact metadata reports 3. Combo reference: none."
+}

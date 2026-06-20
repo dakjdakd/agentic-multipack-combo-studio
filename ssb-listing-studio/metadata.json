@@ -1,0 +1,6 @@
+{
+  "name": "SSB Listing Studio",
+  "description": "An internal AI operations console for generating, reviewing, and optimizing Amazon product listings with agent tracing, multi-pack recomposition, and budget validation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
