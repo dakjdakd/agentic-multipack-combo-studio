@@ -18,9 +18,9 @@ import { ReviewItem, AmazonListing } from '../types';
 
 interface ReviewViewProps {
   reviews: ReviewItem[];
-  onApproveReview: (id: string) => void;
-  onRejectReview: (id: string) => void;
-  onRequestRevision: (id: string, notes: string) => void;
+  onApproveReview: (id: string) => Promise<void> | void;
+  onRejectReview: (id: string) => Promise<void> | void;
+  onRequestRevision: (id: string, notes: string) => Promise<void> | void;
 }
 
 export default function ReviewView({
@@ -31,23 +31,63 @@ export default function ReviewView({
 }: ReviewViewProps) {
   const [selectedReviewId, setSelectedReviewId] = useState<string>(reviews[0]?.id || '');
   const [revisionFeedback, setRevisionFeedback] = useState('');
+  const [pendingDecision, setPendingDecision] = useState<'approve' | 'reject' | 'revision' | null>(null);
+  const [decisionMessage, setDecisionMessage] = useState('');
+  const [decisionError, setDecisionError] = useState('');
 
   const activeReviewItem = reviews.find(r => r.id === selectedReviewId) || reviews[0];
 
-  const handleApplyApprove = () => {
+  const handleApplyApprove = async () => {
     if (!activeReviewItem) return;
-    onApproveReview(activeReviewItem.id);
+    if (pendingDecision) return;
+    setPendingDecision('approve');
+    setDecisionError('');
+    setDecisionMessage('Saving approval and refreshing review queue...');
+    try {
+      await onApproveReview(activeReviewItem.id);
+      setDecisionMessage('Approval saved. Review queue and cost summary were refreshed.');
+    } catch (err) {
+      setDecisionError((err as Error).message || 'Approve failed.');
+      setDecisionMessage('');
+    } finally {
+      setPendingDecision(null);
+    }
   };
 
-  const handleApplyReject = () => {
+  const handleApplyReject = async () => {
     if (!activeReviewItem) return;
-    onRejectReview(activeReviewItem.id);
+    if (pendingDecision) return;
+    setPendingDecision('reject');
+    setDecisionError('');
+    setDecisionMessage('Saving rejection and refreshing review queue...');
+    try {
+      await onRejectReview(activeReviewItem.id);
+      setDecisionMessage('Rejection saved. Review queue and cost summary were refreshed.');
+    } catch (err) {
+      setDecisionError((err as Error).message || 'Reject failed.');
+      setDecisionMessage('');
+    } finally {
+      setPendingDecision(null);
+    }
   };
 
-  const handleApplyRequestRevision = () => {
+  const handleApplyRequestRevision = async () => {
     if (!activeReviewItem || !revisionFeedback.trim()) return;
-    onRequestRevision(activeReviewItem.id, revisionFeedback);
-    setRevisionFeedback('');
+    if (pendingDecision) return;
+    const notes = revisionFeedback;
+    setPendingDecision('revision');
+    setDecisionError('');
+    setDecisionMessage('Saving revision request and refreshing review queue...');
+    try {
+      await onRequestRevision(activeReviewItem.id, notes);
+      setRevisionFeedback('');
+      setDecisionMessage('Revision request saved. Review queue and cost summary were refreshed.');
+    } catch (err) {
+      setDecisionError((err as Error).message || 'Revision request failed.');
+      setDecisionMessage('');
+    } finally {
+      setPendingDecision(null);
+    }
   };
 
   return (
@@ -279,35 +319,46 @@ export default function ReviewView({
                     placeholder="Enter details on why this listing is rejected or needs revision..."
                     value={revisionFeedback}
                     onChange={(e) => setRevisionFeedback(e.target.value)}
-                    className="w-full text-xs p-2.5 bg-white border border-slate-350 rounded focus:outline-none"
+                    disabled={!!pendingDecision}
+                    className="w-full text-xs p-2.5 bg-white border border-slate-350 rounded focus:outline-none disabled:bg-slate-100 disabled:text-slate-500"
                   />
                   <button
-                    onClick={handleApplyRequestRevision}
-                    className="bg-[#0B2545] hover:bg-slate-950 text-white font-mono font-bold text-xs px-3 rounded uppercase shrink-0 cursor-pointer transition-colors"
+                    disabled={!!pendingDecision || !revisionFeedback.trim()}
+                    onClick={() => void handleApplyRequestRevision()}
+                    className="bg-[#0B2545] hover:bg-slate-950 text-white font-mono font-bold text-xs px-3 rounded uppercase shrink-0 cursor-pointer transition-colors disabled:bg-slate-400 disabled:cursor-wait"
                   >
-                    Send Revision Notes
+                    {pendingDecision === 'revision' ? 'Saving...' : 'Send Revision Notes'}
                   </button>
                 </div>
 
                 {/* Approve / Reject primary buttons */}
                 <div className="flex gap-2 w-full md:w-auto font-mono text-xs">
                   <button
-                    onClick={handleApplyReject}
-                    className="w-1/2 md:w-auto px-4 py-2.5 bg-rose-50 text-rose-800 border-2 border-rose-600 font-bold hover:bg-rose-100 uppercase rounded cursor-pointer flex items-center justify-center gap-1"
+                    disabled={!!pendingDecision}
+                    onClick={() => void handleApplyReject()}
+                    className="w-1/2 md:w-auto px-4 py-2.5 bg-rose-50 text-rose-800 border-2 border-rose-600 font-bold hover:bg-rose-100 uppercase rounded cursor-pointer flex items-center justify-center gap-1 disabled:opacity-60 disabled:cursor-wait"
                   >
-                    <ThumbsDown className="w-3.5 h-3.5" />
-                    Reject
+                    {pendingDecision === 'reject' ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <ThumbsDown className="w-3.5 h-3.5" />}
+                    {pendingDecision === 'reject' ? 'Saving...' : 'Reject'}
                   </button>
                   <button
-                    onClick={handleApplyApprove}
-                    className="w-1/2 md:w-auto px-5 py-2.5 bg-yellow-400 hover:bg-yellow-500 text-slate-950 font-bold border-2 border-slate-900 uppercase rounded cursor-pointer flex items-center justify-center gap-1 shadow-sm"
+                    disabled={!!pendingDecision}
+                    onClick={() => void handleApplyApprove()}
+                    className="w-1/2 md:w-auto px-5 py-2.5 bg-yellow-400 hover:bg-yellow-500 text-slate-950 font-bold border-2 border-slate-900 uppercase rounded cursor-pointer flex items-center justify-center gap-1 shadow-sm disabled:opacity-60 disabled:cursor-wait"
                   >
-                    <ThumbsUp className="w-3.5 h-3.5 text-slate-950 font-semibold" />
-                    APPROVE COPY
+                    {pendingDecision === 'approve' ? <RefreshCw className="w-3.5 h-3.5 text-slate-950 animate-spin" /> : <ThumbsUp className="w-3.5 h-3.5 text-slate-950 font-semibold" />}
+                    {pendingDecision === 'approve' ? 'Saving...' : 'APPROVE COPY'}
                   </button>
                 </div>
 
               </div>
+              {(decisionMessage || decisionError) && (
+                <div className={`px-4 py-2 border-t font-mono text-[10px] leading-relaxed ${
+                  decisionError ? 'bg-rose-50 border-rose-300 text-rose-900' : 'bg-blue-50 border-blue-200 text-blue-950'
+                }`}>
+                  {decisionError || decisionMessage}
+                </div>
+              )}
             </div>
 
           </div>

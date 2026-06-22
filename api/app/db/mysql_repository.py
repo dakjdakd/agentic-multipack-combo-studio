@@ -11,6 +11,7 @@ except Exception:  # pragma: no cover
     DictCursor = None
 
 from api.app.config import Settings
+from api.app.json_utils import json_safe
 from api.app.models import Dimensions, Product, Weight
 
 
@@ -129,6 +130,7 @@ def parse_pack_count(remark: Any) -> int:
 
 
 def normalize_product(row: dict[str, Any], source: str) -> Product:
+    row = json_safe(row)
     length = parse_number(row.get("sku_length"))
     width = parse_number(row.get("sku_width"))
     height = parse_number(row.get("sku_height"))
@@ -315,6 +317,30 @@ class ProductRepository:
         except Exception as exc:  # noqa: BLE001
             self.last_error = str(exc)
             return self._demo_product(sku)
+
+    def get_products_by_skus(self, skus: list[str]) -> dict[str, Product]:
+        unique_skus = list(dict.fromkeys([sku for sku in skus if sku]))
+        if not unique_skus:
+            return {}
+        schema = self._schema()
+        if not schema:
+            return {sku: product for sku in unique_skus if (product := self._demo_product(sku))}
+        placeholders = ",".join(["%s"] * len(unique_skus))
+        try:
+            with self._connect(schema) as conn:
+                with conn.cursor() as cur:
+                    cur.execute(f"SELECT * FROM fbm_sku WHERE sku IN ({placeholders})", tuple(unique_skus))
+                    rows = cur.fetchall()
+            products = {p.sku: p for p in [normalize_product(row, "ssb_mysql") for row in rows]}
+            for sku in unique_skus:
+                if sku not in products:
+                    demo_product = self._demo_product(sku)
+                    if demo_product:
+                        products[sku] = demo_product
+            return products
+        except Exception as exc:  # noqa: BLE001
+            self.last_error = str(exc)
+            return {sku: product for sku in unique_skus if (product := self._demo_product(sku))}
 
     def _demo_products(self, q: str = "", brand: str = "", category: str = "", limit: int = 50) -> list[Product]:
         rows = DEMO_PRODUCTS

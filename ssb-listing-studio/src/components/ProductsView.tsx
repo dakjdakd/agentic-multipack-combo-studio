@@ -9,15 +9,16 @@ import {
   Database, 
   Layers, 
   CheckCircle2, 
-  Plus 
+  Plus,
+  RefreshCw
 } from 'lucide-react';
 import { Product, VariationGroup } from '../types';
 import { api } from '../api/client';
 
 interface ProductsViewProps {
   products: Product[];
-  onEnrichProduct: (sku: string) => void;
-  onGenerateListing: (sku: string) => void;
+  onEnrichProduct: (sku: string) => Promise<void> | void;
+  onGenerateListing: (sku: string) => Promise<void> | void;
 }
 
 export default function ProductsView({ products, onEnrichProduct, onGenerateListing }: ProductsViewProps) {
@@ -26,6 +27,9 @@ export default function ProductsView({ products, onEnrichProduct, onGenerateList
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedSku, setSelectedSku] = useState<string>(products[0]?.sku || '');
   const [variation, setVariation] = useState<VariationGroup | null>(null);
+  const [pendingAction, setPendingAction] = useState<{ type: 'enrich' | 'generate'; sku: string } | null>(null);
+  const [actionMessage, setActionMessage] = useState('');
+  const [actionError, setActionError] = useState('');
 
   // Lists for filtering dropdowns
   const brands = ['All', ...new Set(products.map(p => p.brand))];
@@ -42,6 +46,38 @@ export default function ProductsView({ products, onEnrichProduct, onGenerateList
   });
 
   const selectedProductObj = products.find(p => p.sku === selectedSku);
+  const isEnrichingSelected = pendingAction?.type === 'enrich' && pendingAction.sku === selectedProductObj?.sku;
+  const isGeneratingSelected = pendingAction?.type === 'generate' && pendingAction.sku === selectedProductObj?.sku;
+
+  const handleEnrichClick = async (sku: string) => {
+    if (pendingAction) return;
+    setPendingAction({ type: 'enrich', sku });
+    setActionError('');
+    setActionMessage('Live enrichment running. Search grounding and source extraction can take a little while.');
+    try {
+      await onEnrichProduct(sku);
+      setActionMessage('Enrichment completed. Normalized attributes and missing-field flags were refreshed.');
+    } catch (err) {
+      setActionError((err as Error).message || 'Enrichment failed.');
+      setActionMessage('');
+    } finally {
+      setPendingAction(null);
+    }
+  };
+
+  const handleGenerateClick = async (sku: string) => {
+    if (pendingAction) return;
+    setPendingAction({ type: 'generate', sku });
+    setActionError('');
+    setActionMessage('Routing to Listing Studio. The live multi-agent pipeline will show progress there.');
+    try {
+      await onGenerateListing(sku);
+    } catch (err) {
+      setActionError((err as Error).message || 'Listing generation failed.');
+      setActionMessage('');
+      setPendingAction(null);
+    }
+  };
 
   useEffect(() => {
     if (!selectedSku) return;
@@ -309,20 +345,29 @@ export default function ProductsView({ products, onEnrichProduct, onGenerateList
             {/* Actions trigger */}
             <div className="bg-slate-100 p-3 border-t border-slate-350 grid grid-cols-2 gap-2">
               <button
-                onClick={() => onEnrichProduct(selectedProductObj.sku)}
-                className="py-2 px-3 font-mono text-[10px] font-bold border rounded flex items-center justify-center gap-1.5 transition-colors cursor-pointer bg-white text-blue-900 border-slate-900 hover:bg-slate-50"
+                disabled={!!pendingAction}
+                onClick={() => void handleEnrichClick(selectedProductObj.sku)}
+                className="py-2 px-3 font-mono text-[10px] font-bold border rounded flex items-center justify-center gap-1.5 transition-colors cursor-pointer bg-white text-blue-900 border-slate-900 hover:bg-slate-50 disabled:opacity-60 disabled:cursor-wait"
               >
-                <Workflow className="w-3.5 h-3.5" />
-                ENRICH SPECS
+                {isEnrichingSelected ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Workflow className="w-3.5 h-3.5" />}
+                {isEnrichingSelected ? 'ENRICHING...' : 'ENRICH SPECS'}
               </button>
 
               <button
-                onClick={() => onGenerateListing(selectedProductObj.sku)}
-                className="py-2 px-3 font-mono text-[10px] bg-[#0B2545] text-white hover:bg-blue-850 rounded border border-slate-900 font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                disabled={!!pendingAction}
+                onClick={() => void handleGenerateClick(selectedProductObj.sku)}
+                className="py-2 px-3 font-mono text-[10px] bg-[#0B2545] text-white hover:bg-blue-850 rounded border border-slate-900 font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer disabled:bg-slate-400 disabled:cursor-wait"
               >
-                <Sparkles className="w-3.5 h-3.5 text-yellow-400" />
-                GENERATE LISTING
+                {isGeneratingSelected ? <RefreshCw className="w-3.5 h-3.5 text-yellow-400 animate-spin" /> : <Sparkles className="w-3.5 h-3.5 text-yellow-400" />}
+                {isGeneratingSelected ? 'STARTING...' : 'GENERATE LISTING'}
               </button>
+              {(actionMessage || actionError) && (
+                <div className={`col-span-2 rounded border px-3 py-2 font-mono text-[10px] leading-relaxed ${
+                  actionError ? 'bg-rose-50 border-rose-300 text-rose-900' : 'bg-blue-50 border-blue-200 text-blue-950'
+                }`}>
+                  {actionError || actionMessage}
+                </div>
+              )}
             </div>
           </div>
         )}

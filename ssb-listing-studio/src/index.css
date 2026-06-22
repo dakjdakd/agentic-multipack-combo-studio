@@ -28,6 +28,37 @@
   animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+@keyframes dashboardReveal {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dataRowEnter {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dashboard-reveal {
+  opacity: 0;
+  animation: dashboardReveal 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.data-row-enter {
+  animation: dataRowEnter 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 /* Custom classic manual background tint variables */
 .bg-yellow-105 {
   background-color: #FCF7EA;

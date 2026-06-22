@@ -44,8 +44,14 @@ export default function App() {
   const [evalHarness, setEvalHarness] = useState<EvaluationHarness>(INITIAL_EVALUATION);
   const [settings, setSettings] = useState<SettingsState>(INITIAL_SETTINGS);
   const [selectedSku, setSelectedSku] = useState<string>('');
+  const [isBootstrapping, setIsBootstrapping] = useState(true);
   const [isEvalLoading, setIsEvalLoading] = useState(false);
   const [globalError, setGlobalError] = useState<string>('');
+  const [listingRunStatus, setListingRunStatus] = useState<{
+    sku: string;
+    status: 'idle' | 'running' | 'completed' | 'failed';
+    message: string;
+  }>({ sku: '', status: 'idle', message: '' });
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([
     {
       id: 'welcome-1',
@@ -62,19 +68,18 @@ export default function App() {
   const activeProduct = useMemo(() => products.find((p) => p.sku === selectedSku), [products, selectedSku]);
 
   async function bootstrap() {
+    setIsBootstrapping(true);
     try {
-      const [settingsRes, productsRes, costsRes, reviewsRes, jobsRes] = await Promise.all([
+      const [settingsRes, productsRes, costsRes, jobsRes] = await Promise.all([
         api.settings(),
         api.products(),
         api.costs(),
-        api.reviews(),
         api.jobs(),
       ]);
       setSettings(settingsRes);
       setProducts(productsRes.items);
       setSelectedSku(productsRes.items[0]?.sku || '');
       applyCostSummary(costsRes);
-      setReviews(reviewsRes.items.map(normalizeReviewImages));
       setJobs(jobsRes.items.map((j) => ({
         jobId: j.jobId,
         sku: j.sku,
@@ -87,6 +92,7 @@ export default function App() {
       setSelectedJobId(jobsRes.items[0]?.jobId || '');
       setListings({});
       setGlobalError('');
+      void loadReviewsForDashboard();
     } catch (err) {
       setGlobalError(`Backend unavailable, using local UI fallback: ${(err as Error).message}`);
       setProducts(INITIAL_PRODUCTS);
@@ -95,6 +101,18 @@ export default function App() {
       setReviews(INITIAL_REVIEWS);
       setSelectedSku(INITIAL_PRODUCTS[0]?.sku || '');
       setSettings({ ...INITIAL_SETTINGS, demoMode: true, messages: ['Frontend fallback is active because backend is unavailable.'] });
+    } finally {
+      setIsBootstrapping(false);
+    }
+  }
+
+  async function loadReviewsForDashboard() {
+    try {
+      const reviewsRes = await api.reviews();
+      setReviews(reviewsRes.items.map(normalizeReviewImages));
+    } catch (reviewErr) {
+      setReviews([]);
+      setGlobalError(`Dashboard loaded, but review queue is temporarily unavailable: ${(reviewErr as Error).message}`);
     }
   }
 
@@ -137,7 +155,7 @@ export default function App() {
     applyCostSummary(costsRes);
   }
 
-  async function handleEnrichProduct(sku: string) {
+  async function handleEnrichProduct(sku: string, bubbleError = false) {
     try {
       const response = await api.enrich(sku);
       setProducts((prev) =>
@@ -155,13 +173,27 @@ export default function App() {
       applyCostSummary(costs);
       setGlobalError('');
     } catch (err) {
-      setGlobalError(`Enrichment failed: ${(err as Error).message}`);
+      const errorMessage = `Enrichment failed: ${(err as Error).message}`;
+      setGlobalError(errorMessage);
+      if (bubbleError) {
+        throw new Error(errorMessage);
+      }
     }
   }
 
-  async function handleGenerateListing(sku: string, mode: 'full' | 'copy_only' | 'images_only' = 'full') {
+  async function handleGenerateListing(sku: string, mode: 'full' | 'copy_only' | 'images_only' = 'full', bubbleError = false) {
     setSelectedSku(sku);
     setActiveTab('listing-studio');
+    setListingRunStatus({
+      sku,
+      status: 'running',
+      message:
+        mode === 'full'
+          ? 'Live multi-agent listing pipeline running. Search, copy, image generation, QA, and compliance can take 1-3 minutes.'
+          : mode === 'images_only'
+          ? 'Live image regeneration running. Multiple Amazon assets may take around a minute.'
+          : 'Live copy regeneration running. Waiting for the backend provider response.',
+    });
     try {
       addJob(`running-${Date.now()}`, sku, 'listing', 0, 'running');
       const response = await api.listing(sku, mode);
@@ -180,10 +212,20 @@ export default function App() {
       addJob(response.jobId, sku, 'listing', response.costSummary.spentRmb);
       applyCostSummary(response.costSummary);
       await refreshReviewsAndCosts();
+      setListingRunStatus({
+        sku,
+        status: 'completed',
+        message: 'Listing pipeline completed. Generated listing, images, review item, trace, and cost ledger are now available.',
+      });
       setGlobalError('');
     } catch (err) {
-      setGlobalError(`Listing generation failed: ${(err as Error).message}`);
+      const message = `Listing generation failed: ${(err as Error).message}`;
+      setGlobalError(message);
+      setListingRunStatus({ sku, status: 'failed', message });
       setJobs((prev) => prev.map((j) => (j.sku === sku && j.status === 'running' ? { ...j, status: 'failed' } : j)));
+      if (bubbleError) {
+        throw new Error(message);
+      }
     }
   }
 
@@ -196,30 +238,42 @@ export default function App() {
     setActiveTab('review');
   }
 
-  async function handleApproveReview(id: string) {
+  async function handleApproveReview(id: string, bubbleError = false) {
     try {
       await api.approveReview(id);
       await refreshReviewsAndCosts();
     } catch (err) {
-      setGlobalError(`Approve failed: ${(err as Error).message}`);
+      const errorMessage = `Approve failed: ${(err as Error).message}`;
+      setGlobalError(errorMessage);
+      if (bubbleError) {
+        throw new Error(errorMessage);
+      }
     }
   }
 
-  async function handleRejectReview(id: string) {
+  async function handleRejectReview(id: string, bubbleError = false) {
     try {
       await api.rejectReview(id);
       await refreshReviewsAndCosts();
     } catch (err) {
-      setGlobalError(`Reject failed: ${(err as Error).message}`);
+      const errorMessage = `Reject failed: ${(err as Error).message}`;
+      setGlobalError(errorMessage);
+      if (bubbleError) {
+        throw new Error(errorMessage);
+      }
     }
   }
 
-  async function handleRequestRevision(id: string, notes: string) {
+  async function handleRequestRevision(id: string, notes: string, bubbleError = false) {
     try {
       await api.requestRevision(id, notes);
       await refreshReviewsAndCosts();
     } catch (err) {
-      setGlobalError(`Revision request failed: ${(err as Error).message}`);
+      const errorMessage = `Revision request failed: ${(err as Error).message}`;
+      setGlobalError(errorMessage);
+      if (bubbleError) {
+        throw new Error(errorMessage);
+      }
     }
   }
 
@@ -245,7 +299,7 @@ export default function App() {
     }
   }
 
-  async function handleChatPrompt(currentSku: string, message: string) {
+  async function handleChatPrompt(currentSku: string, message: string, bubbleError = false) {
     const userMsg: ChatMessage = {
       id: `m-usr-${Date.now()}`,
       sender: 'user',
@@ -290,7 +344,11 @@ export default function App() {
       }
       setGlobalError('');
     } catch (err) {
-      setGlobalError(`Chat recomposition failed: ${(err as Error).message}`);
+      const errorMessage = `Chat recomposition failed: ${(err as Error).message}`;
+      setGlobalError(errorMessage);
+      if (bubbleError) {
+        throw new Error(errorMessage);
+      }
     }
   }
 
@@ -314,13 +372,13 @@ export default function App() {
         )}
         <main className="p-8 max-w-7xl w-full mx-auto flex-1">
           {activeTab === 'dashboard' && (
-            <DashboardView products={products} jobs={jobs} onGenerateSku={(sku) => void handleGenerateListing(sku)} onOpenChat={(sku) => { setSelectedSku(sku); setActiveTab('chat-recomposer'); }} onRunEval={() => { setActiveTab('costs-eval'); void handleTriggerBenchmark(); }} onViewJobInTrace={(jobId) => { setSelectedJobId(jobId); setActiveTab('agent-trace'); }} totalSpent={budget.spentRmb} pendingReviewsCount={reviews.filter((r) => r.status === 'pending').length} complianceRate={evalHarness.complianceScore} />
+            <DashboardView products={products} jobs={jobs} onGenerateSku={(sku) => void handleGenerateListing(sku)} onOpenChat={(sku) => { setSelectedSku(sku); setActiveTab('chat-recomposer'); }} onRunEval={() => { setActiveTab('costs-eval'); void handleTriggerBenchmark(); }} onViewJobInTrace={(jobId) => { setSelectedJobId(jobId); setActiveTab('agent-trace'); }} totalSpent={budget.spentRmb} pendingReviewsCount={reviews.filter((r) => r.status === 'pending').length} complianceRate={evalHarness.complianceScore} isLoading={isBootstrapping} />
           )}
-          {activeTab === 'products' && <ProductsView products={products} onEnrichProduct={(sku) => void handleEnrichProduct(sku)} onGenerateListing={(sku) => void handleGenerateListing(sku)} />}
-          {activeTab === 'listing-studio' && <ListingStudioView products={products} listings={listings} selectedSku={selectedSku || products[0]?.sku || ''} setSelectedSku={setSelectedSku} onSaveListing={handleSaveListing} onSendToReview={(sku) => void handleSendToReview(sku)} onPushToLogs={() => undefined} deductBudget={() => undefined} onExecutePipeline={(sku, mode) => void handleGenerateListing(sku, mode)} />}
+          {activeTab === 'products' && <ProductsView products={products} onEnrichProduct={(sku) => handleEnrichProduct(sku, true)} onGenerateListing={(sku) => handleGenerateListing(sku, 'full', true)} />}
+          {activeTab === 'listing-studio' && <ListingStudioView products={products} listings={listings} selectedSku={selectedSku || products[0]?.sku || ''} setSelectedSku={setSelectedSku} onSaveListing={handleSaveListing} onSendToReview={(sku) => void handleSendToReview(sku)} onPushToLogs={() => undefined} deductBudget={() => undefined} onExecutePipeline={(sku, mode) => handleGenerateListing(sku, mode, true)} externalRunStatus={listingRunStatus} />}
           {activeTab === 'agent-trace' && <AgentTraceView products={products} jobs={jobs} traces={traces} selectedSku={selectedSku || products[0]?.sku || ''} setSelectedSku={setSelectedSku} selectedJobId={selectedJobId} setSelectedJobId={setSelectedJobId} />}
-          {activeTab === 'chat-recomposer' && <ChatRecomposerView products={products} chatHistory={chatHistory} onAddChatMessage={(msg) => setChatHistory((prev) => [...prev, msg])} deductBudget={() => undefined} onSendPrompt={(sku, message) => void handleChatPrompt(sku, message)} activeSkuFromApp={selectedSku || activeProduct?.sku} />}
-          {activeTab === 'review' && <ReviewView reviews={reviews} onApproveReview={(id) => void handleApproveReview(id)} onRejectReview={(id) => void handleRejectReview(id)} onRequestRevision={(id, notes) => void handleRequestRevision(id, notes)} />}
+          {activeTab === 'chat-recomposer' && <ChatRecomposerView products={products} chatHistory={chatHistory} onAddChatMessage={(msg) => setChatHistory((prev) => [...prev, msg])} deductBudget={() => undefined} onSendPrompt={(sku, message) => handleChatPrompt(sku, message, true)} activeSkuFromApp={selectedSku || activeProduct?.sku} />}
+          {activeTab === 'review' && <ReviewView reviews={reviews} onApproveReview={(id) => handleApproveReview(id, true)} onRejectReview={(id) => handleRejectReview(id, true)} onRequestRevision={(id, notes) => handleRequestRevision(id, notes, true)} />}
           {activeTab === 'costs-eval' && <CostsEvalView budget={budget} costsBreakdown={costsBreakdown} evalHarness={evalHarness} onTriggerBenchmark={handleTriggerBenchmark} isLoading={isEvalLoading} />}
           {activeTab === 'settings' && <SettingsView settings={displayedSettings} onUpdateSettings={setSettings} />}
         </main>

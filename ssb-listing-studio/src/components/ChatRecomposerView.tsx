@@ -21,15 +21,9 @@ interface ChatRecomposerViewProps {
   chatHistory: ChatMessage[];
   onAddChatMessage: (msg: ChatMessage) => void;
   deductBudget: (costUsd: number) => void;
-  onSendPrompt?: (sku: string, message: string) => void;
+  onSendPrompt?: (sku: string, message: string) => Promise<void> | void;
   activeSkuFromApp?: string;
 }
-
-const PRESET_PROMPTS = [
-  { text: "Make this a 3-pack", label: "Create 3-Pack" },
-  { text: "Combine this with SKU STAND-ALUM-09", label: "Create Combo Pack" },
-  { text: "Change it to a 2-pack and make the title shorter", label: "Compact 2-Pack" }
-];
 
 export default function ChatRecomposerView({
   products,
@@ -41,10 +35,18 @@ export default function ChatRecomposerView({
 }: ChatRecomposerViewProps) {
   const [inputText, setInputText] = useState('');
   const [activeSku, setActiveSku] = useState(activeSkuFromApp || products[0]?.sku || "CHARGER-GAN-65");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [localError, setLocalError] = useState('');
   const chatEndRef = useRef<HTMLDivElement | null>(null);
 
   const selectedProduct = products.find(p => p.sku === activeSku) || products[0] || null;
   const hasProducts = products.length > 0;
+  const comboSku = products.find((p) => p.sku !== activeSku)?.sku || products[0]?.sku || activeSku;
+  const presetPrompts = [
+    { text: "Make this a 3-pack", label: "Create 3-Pack" },
+    { text: `Combine this with SKU ${comboSku}`, label: "Create Combo Pack" },
+    { text: "Change it to a 2-pack and make the title shorter", label: "Compact 2-Pack" }
+  ];
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -60,8 +62,9 @@ export default function ChatRecomposerView({
     }
   }, [activeSku, hasProducts, products]);
 
-  const handleSendPrompt = (promptText: string) => {
+  const handleSendPrompt = async (promptText: string) => {
     if (!promptText.trim()) return;
+    if (isSubmitting) return;
     if (!selectedProduct) {
       onAddChatMessage({
         id: `m-sys-${Date.now()}`,
@@ -72,8 +75,16 @@ export default function ChatRecomposerView({
       return;
     }
     if (onSendPrompt) {
-      onSendPrompt(activeSku, promptText);
-      setInputText('');
+      setIsSubmitting(true);
+      setLocalError('');
+      try {
+        await onSendPrompt(activeSku, promptText);
+        setInputText('');
+      } catch (err) {
+        setLocalError((err as Error).message || 'Chat recomposition failed.');
+      } finally {
+        setIsSubmitting(false);
+      }
       return;
     }
 
@@ -275,22 +286,33 @@ export default function ChatRecomposerView({
             {/* Quick Presets list */}
             <div className="flex flex-wrap gap-2 items-center">
               <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Example queries:</span>
-              {PRESET_PROMPTS.map((p, i) => (
+              {presetPrompts.map((p, i) => (
                 <button
                   key={i}
-                  onClick={() => handleSendPrompt(p.text)}
-                  className="text-[10px] bg-white border hover:bg-yellow-550 hover:border-slate-850 px-2.5 py-1 text-slate-700 hover:text-black rounded cursor-pointer transition-colors"
+                  onClick={() => void handleSendPrompt(p.text)}
+                  disabled={isSubmitting || !selectedProduct}
+                  className="text-[10px] bg-white border hover:bg-yellow-550 hover:border-slate-850 px-2.5 py-1 text-slate-700 hover:text-black rounded cursor-pointer transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-slate-700 disabled:hover:border-slate-200"
                 >
                   {p.label}
                 </button>
               ))}
             </div>
 
+            {(isSubmitting || localError) && (
+              <div className={`border px-3 py-2 text-[10px] leading-relaxed rounded ${
+                localError
+                  ? 'bg-red-50 border-red-300 text-red-900'
+                  : 'bg-blue-50 border-blue-200 text-blue-950'
+              }`}>
+                {localError || 'Live recomposer pipeline running. This can take 1-3 minutes while copy, images, QA, compliance, and trace are generated.'}
+              </div>
+            )}
+
             {/* Input Form typing bar */}
             <form 
               onSubmit={(e) => {
                 e.preventDefault();
-                handleSendPrompt(inputText);
+                void handleSendPrompt(inputText);
               }}
               className="flex gap-2"
             >
@@ -298,14 +320,16 @@ export default function ChatRecomposerView({
                 type="text"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
+                disabled={isSubmitting}
                 placeholder="Declare pack structures (e.g. 'Make this a 3-pack and emphasize fast MacBook charge')..."
-                className="w-full bg-white border border-slate-300 font-mono text-xs px-3.5 py-2.5 rounded focus:outline-none focus:ring-1 focus:border-blue-900"
+                className="w-full bg-white border border-slate-300 font-mono text-xs px-3.5 py-2.5 rounded focus:outline-none focus:ring-1 focus:border-blue-900 disabled:bg-slate-100 disabled:text-slate-500"
               />
               <button
                 type="submit"
-                className="p-3 bg-[#0B2545] hover:bg-blue-900 text-white rounded cursor-pointer transition-colors"
+                disabled={isSubmitting || !inputText.trim()}
+                className="p-3 bg-[#0B2545] hover:bg-blue-900 text-white rounded cursor-pointer transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#0B2545]"
               >
-                <Send className="w-4 h-4" />
+                {isSubmitting ? <RefreshCcw className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
               </button>
             </form>
           </div>
@@ -319,11 +343,17 @@ export default function ChatRecomposerView({
               REAL-TIME OUTPUT TRANSFORMATION FIELD
             </span>
             <span className="text-[10px] font-mono text-[#8DA9C4] bg-[#134074] px-2 py-0.5 rounded uppercase">
-              {latestRecompose ? latestRecompose.intent : 'Awaiting prompt'}
+              {isSubmitting ? 'Running live pipeline' : latestRecompose ? latestRecompose.intent : 'Awaiting prompt'}
             </span>
           </div>
 
-          {!latestRecompose ? (
+          {isSubmitting && !latestRecompose ? (
+            <div className="p-10 text-center font-mono text-xs text-slate-600 flex-1 flex flex-col justify-center items-center gap-3">
+              <RefreshCcw className="w-10 h-10 text-[#134074] animate-spin" />
+              <span className="font-bold uppercase text-slate-800">Generating recomposed listing</span>
+              <span className="max-w-md leading-relaxed">The backend is running the real multipack/combo pipeline now. Live providers may need 1-3 minutes before the metrics, listing copy, images, and review trace appear here.</span>
+            </div>
+          ) : !latestRecompose ? (
             <div className="p-10 text-center font-mono text-xs text-slate-500 flex-1 flex flex-col justify-center items-center gap-2">
               <Layers className="w-10 h-10 text-indigo-150 animate-bounce" />
               <span>Select SKU and send a structural prompt (e.g., &quot;Make this a 3-pack&quot;) to inspect recomputed metrics and text variables.</span>

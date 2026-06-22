@@ -15,6 +15,7 @@ from fastapi.staticfiles import StaticFiles
 from api.app.config import get_settings
 from api.app.db.app_store import AppStore
 from api.app.db.mysql_repository import ProductRepository
+from api.app.json_utils import json_safe
 from api.app.models import ChatRequest, EvalRequest, ListingRequest
 from api.app.services.compliance import ComplianceService
 from api.app.services.cost_tracker import CostTracker
@@ -150,7 +151,7 @@ def create_listing(sku: str, req: ListingRequest = ListingRequest()) -> dict[str
     if not item:
         raise HTTPException(status_code=404, detail=f"SKU {sku} not found")
     response = listing_workflow.generate(item, req)
-    write_sample(response.jobId, "sku_" + safe_name(sku))
+    safe_write_sample(response.jobId, "sku_" + safe_name(sku), response.trace)
     return response.model_dump()
 
 
@@ -236,7 +237,7 @@ def chat(req: ChatRequest) -> dict[str, Any]:
     )
     store.save_chat(req.sessionId, req.currentSku, history, response.jobId)
     if response.jobId:
-        write_sample(response.jobId, response.intent)
+        safe_write_sample(response.jobId, response.intent, response.trace)
     return response.model_dump()
 
 
@@ -248,11 +249,13 @@ def chat_session(session_id: str) -> dict[str, Any]:
 @app.get("/api/reviews")
 def reviews() -> dict[str, Any]:
     items = []
-    for row in store.list_reviews():
+    rows = store.list_reviews()
+    products_by_sku = repo.get_products_by_skus([row["sku"] for row in rows])
+    for row in rows:
         listing = store.get_listing(row["job_id"])
         if not listing:
             continue
-        product_item = repo.get_product(row["sku"])
+        product_item = products_by_sku.get(row["sku"])
         original = {"title": product_item.title, "bullets": [product_item.rawFields.get("sku_description") or product_item.title], "description": product_item.rawFields.get("sku_description") or ""} if product_item else None
         items.append(
             {
@@ -341,6 +344,22 @@ def safe_name(value: str) -> str:
     return "".join(ch if ch.isalnum() or ch in "-_" else "_" for ch in value)[:80]
 
 
+def write_json(path: Path, payload: Any) -> None:
+    path.write_text(json.dumps(json_safe(payload), indent=2, ensure_ascii=False), encoding="utf-8")
+
+
+def safe_write_sample(job_id: str, folder_name: str, trace_steps: list[Any] | None = None) -> None:
+    try:
+        write_sample(job_id, folder_name)
+    except Exception as exc:  # noqa: BLE001
+        message = f"Sample export failed after successful generation: {exc}"
+        if trace_steps:
+            last = trace_steps[-1]
+            previous = getattr(last, "warningsOrErrors", None)
+            last.warningsOrErrors = f"{previous}; {message}" if previous else message
+            store.add_trace_steps(job_id, [t.model_dump() for t in trace_steps])
+
+
 def write_sample(job_id: str, folder_name: str) -> None:
     listing = store.get_listing(job_id)
     if not listing:
@@ -349,14 +368,14 @@ def write_sample(job_id: str, folder_name: str) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     product_item = repo.get_product(listing["sku"])
     if product_item:
-        (out_dir / "product.json").write_text(json.dumps(product_item.model_dump(), indent=2), encoding="utf-8")
+        write_json(out_dir / "product.json", product_item.model_dump(mode="json"))
         enrich_payload = enrichment_service.enrich(product_item).model_dump()
-        (out_dir / "enrichment.json").write_text(json.dumps(enrich_payload, indent=2), encoding="utf-8")
-    (out_dir / "listing.json").write_text(json.dumps(listing["listing"], indent=2), encoding="utf-8")
-    (out_dir / "compliance_report.json").write_text(json.dumps(listing["complianceReport"], indent=2), encoding="utf-8")
-    (out_dir / "physical_consistency_report.json").write_text(json.dumps(listing["physicalConsistency"], indent=2), encoding="utf-8")
-    (out_dir / "trace.json").write_text(json.dumps(store.get_trace(job_id), indent=2), encoding="utf-8")
-    (out_dir / "cost_summary.json").write_text(json.dumps(cost_tracker.summary().model_dump(), indent=2), encoding="utf-8")
+        write_json(out_dir / "enrichment.json", enrich_payload)
+    write_json(out_dir / "listing.json", listing["listing"])
+    write_json(out_dir / "compliance_report.json", listing["complianceReport"])
+    write_json(out_dir / "physical_consistency_report.json", listing["physicalConsistency"])
+    write_json(out_dir / "trace.json", store.get_trace(job_id))
+    write_json(out_dir / "cost_summary.json", cost_tracker.summary().model_dump())
     if product_item:
         diff = {
             "sku": listing["sku"],
@@ -368,8 +387,8 @@ def write_sample(job_id: str, folder_name: str) -> None:
             "images": {"after": listing["listing"].get("images")},
             "compliancePassed": listing["listing"].get("compliancePassed"),
         }
-        (out_dir / "diff.json").write_text(json.dumps(diff, indent=2), encoding="utf-8")
-        (out_dir / "request.json").write_text(json.dumps({"jobId": job_id, "sku": listing["sku"], "workflowType": listing["workflowType"]}, indent=2), encoding="utf-8")
+        write_json(out_dir / "diff.json", diff)
+        write_json(out_dir / "request.json", {"jobId": job_id, "sku": listing["sku"], "workflowType": listing["workflowType"]})
     src_dir = Path(settings.artifact_dir) / job_id
     img_dir = out_dir / "images"
     img_dir.mkdir(exist_ok=True)

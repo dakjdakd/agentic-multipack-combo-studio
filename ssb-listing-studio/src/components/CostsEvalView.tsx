@@ -19,7 +19,7 @@ interface CostsEvalViewProps {
   budget: BudgetConfig;
   costsBreakdown: CostBreakdown;
   evalHarness: EvaluationHarness;
-  onTriggerBenchmark: () => void;
+  onTriggerBenchmark: () => Promise<void> | void;
   isLoading: boolean;
 }
 
@@ -271,7 +271,7 @@ export default function CostsEvalView({
               <button
                 disabled={isLoading}
                 onClick={onTriggerBenchmark}
-                className="py-1 px-3 bg-[#0B2545] text-white hover:bg-slate-900 text-[10.5px] rounded border uppercase cursor-pointer"
+                className="py-1 px-3 bg-[#0B2545] text-white hover:bg-slate-900 text-[10.5px] rounded border uppercase cursor-pointer disabled:bg-slate-400 disabled:cursor-wait"
               >
                 {isLoading ? 'Recalculating...' : 'RE-RUN HARNESS EVAL'}
               </button>

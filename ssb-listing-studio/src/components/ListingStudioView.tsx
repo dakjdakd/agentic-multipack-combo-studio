@@ -25,7 +25,12 @@ interface ListingStudioViewProps {
   onSendToReview: (sku: string) => void;
   onPushToLogs: (log: string) => void;
   deductBudget: (costUsd: number) => void;
-  onExecutePipeline?: (sku: string, mode: 'full' | 'copy_only' | 'images_only') => void;
+  onExecutePipeline?: (sku: string, mode: 'full' | 'copy_only' | 'images_only') => Promise<void> | void;
+  externalRunStatus?: {
+    sku: string;
+    status: 'idle' | 'running' | 'completed' | 'failed';
+    message: string;
+  };
 }
 
 const PIPELINE_INITIAL_STAGES = [
@@ -46,12 +51,15 @@ export default function ListingStudioView({
   onSaveListing,
   onSendToReview,
   onPushToLogs,
-  onExecutePipeline
+  onExecutePipeline,
+  externalRunStatus
 }: ListingStudioViewProps) {
   const [pipelineActive, setPipelineActive] = useState(false);
   const [currentStageIndex, setCurrentStageIndex] = useState(-1);
-  const [stageStatuses, setStageStatuses] = useState<Record<string, 'idle' | 'running' | 'success'>>({});
+  const [stageStatuses, setStageStatuses] = useState<Record<string, 'idle' | 'running' | 'success' | 'failed'>>({});
   const [copiedField, setCopiedField] = useState<string | null>(null);
+  const [pipelineError, setPipelineError] = useState('');
+  const [pipelineMessage, setPipelineMessage] = useState('');
 
   // Buffer state state for editing
   const [editTitle, setEditTitle] = useState('');
@@ -78,31 +86,51 @@ export default function ListingStudioView({
 
   const activeProduct = products.find(p => p.sku === selectedSku);
   const activeListing = listings[selectedSku];
+  const externalStatusApplies = externalRunStatus?.sku === selectedSku && externalRunStatus.status !== 'idle';
+  const isExternallyRunning = externalStatusApplies && externalRunStatus.status === 'running';
+  const displayedPipelineMessage = pipelineMessage || (externalStatusApplies ? externalRunStatus.message : '');
+  const displayedPipelineError = pipelineError || (externalStatusApplies && externalRunStatus.status === 'failed' ? externalRunStatus.message : '');
 
   // Pipeline simulation sequence
-  const executePipeline = (type: 'full' | 'copy' | 'images') => {
+  const executePipeline = async (type: 'full' | 'copy' | 'images') => {
     if (pipelineActive) return;
     if (onExecutePipeline) {
       const mode = type === 'copy' ? 'copy_only' : type === 'images' ? 'images_only' : 'full';
       setPipelineActive(true);
       setCurrentStageIndex(0);
-      const cleanStatuses: Record<string, 'idle' | 'running' | 'success'> = {};
+      setPipelineError('');
+      setPipelineMessage(
+        mode === 'full'
+          ? 'Live provider pipeline running. Search, copy, and image generation can take 1-3 minutes.'
+          : mode === 'images_only'
+          ? 'Live image provider running. This can take a minute for multiple Amazon assets.'
+          : 'Live copy provider running. Waiting for the backend response.'
+      );
+      const cleanStatuses: Record<string, 'idle' | 'running' | 'success' | 'failed'> = {};
       PIPELINE_INITIAL_STAGES.forEach(s => { cleanStatuses[s.id] = 'idle'; });
       setStageStatuses(cleanStatuses);
       PIPELINE_INITIAL_STAGES.forEach((stage, idx) => {
         window.setTimeout(() => {
           setCurrentStageIndex(idx);
           setStageStatuses(prev => ({ ...prev, [stage.id]: 'running' }));
-        }, idx * 180);
-        window.setTimeout(() => {
-          setStageStatuses(prev => ({ ...prev, [stage.id]: 'success' }));
-          if (idx === PIPELINE_INITIAL_STAGES.length - 1) {
-            setPipelineActive(false);
-            setCurrentStageIndex(-1);
-          }
-        }, idx * 180 + 160);
+        }, idx * 800);
       });
-      onExecutePipeline(selectedSku, mode);
+      try {
+        await onExecutePipeline(selectedSku, mode);
+        PIPELINE_INITIAL_STAGES.forEach((stage, idx) => {
+          setStageStatuses(prev => ({ ...prev, [stage.id]: 'success' }));
+          if (idx === PIPELINE_INITIAL_STAGES.length - 1) setCurrentStageIndex(-1);
+        });
+        setPipelineMessage('Pipeline completed. Generated listing, images, review item, trace, and cost ledger are available.');
+      } catch (err) {
+        const failedStage = PIPELINE_INITIAL_STAGES[Math.max(0, Math.min(currentStageIndex, PIPELINE_INITIAL_STAGES.length - 1))];
+        setStageStatuses(prev => ({ ...prev, [failedStage.id]: 'failed' }));
+        setPipelineError((err as Error).message || 'Pipeline failed before the backend returned a listing.');
+        setPipelineMessage('');
+      } finally {
+        setPipelineActive(false);
+        setCurrentStageIndex(-1);
+      }
       return;
     }
     setPipelineActive(true);
@@ -173,7 +201,7 @@ export default function ListingStudioView({
             AGENT SYNCHRONIZED EXECUTION WORKFLOW
           </h4>
           <span className="text-[10px] font-mono text-slate-500 uppercase">
-            {pipelineActive ? 'Active compiling sequence...' : 'Awaiting manual trigger execution'}
+            {pipelineActive || isExternallyRunning ? 'Active compiling sequence...' : 'Awaiting manual trigger execution'}
           </span>
         </div>
 
@@ -189,6 +217,8 @@ export default function ListingStudioView({
                 className={`p-2.5 rounded border flex flex-col justify-between h-20 transition-all font-mono ${
                   status === 'success'
                     ? 'bg-emerald-50 border-emerald-400 text-emerald-950'
+                    : status === 'failed'
+                    ? 'bg-rose-50 border-rose-400 text-rose-950'
                     : status === 'running' 
                     ? 'bg-blue-50 border-blue-400 text-blue-950 animate-pulse'
                     : isCurrent 
@@ -199,6 +229,7 @@ export default function ListingStudioView({
                 <div className="flex justify-between items-center text-[8px] font-bold uppercase tracking-widest text-slate-400">
                   <span>0{idx+1}</span>
                   {status === 'success' && <Check className="w-2.5 h-2.5 text-emerald-600" />}
+                  {status === 'failed' && <AlertTriangle className="w-2.5 h-2.5 text-rose-600" />}
                 </div>
                 <div className="text-[10px] font-bold leading-tight">{stage.label}</div>
                 <div className="text-[8px] text-slate-500 truncate leading-none">{stage.agent}</div>
@@ -206,6 +237,13 @@ export default function ListingStudioView({
             );
           })}
         </div>
+        {(displayedPipelineMessage || displayedPipelineError) && (
+          <div className={`mt-3 rounded border px-3 py-2 text-[10px] font-mono leading-relaxed ${
+            displayedPipelineError ? 'bg-rose-50 border-rose-300 text-rose-900' : 'bg-blue-50 border-blue-200 text-blue-950'
+          }`}>
+            {displayedPipelineError || displayedPipelineMessage}
+          </div>
+        )}
       </div>
 
       {/* Primary Layout Workspace */}
@@ -231,12 +269,12 @@ export default function ListingStudioView({
                 No active listing generates detected inside current SKU buffer.
               </p>
               <button
-                disabled={pipelineActive}
-                onClick={() => executePipeline('full')}
-                className="mx-auto py-2.5 px-5 font-mono text-xs font-bold bg-[#0B2545] text-white hover:bg-blue-800 rounded border border-slate-900 flex items-center gap-2 cursor-pointer shadow"
+                disabled={pipelineActive || isExternallyRunning}
+                onClick={() => void executePipeline('full')}
+                className="mx-auto py-2.5 px-5 font-mono text-xs font-bold bg-[#0B2545] text-white hover:bg-blue-800 rounded border border-slate-900 flex items-center gap-2 cursor-pointer shadow disabled:bg-slate-400 disabled:cursor-wait"
               >
                 <Sparkles className="w-4 h-4 text-yellow-400 animate-spin" />
-                EXECUTE MULTI-AGENT PIPELINE
+                {pipelineActive || isExternallyRunning ? 'RUNNING LIVE PIPELINE...' : 'EXECUTE MULTI-AGENT PIPELINE'}
               </button>
             </div>
           ) : (
@@ -369,17 +407,17 @@ export default function ListingStudioView({
             
             <div className="space-y-2">
               <button
-                disabled={pipelineActive}
-                onClick={() => executePipeline('full')}
+                disabled={pipelineActive || isExternallyRunning}
+                onClick={() => void executePipeline('full')}
                 className="w-full py-3 bg-[#0B2545] hover:bg-blue-950 text-white font-mono text-xs font-bold border border-slate-900 rounded flex items-center justify-center gap-2 cursor-pointer transition-all shadow-sm disabled:bg-slate-300"
               >
                 <Sparkles className="w-4 h-4 text-yellow-400" />
-                EXECUTE FULL PIPELINE
+                {pipelineActive || isExternallyRunning ? 'RUNNING LIVE PIPELINE...' : 'EXECUTE FULL PIPELINE'}
               </button>
 
               <button
-                disabled={pipelineActive || !activeListing}
-                onClick={() => executePipeline('copy')}
+                disabled={pipelineActive || isExternallyRunning || !activeListing}
+                onClick={() => void executePipeline('copy')}
                 className="w-full py-2.5 bg-white hover:bg-slate-50 text-[#0B2545] font-mono text-xs font-bold border-2 border-slate-950 rounded flex items-center justify-center gap-2 cursor-pointer transition-all disabled:text-slate-400"
               >
                 <RefreshCw className="w-4 h-4" />
@@ -387,8 +425,8 @@ export default function ListingStudioView({
               </button>
 
               <button
-                disabled={pipelineActive || !activeListing}
-                onClick={() => executePipeline('images')}
+                disabled={pipelineActive || isExternallyRunning || !activeListing}
+                onClick={() => void executePipeline('images')}
                 className="w-full py-2.5 bg-white hover:bg-slate-50 text-[#0B2545] font-mono text-xs font-bold border-2 border-slate-950 rounded flex items-center justify-center gap-2 cursor-pointer transition-all disabled:text-slate-400"
               >
                 <ImageIcon className="w-4 h-4" />
@@ -396,7 +434,7 @@ export default function ListingStudioView({
               </button>
 
               <button
-                disabled={pipelineActive || !activeListing}
+                disabled={pipelineActive || isExternallyRunning || !activeListing}
                 onClick={() => onSendToReview(selectedSku)}
                 className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-mono text-xs font-bold border border-slate-900 rounded flex items-center justify-center gap-2 cursor-pointer transition-all shadow-sm disabled:bg-slate-300"
               >

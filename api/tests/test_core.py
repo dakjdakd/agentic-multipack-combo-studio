@@ -32,7 +32,7 @@ def test_backend_search_terms_bytes():
 
 
 def test_provider_defaults_for_live_stack():
-    settings = Settings()
+    settings = Settings(_env_file=None)
     assert settings.llm_provider == "deepseek"
     assert settings.llm_model == "deepseek-v4-flash"
     assert settings.image_provider == "agnes"
