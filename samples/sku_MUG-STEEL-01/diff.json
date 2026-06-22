@@ -35,10 +35,10 @@
   },
   "images": {
     "after": {
-      "main": "/artifacts/job_afcbe4a9f5/main.jpg",
-      "lifestyle": "/artifacts/job_afcbe4a9f5/lifestyle.jpg",
-      "infographic": "/artifacts/job_afcbe4a9f5/infographic.jpg",
-      "aPlus": "/artifacts/job_afcbe4a9f5/a_plus_hero.jpg"
+      "main": "/artifacts/job_cb6aec41d6/main.jpg",
+      "lifestyle": "/artifacts/job_cb6aec41d6/lifestyle.jpg",
+      "infographic": "/artifacts/job_cb6aec41d6/infographic.jpg",
+      "aPlus": "/artifacts/job_cb6aec41d6/a_plus_hero.jpg"
     }
   },
   "compliancePassed": false

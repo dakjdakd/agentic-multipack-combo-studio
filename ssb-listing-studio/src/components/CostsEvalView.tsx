@@ -37,7 +37,7 @@ export default function CostsEvalView({
     { name: "Supervisor Specialist", calls: 42, tokens: "411,000", latency: "710ms", costRmb: 48.20, efficiency: "98%" },
     { name: "Product Researcher", calls: 58, tokens: "294,000", latency: "1,450ms", costRmb: 85.50, efficiency: "94%" },
     { name: "Expert Copywriter", calls: 36, tokens: "385,050", latency: "2,200ms", costRmb: 110.10, efficiency: "96%" },
-    { name: "Imagen Synthesizer", calls: 24, tokens: "0 (Generations: 96)", latency: "3,110ms", costRmb: 28.50, efficiency: "90%" },
+    { name: "Agnes Image Synthesizer", calls: 24, tokens: "0 (Generations: 96)", latency: "3,110ms", costRmb: 28.50, efficiency: "90%" },
     { name: "Audit Critic", calls: 36, tokens: "154,000", latency: "890ms", costRmb: 8.40, efficiency: "92%" },
     { name: "FTC Compliance Scan", calls: 41, tokens: "96,200", latency: "540ms", costRmb: 3.80, efficiency: "99%" }
   ];
@@ -179,7 +179,7 @@ export default function CostsEvalView({
                 </div>
 
                 <div className="p-3 bg-slate-50/50 flex justify-between items-center">
-                  <span className="font-bold text-slate-650">Creative Studio Imagery (Imagen Generations)</span>
+                  <span className="font-bold text-slate-650">Creative Studio Imagery (Agnes Image Generations)</span>
                   <div className="text-right">
                     <span className="font-bold text-slate-900 block">{costsBreakdown.imageGenerationsCount} Images created</span>
                     <span className="text-[10px] text-slate-400">RMB 145.45 equivalent</span>
@@ -187,7 +187,7 @@ export default function CostsEvalView({
                 </div>
 
                 <div className="p-3 bg-slate-50/50 flex justify-between items-center">
-                  <span className="font-bold text-slate-650">Web Search Grounding requests (Google Search API)</span>
+                  <span className="font-bold text-slate-650">Web Search Grounding requests (Tavily Search API)</span>
                   <div className="text-right">
                     <span className="font-bold text-slate-900 block">{costsBreakdown.webSearchesCount} Queries executed</span>
                     <span className="text-[10px] text-slate-400">RMB 4.80 equivalent</span>
@@ -214,7 +214,7 @@ export default function CostsEvalView({
             </h4>
             <div className="font-mono text-xs space-y-2 leading-relaxed">
               <p>
-                <strong>Operational Constraint Rule:</strong> Listings creations execute multi-pack generation models through sandbox proxies when demo-mode is active to reduce actual Vertex API cost rate-charging.
+                <strong>Operational Constraint Rule:</strong> Listing creation uses deterministic local providers when demo mode is active, reducing actual DeepSeek, Agnes Image, and Tavily API spend.
               </p>
               <p className="text-[#A3BFD9] text-[11px]">
                 In non-demo mode, each full listing compilation carries an approximate cost of CNY RMB 1.28 calculated by token lengths, and search groundings.

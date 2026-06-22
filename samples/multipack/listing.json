@@ -18,8 +18,8 @@
       "headline": "Catalog-Faithful Product Story",
       "title": "Catalog-Faithful Product Story",
       "body": "A+ content is generated from SSB attributes, source-cited enrichment, and compliance constraints.",
-      "imagePath": "/artifacts/job_32f855c49f/a_plus_hero.jpg",
-      "imageUrl": "/artifacts/job_32f855c49f/a_plus_hero.jpg",
+      "imagePath": "/artifacts/job_19dfe98905/a_plus_hero.jpg",
+      "imageUrl": "/artifacts/job_19dfe98905/a_plus_hero.jpg",
       "altText": "AeroTherm Tumblers Matte Black",
       "imageSize": "970x600"
     },
@@ -30,8 +30,8 @@
       "headline": "Measured Physical Details",
       "title": "Measured Physical Details",
       "body": "Dimensions: 3.4 x 3.4 x 20.6 in. Weight: 2.43 lb. Material: 18/8 Double-Wall Stainless Steel.",
-      "imagePath": "/artifacts/job_32f855c49f/infographic.jpg",
-      "imageUrl": "/artifacts/job_32f855c49f/infographic.jpg",
+      "imagePath": "/artifacts/job_19dfe98905/infographic.jpg",
+      "imageUrl": "/artifacts/job_19dfe98905/infographic.jpg",
       "altText": "MUG-STEEL-01 dimensions material color",
       "imageSize": "970x300"
     },
@@ -42,17 +42,17 @@
       "headline": "Review-Ready Compliance",
       "title": "Review-Ready Compliance",
       "body": "The system validates title length, bullets, backend search bytes, alt text, main image size, and white background.",
-      "imagePath": "/artifacts/job_32f855c49f/infographic.jpg",
-      "imageUrl": "/artifacts/job_32f855c49f/infographic.jpg",
+      "imagePath": "/artifacts/job_19dfe98905/infographic.jpg",
+      "imageUrl": "/artifacts/job_19dfe98905/infographic.jpg",
       "altText": "MUG-STEEL-01 compliance checked listing",
       "imageSize": "970x600"
     }
   ],
   "images": {
-    "main": "/artifacts/job_32f855c49f/main.jpg",
-    "lifestyle": "/artifacts/job_32f855c49f/lifestyle.jpg",
-    "infographic": "/artifacts/job_32f855c49f/infographic.jpg",
-    "aPlus": "/artifacts/job_32f855c49f/a_plus_hero.jpg"
+    "main": "/artifacts/job_19dfe98905/main.jpg",
+    "lifestyle": "/artifacts/job_19dfe98905/lifestyle.jpg",
+    "infographic": "/artifacts/job_19dfe98905/infographic.jpg",
+    "aPlus": "/artifacts/job_19dfe98905/a_plus_hero.jpg"
   },
   "compliancePassed": true,
   "score": 100,

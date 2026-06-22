@@ -20,22 +20,27 @@ class Settings(BaseSettings):
     ssb_db_name: str = ""
     ssb_db_charset: str = "utf8mb4"
 
-    llm_provider: str = "openai_compatible"
+    llm_provider: str = "deepseek"
     llm_base_url: str = ""
     llm_api_key: str = ""
-    llm_model: str = "configured-model"
+    llm_model: str = "deepseek-v4-flash"
     vision_model: str = "configured-vision-model"
 
-    image_provider: str = "openai_compatible"
-    image_base_url: str = ""
+    image_provider: str = "agnes"
+    image_base_url: str = "https://apihub.agnes-ai.com"
     image_api_key: str = ""
-    image_model: str = "configured-image-model"
+    image_model: str = "agnes-image-2.1-flash"
 
-    search_provider: str = "serpapi"
+    search_provider: str = "tavily"
+    search_base_url: str = "https://api.tavily.com"
     search_api_key: str = ""
 
     budget_target_rmb: float = 1700.0
     usd_to_rmb: float = 7.2
+    llm_input_usd_per_million: float = 0.30
+    llm_output_usd_per_million: float = 1.20
+    image_generation_usd: float = 0.003
+    search_request_usd: float = 0.005
     cache_ttl_hours: int = 24
     max_image_retries: int = 2
 

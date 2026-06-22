@@ -190,8 +190,15 @@ export interface SettingsState {
   searchApiConfigured: boolean;
   demoMode: boolean;
   llmProvider: string;
+  llmModel?: string;
+  llmBaseUrlConfigured?: boolean;
   imageProvider: string;
+  imageModel?: string;
+  imageBaseUrlConfigured?: boolean;
   searchProvider: string;
+  searchBaseUrlConfigured?: boolean;
+  visionModel?: string;
+  secretsExposed?: boolean;
   messages?: string[];
 }
 

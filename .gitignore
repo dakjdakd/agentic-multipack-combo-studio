@@ -35,3 +35,7 @@ FRONTEND_SPEC.md
 .git/
 .gitrepo/
 
+# Local runtime logs and helper scripts.
+*.log
+.codex-start-local.ps1
+

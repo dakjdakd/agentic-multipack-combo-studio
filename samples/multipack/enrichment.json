@@ -1,5 +1,5 @@
 {
-  "jobId": "enrich_2a77a10915",
+  "jobId": "enrich_2d718457ba",
   "sku": "MUG-STEEL-01",
   "cacheHit": true,
   "enrichedFields": [
@@ -18,7 +18,7 @@
         "Showcase Matte Black visual consistency.",
         "Highlight measurable dimensions and everyday usage scenarios."
       ],
-      "sourceUrl": "https://sell.amazon.com/tools/a-content",
+      "sourceUrl": "https://sell.amazon.com/blog/amazon-seo",
       "confidence": 0.74,
       "notes": "Derived from product attributes and marketplace content norms.",
       "demo": true
@@ -30,7 +30,7 @@
         "no promotional claims",
         "backend search terms under 250 bytes"
       ],
-      "sourceUrl": "https://sell.amazon.com/blog/amazon-seo",
+      "sourceUrl": "https://sell.amazon.com/tools/a-content",
       "confidence": 0.72,
       "notes": "Compliance-safe keyword handling for Amazon listing content.",
       "demo": true
@@ -42,6 +42,14 @@
       "confidence": 0.55,
       "notes": "No unverified certification is promoted; missing evidence is retained as a gap.",
       "demo": true
+    },
+    {
+      "field": "pricing_signals",
+      "value": "competitor range requires live search review",
+      "sourceUrl": "https://sell.amazon.com/blog/amazon-product-listings",
+      "confidence": 0.5,
+      "notes": "Pricing signal is advisory only and never treated as a final price.",
+      "demo": true
     }
   ],
   "conflicts": [
@@ -51,6 +59,11 @@
         "image"
       ],
       "policy": "do_not_fabricate"
+    },
+    {
+      "type": "search_provider_warning",
+      "message": "SEARCH_API_KEY missing or demo mode enabled; deterministic cited search results used.",
+      "policy": "fallback_with_demo_citations"
     }
   ],
   "missingFields": [
@@ -68,12 +81,17 @@
         },
         {
           "name": "web_search",
+          "input": "Kitchen & Dining > Drinkware > Tumblers amazon listing requirements",
+          "durationMs": 50
+        },
+        {
+          "name": "web_search",
           "input": "Kitchen & Dining > Drinkware > Tumblers common selling points",
           "durationMs": 50
         },
         {
           "name": "web_search",
-          "input": "Kitchen & Dining > Drinkware > Tumblers certification requirements",
+          "input": "18/8 Double-Wall Stainless Steel safety certification",
           "durationMs": 50
         },
         {
@@ -82,13 +100,13 @@
           "durationMs": 20
         }
       ],
-      "outputArtifact": "4 enriched fields with URL citations. Missing/conflicts retained: 1.",
-      "latencyMs": 0,
+      "outputArtifact": "5 enriched fields with URL citations. Missing/conflicts retained: 2.",
+      "latencyMs": 1,
       "inputTokens": 900,
       "outputTokens": 350,
       "estimatedCostUsd": 0.02069,
       "promptSnippet": "Research Agent: collect category norms, competitor-safe selling points, compliance terms, never fabricate specs.",
-      "warningsOrErrors": null
+      "warningsOrErrors": "SEARCH_API_KEY missing or demo mode enabled; deterministic cited search results used."
     }
   ]
 }

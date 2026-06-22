@@ -481,14 +481,23 @@ export const INITIAL_EVALUATION: EvaluationHarness = {
 };
 
 export const INITIAL_SETTINGS: SettingsState = {
-  dbConfigured: true,
-  llmApiConfigured: true,
-  imageApiConfigured: true,
-  searchApiConfigured: true,
+  dbConfigured: false,
+  dbReachable: false,
+  dbDialect: "mysql",
+  llmApiConfigured: false,
+  imageApiConfigured: false,
+  searchApiConfigured: false,
   demoMode: true,
-  llmProvider: "Google Gemini 2.5 Flash (Production Server)",
-  imageProvider: "Imagen 3 (Via Cloud Vertex Platform)",
-  searchProvider: "Google Search Grounding Engine"
+  llmProvider: "deepseek",
+  llmModel: "deepseek-v4-flash",
+  llmBaseUrlConfigured: true,
+  imageProvider: "agnes",
+  imageModel: "agnes-image-2.1-flash",
+  imageBaseUrlConfigured: true,
+  searchProvider: "tavily",
+  searchBaseUrlConfigured: true,
+  visionModel: "",
+  secretsExposed: false
 };
 
 

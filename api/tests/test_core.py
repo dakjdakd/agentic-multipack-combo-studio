@@ -1,7 +1,10 @@
 ﻿from api.app.db.mysql_repository import normalize_product, parse_pack_count
 from api.app.main import app
 from api.app.models import AmazonListing, APlusModule, ListingImages
+from api.app.config import Settings
+from api.app.providers.image import ImageProvider
 from api.app.services.compliance import ComplianceService, byte_len
+from api.app.services.cost_tracker import CostTracker
 from api.app.services.recomposition import RecompositionService
 from fastapi.testclient import TestClient
 
@@ -26,6 +29,31 @@ def test_normalize_product_missing_fields():
 
 def test_backend_search_terms_bytes():
     assert byte_len("charger gan usb c") <= 250
+
+
+def test_provider_defaults_for_live_stack():
+    settings = Settings()
+    assert settings.llm_provider == "deepseek"
+    assert settings.llm_model == "deepseek-v4-flash"
+    assert settings.image_provider == "agnes"
+    assert settings.image_model == "agnes-image-2.1-flash"
+    assert settings.search_provider == "tavily"
+
+
+def test_agnes_endpoint_builder():
+    provider = ImageProvider(Settings(image_provider="agnes", image_base_url="https://apihub.agnes-ai.com"))
+    assert provider._agnes_endpoint() == "https://apihub.agnes-ai.com/v1/images/generations"
+
+    provider = ImageProvider(Settings(image_provider="agnes", image_base_url="https://apihub.agnes-ai.com/v1"))
+    assert provider._agnes_endpoint() == "https://apihub.agnes-ai.com/v1/images/generations"
+
+
+def test_cost_estimate_uses_configured_agnes_unit_price():
+    class DummyStore:
+        pass
+
+    tracker = CostTracker(Settings(image_generation_usd=0.003, search_request_usd=0.005), DummyStore())
+    assert tracker.estimate_usd(0, 0, 1, 1) == 0.008
 
 
 def test_compliance_rules_title_and_bullets():

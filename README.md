@@ -26,14 +26,20 @@ SSB_DB_PORT=3306
 SSB_DB_USER=
 SSB_DB_PASSWORD=
 SSB_DB_NAME=
-LLM_BASE_URL=
+LLM_PROVIDER=deepseek
+LLM_BASE_URL=https://api.deepseek.com
 LLM_API_KEY=
-LLM_MODEL=
-IMAGE_BASE_URL=
+LLM_MODEL=deepseek-v4-flash
+IMAGE_PROVIDER=agnes
+IMAGE_BASE_URL=https://apihub.agnes-ai.com
 IMAGE_API_KEY=
-IMAGE_MODEL=
+IMAGE_MODEL=agnes-image-2.1-flash
+SEARCH_PROVIDER=tavily
+SEARCH_BASE_URL=https://api.tavily.com
 SEARCH_API_KEY=
 BUDGET_TARGET_RMB=1700
+IMAGE_GENERATION_USD=0.003
+SEARCH_REQUEST_USD=0.005
 ```
 
 题目 README 提到 PostgreSQL，但提供的数据库凭证文档写的是 MySQL、端口 3306、核心表 `fbm_sku`。本项目按凭证文档实现 MySQL read-only adapter，并在 [REPORT.md](./REPORT.md) 说明这个冲突。
@@ -82,7 +88,10 @@ Recomposition Agent
 
 ## Provider 模式
 
-- Live mode：配置 OpenAI-compatible LLM、OpenAI-compatible image API、SerpAPI 后会调用真实 provider。
+- Live mode 默认配置为 DeepSeek LLM、Agnes Image 2.1 Flash 图片生成、Tavily Search。填入 `.env` 后会调用真实 provider。
+- DeepSeek 走 OpenAI-compatible `/chat/completions`：`LLM_BASE_URL=https://api.deepseek.com`，`LLM_MODEL=deepseek-v4-flash`。
+- Agnes 走 `https://apihub.agnes-ai.com/v1/images/generations`：`IMAGE_MODEL=agnes-image-2.1-flash`，文生图使用 `return_base64=true`，生成结果保存到本地 artifacts。
+- Tavily 走 `/search`：`SEARCH_PROVIDER=tavily`，用于 enrichment 的联网搜索和 source URL citations。
 - Demo mode：缺少 key 或 `DEMO_MODE=true` 时，系统使用确定性 demo provider，不崩溃，不伪装成真实联网或真实商业图片生成。
 - Provider 自检：`GET /api/providers/status` 和 `POST /api/providers/self-test` 返回 DB/LLM/Image/Search 状态，不暴露 secret。
 - Settings 页面只显示 configured/missing/demo/read-only 状态，不显示任何密钥值。

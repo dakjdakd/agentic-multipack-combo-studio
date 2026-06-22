@@ -29,9 +29,19 @@ SSB_DB_USER=
 SSB_DB_PASSWORD=
 SSB_DB_NAME=
 LLM_API_KEY=
+LLM_PROVIDER=deepseek
+LLM_BASE_URL=https://api.deepseek.com
+LLM_MODEL=deepseek-v4-flash
 IMAGE_API_KEY=
+IMAGE_PROVIDER=agnes
+IMAGE_BASE_URL=https://apihub.agnes-ai.com
+IMAGE_MODEL=agnes-image-2.1-flash
 SEARCH_API_KEY=
+SEARCH_PROVIDER=tavily
+SEARCH_BASE_URL=https://api.tavily.com
 BUDGET_TARGET_RMB=1700
+IMAGE_GENERATION_USD=0.003
+SEARCH_REQUEST_USD=0.005
 ```
 
 The original challenge README mentions PostgreSQL, while the provided credential document specifies MySQL on port 3306 with table `fbm_sku`. This implementation follows the provided MySQL source and documents the mismatch in `REPORT.md`.
@@ -45,8 +55,9 @@ React/Vite Frontend
       -> SQLite app store
       -> local artifacts and samples
       -> LangGraph multi-agent workflow
-      -> OpenAI-compatible LLM / image providers
-      -> SerpAPI-compatible search provider
+      -> DeepSeek LLM provider
+      -> Agnes Image 2.1 Flash provider
+      -> Tavily search provider
       -> compliance / physical consistency / evaluation
 ```
 
@@ -111,7 +122,8 @@ GET  /api/variations/{sku}
 - No API keys, database passwords, or `.env` files are committed.
 - Generated outputs are stored locally in SQLite, `artifacts/`, and `samples/`.
 - Missing keys do not crash the service; key-dependent workflows use clearly marked demo providers.
-- Live mode uses OpenAI-compatible chat/image APIs and SerpAPI-compatible search when credentials are supplied.
+- Live mode defaults to DeepSeek for chat completions, Agnes Image 2.1 Flash for image generation, and Tavily for cited web search when credentials are supplied.
+- Cost tracking keeps provider prices configurable; the default image unit price is `IMAGE_GENERATION_USD=0.003` for Agnes.
 
 ## Verification
 

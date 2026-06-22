@@ -56,12 +56,17 @@
       },
       {
         "name": "web_search",
+        "input": "Kitchen & Dining > Drinkware > Tumblers amazon listing requirements",
+        "durationMs": 50
+      },
+      {
+        "name": "web_search",
         "input": "Kitchen & Dining > Drinkware > Tumblers common selling points",
         "durationMs": 50
       },
       {
         "name": "web_search",
-        "input": "Kitchen & Dining > Drinkware > Tumblers certification requirements",
+        "input": "18/8 Double-Wall Stainless Steel safety certification",
         "durationMs": 50
       },
       {
@@ -70,13 +75,13 @@
         "durationMs": 20
       }
     ],
-    "outputArtifact": "4 enriched fields with URL citations. Missing/conflicts retained: 1.",
-    "latencyMs": 0,
+    "outputArtifact": "5 enriched fields with URL citations. Missing/conflicts retained: 2.",
+    "latencyMs": 1,
     "inputTokens": 900,
     "outputTokens": 350,
     "estimatedCostUsd": 0.02069,
     "promptSnippet": "Research Agent: collect category norms, competitor-safe selling points, compliance terms, never fabricate specs.",
-    "warningsOrErrors": null
+    "warningsOrErrors": "SEARCH_API_KEY missing or demo mode enabled; deterministic cited search results used."
   },
   {
     "agentName": "Copy",
@@ -125,7 +130,7 @@
     "latencyMs": 2200,
     "inputTokens": 450,
     "outputTokens": 180,
-    "estimatedCostUsd": 0.140351,
+    "estimatedCostUsd": 0.012351,
     "promptSnippet": "Image prompt/contract: structured JSON output, source-of-truth product attributes, traceable tools.",
     "warningsOrErrors": null
   },

@@ -48,9 +48,13 @@ class CostTracker:
         )
         return estimated_usd
 
-    @staticmethod
-    def estimate_usd(input_tokens: int, output_tokens: int, image_count: int, search_count: int) -> float:
-        return (input_tokens / 1_000_000 * 0.30) + (output_tokens / 1_000_000 * 1.20) + (image_count * 0.035) + (search_count * 0.005)
+    def estimate_usd(self, input_tokens: int, output_tokens: int, image_count: int, search_count: int) -> float:
+        return (
+            (input_tokens / 1_000_000 * self.settings.llm_input_usd_per_million)
+            + (output_tokens / 1_000_000 * self.settings.llm_output_usd_per_million)
+            + (image_count * self.settings.image_generation_usd)
+            + (search_count * self.settings.search_request_usd)
+        )
 
     def summary(self) -> CostSummary:
         rows = self.store.cost_rows()
@@ -94,6 +98,6 @@ class CostTracker:
             imageGenerationsCount=images,
             webSearchesCount=searches,
             retriesCount=0,
-            cachedSavingsRmb=round((cached_tokens / 1_000_000 * 0.30) * self.settings.usd_to_rmb + searches * 0.03 * self.settings.usd_to_rmb, 2),
+            cachedSavingsRmb=round((cached_tokens / 1_000_000 * self.settings.llm_input_usd_per_million) * self.settings.usd_to_rmb + searches * self.settings.search_request_usd * self.settings.usd_to_rmb, 2),
             perAgentCosts=per_agent,
         )

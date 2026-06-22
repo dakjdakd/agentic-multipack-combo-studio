@@ -71,7 +71,7 @@ def settings_status() -> dict[str, Any]:
     if not settings.image_configured:
         messages.append("IMAGE_API_KEY missing: images use deterministic Pillow demo provider.")
     if not settings.search_configured:
-        messages.append("SEARCH_API_KEY missing: enrichment uses demo citations.")
+        messages.append(f"SEARCH_API_KEY missing: enrichment uses demo citations instead of {settings.search_provider}.")
     if settings.db_configured and not db_reachable:
         messages.append(f"SSB MySQL not reachable; demo catalog fallback is active. Last error: {repo.last_error}")
     return {
@@ -83,8 +83,15 @@ def settings_status() -> dict[str, Any]:
         "searchApiConfigured": settings.search_configured,
         "demoMode": settings.demo_mode,
         "llmProvider": settings.llm_provider,
+        "llmModel": settings.llm_model,
+        "llmBaseUrlConfigured": bool(settings.llm_base_url),
         "imageProvider": settings.image_provider,
+        "imageModel": settings.image_model,
+        "imageBaseUrlConfigured": bool(settings.image_base_url),
         "searchProvider": settings.search_provider,
+        "searchBaseUrlConfigured": bool(settings.search_base_url),
+        "visionModel": settings.vision_model or "",
+        "secretsExposed": False,
         "messages": messages,
     }
 
@@ -198,9 +205,9 @@ def provider_status() -> dict[str, Any]:
     return {
         "demoMode": settings.demo_mode,
         "db": {"configured": settings.db_configured, "reachable": repo.db_reachable(), "dialect": "mysql", "lastError": repo.last_error},
-        "llm": {"configured": settings.llm_configured, "provider": settings.llm_provider, "model": settings.llm_model, "liveReady": bool(settings.llm_api_key and settings.llm_base_url and settings.llm_model)},
-        "image": {"configured": settings.image_configured, "provider": settings.image_provider, "model": settings.image_model, "liveReady": bool(settings.image_api_key and settings.image_base_url and settings.image_model)},
-        "search": {"configured": settings.search_configured, "provider": settings.search_provider, "liveReady": bool(settings.search_api_key)},
+        "llm": {"configured": settings.llm_configured, "provider": settings.llm_provider, "baseUrlConfigured": bool(settings.llm_base_url), "model": settings.llm_model, "liveReady": bool(settings.llm_api_key and settings.llm_base_url and settings.llm_model)},
+        "image": {"configured": settings.image_configured, "provider": settings.image_provider, "baseUrlConfigured": bool(settings.image_base_url), "model": settings.image_model, "liveReady": bool(settings.image_api_key and settings.image_base_url and settings.image_model)},
+        "search": {"configured": settings.search_configured, "provider": settings.search_provider, "baseUrlConfigured": bool(settings.search_base_url), "liveReady": bool(settings.search_api_key)},
         "secretsExposed": False,
     }
 

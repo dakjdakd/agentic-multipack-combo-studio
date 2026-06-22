@@ -33,7 +33,7 @@ const PIPELINE_INITIAL_STAGES = [
   { id: 'enrich', label: 'ENRICH TARGET', agent: 'Supervisor', key: 2 },
   { id: 'research', label: 'RESEARCH AGENT', agent: 'Research Specialist', key: 3 },
   { id: 'copy', label: 'COPY AGENT', agent: 'Amazon copywriter', key: 4 },
-  { id: 'image', label: 'IMAGE AGENT', agent: 'Imagen Synthesizer', key: 5 },
+  { id: 'image', label: 'IMAGE AGENT', agent: 'Agnes Image Synthesizer', key: 5 },
   { id: 'critic', label: 'CRITIC AGENT', agent: 'Audit Specialist', key: 6 },
   { id: 'compliance', label: 'COMPLIANCE CHECK', agent: 'Regulatory Engine', key: 7 },
 ];

@@ -43,7 +43,8 @@ export default function ChatRecomposerView({
   const [activeSku, setActiveSku] = useState(activeSkuFromApp || products[0]?.sku || "CHARGER-GAN-65");
   const chatEndRef = useRef<HTMLDivElement | null>(null);
 
-  const selectedProduct = products.find(p => p.sku === activeSku) || products[0];
+  const selectedProduct = products.find(p => p.sku === activeSku) || products[0] || null;
+  const hasProducts = products.length > 0;
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -53,8 +54,23 @@ export default function ChatRecomposerView({
     if (activeSkuFromApp) setActiveSku(activeSkuFromApp);
   }, [activeSkuFromApp]);
 
+  useEffect(() => {
+    if (hasProducts && !products.some((p) => p.sku === activeSku)) {
+      setActiveSku(products[0].sku);
+    }
+  }, [activeSku, hasProducts, products]);
+
   const handleSendPrompt = (promptText: string) => {
     if (!promptText.trim()) return;
+    if (!selectedProduct) {
+      onAddChatMessage({
+        id: `m-sys-${Date.now()}`,
+        sender: 'assistant',
+        text: 'No SKU is loaded yet. Please wait for Products DB to finish loading, then try the multipack or combo request again.',
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      });
+      return;
+    }
     if (onSendPrompt) {
       onSendPrompt(activeSku, promptText);
       setInputText('');
@@ -185,11 +201,16 @@ export default function ChatRecomposerView({
           <select
             value={activeSku}
             onChange={(e) => setActiveSku(e.target.value)}
+            disabled={!hasProducts}
             className="bg-slate-50 border border-slate-350 px-2 py-0.5 font-mono text-xs font-bold text-blue-900 rounded focus:outline-none"
           >
-            {products.map(p => (
-              <option key={p.sku} value={p.sku}>{p.sku} ({p.color})</option>
-            ))}
+            {!hasProducts ? (
+              <option value="">Loading SKU data...</option>
+            ) : (
+              products.map(p => (
+                <option key={p.sku} value={p.sku}>{p.sku} ({p.color || 'no color'})</option>
+              ))
+            )}
           </select>
         </div>
       </div>
@@ -216,11 +237,12 @@ export default function ChatRecomposerView({
               <Package className="w-4 h-4 text-blue-950" />
               <div className="text-[10px]">
                 <span className="text-slate-500">Active context anchor:</span>{' '}
-                <strong className="text-slate-800">{selectedProduct.sku}</strong> - {selectedProduct.title.substring(0, 45)}...
+                <strong className="text-slate-800">{selectedProduct?.sku || 'Waiting for SKU'}</strong>
+                {selectedProduct ? ` - ${selectedProduct.title.substring(0, 45)}...` : ' - Products DB is still loading.'}
               </div>
             </div>
             <span className="text-[9px] bg-blue-150 text-blue-900 px-1 py-0.2 uppercase font-semibold">
-              BASE_Q: 1
+              BASE_Q: {selectedProduct?.unitCount || 1}
             </span>
           </div>
 
@@ -343,7 +365,7 @@ export default function ChatRecomposerView({
                 <div className="space-y-1">
                   <span className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest">Calculated Bullet features</span>
                   <div className="space-y-1.5">
-                    {latestRecompose.bullets.map((b, idx) => (
+                    {(latestRecompose.bullets || []).map((b, idx) => (
                       <div key={idx} className="p-2.5 bg-slate-50 border border-slate-200 rounded text-[11px] leading-relaxed flex gap-2">
                         <span className="font-extrabold text-[#0B2545] text-xs">0{idx+1}</span>
                         <p className="text-slate-800">{b}</p>
@@ -360,13 +382,21 @@ export default function ChatRecomposerView({
                   <div className="space-y-1 text-center font-mono">
                     <span className="text-[8px] text-slate-400 block uppercase">Original base asset</span>
                     <div className="border rounded h-28 aspect-square overflow-hidden bg-slate-100 mx-auto">
-                      <img src={latestRecompose.images.original} alt="Orig" className="w-full h-full object-cover" />
+                      {latestRecompose.images?.original ? (
+                        <img src={latestRecompose.images.original} alt="Orig" className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-[9px] text-slate-400">No image</div>
+                      )}
                     </div>
                   </div>
                   <div className="space-y-1 text-center font-mono">
                     <span className="text-[8px] text-emerald-600 block uppercase font-bold">RECOMPOSED VALUE BUNDLE</span>
                     <div className="border border-emerald-400 rounded h-28 aspect-square overflow-hidden bg-slate-100 mx-auto ring-1 ring-emerald-300">
-                      <img src={latestRecompose.images.recomposed} alt="Recomp" className="w-full h-full object-cover" />
+                      {latestRecompose.images?.recomposed ? (
+                        <img src={latestRecompose.images.recomposed} alt="Recomp" className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-[9px] text-slate-400">Pending image</div>
+                      )}
                     </div>
                   </div>
                 </div>

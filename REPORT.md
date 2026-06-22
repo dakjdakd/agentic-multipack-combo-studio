@@ -76,9 +76,9 @@ Each step records trace entries with tool calls, latency, token estimates, cost 
 
 Providers are isolated behind adapters:
 
-- `LLMProvider`: OpenAI-compatible `/chat/completions` JSON generation with usage parsing and deterministic fallback.
-- `SearchProvider`: SerpAPI-compatible live search with cited demo fallback.
-- `ImageProvider`: OpenAI-compatible image generation with Pillow fallback.
+- `LLMProvider`: DeepSeek live mode through OpenAI-compatible `/chat/completions` with `LLM_BASE_URL=https://api.deepseek.com` and `LLM_MODEL=deepseek-v4-flash`; usage is parsed for the cost ledger, with deterministic fallback when not configured.
+- `SearchProvider`: Tavily live search through `/search`; enrichment citations are parsed from Tavily `results[].url`, with cited demo fallback when not configured. The adapter still keeps a SerpAPI branch for reviewer substitution if needed.
+- `ImageProvider`: Agnes Image 2.1 Flash live image generation through `https://apihub.agnes-ai.com/v1/images/generations`. The Agnes adapter uses `return_base64=true` for text-to-image output and saves images into local artifacts. Pillow fallback is used when no image key is available.
 
 Demo mode is explicit. Demo citations and demo images are marked as demo/fallback behavior and are not presented as real marketplace research or real commercial photography.
 
@@ -166,6 +166,17 @@ Planned allocation:
 
 Every provider call writes a cost ledger row with input tokens, cached input tokens, output tokens, image count, search count, latency, estimated USD, and estimated RMB. Demo providers still record estimated cost so the budget dashboard remains meaningful.
 
+Current live provider choices:
+
+| Capability | Provider | Model / Endpoint |
+| --- | --- | --- |
+| LLM | DeepSeek | `deepseek-v4-flash` at `https://api.deepseek.com` |
+| Image generation | Agnes | `agnes-image-2.1-flash` at `https://apihub.agnes-ai.com/v1/images/generations` |
+| Search | Tavily | `https://api.tavily.com/search` |
+| Product data | SSB MySQL | read-only `fbm_sku` via the provided database access document |
+
+Provider unit prices are configurable through `.env`. The default image generation unit price is `IMAGE_GENERATION_USD=0.003`, matching the Agnes Image 2.1 Flash pricing note supplied for this project.
+
 ## 11. Observability and Cache
 
 The app stores jobs, traces, listings, enrichment cache, cost ledger, reviews, chat sessions, and eval runs in SQLite. Enrichment cache defaults to 24 hours and reports cache savings in the Costs & Eval page.
@@ -203,7 +214,7 @@ docker compose config
 
 Results:
 
-- `python -m pytest api`: 8 passed.
+- `python -m pytest api`: 11 passed.
 - `npm run lint`: TypeScript check passed.
 - `npm run build`: Vite production build passed.
 - `docker compose config`: project compose parsed successfully.
@@ -214,7 +225,7 @@ The service starts without live keys. Missing live providers are reported in Set
 
 ## 16. Limitations and Future Work
 
-- Live LLM/image/search provider calls are implemented through adapters, but deterministic demo providers are used when keys are missing.
+- Live DeepSeek/Agnes/Tavily provider calls are implemented through adapters, but deterministic demo providers are used when keys are missing.
 - Physical image consistency is validated through deterministic metadata and image checks in demo mode; live mode should use a multimodal critic.
 - Pricing suggestions are conservative and should be enriched with marketplace pricing data before business use.
 - Real Amazon publishing is out of scope; the system produces reviewable A+ content objects and assets.
