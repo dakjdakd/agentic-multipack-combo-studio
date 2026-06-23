@@ -1,0 +1,78 @@
+{
+  "sku": "SSB-NJ-300001",
+  "title": "AB home_improvement - White Iron, Measured 15.0 x 9.02 x 7.01 in",
+  "bullets": [
+    "ATTRIBUTE-TRUE BUILD: Uses documented Iron construction so copy stays tied to the SKU record.",
+    "CATALOG COLOR MATCH: Generated content and image prompts lock to White for physical consistency review.",
+    "MEASURED FIT DETAILS: Dimensions are carried from SSB data (15.0 x 9.02 x 7.01 in) to avoid invented sizing claims.",
+    "PACKAGING-AWARE VALUE: Listing workflow recalculates unit count, package weight, and bundle presentation before review.",
+    "REVIEWABLE A+ OUTPUT: Includes image-ready modules, backend keywords under 250 bytes, and a human approval gate before publishing."
+  ],
+  "description": "Enhance your grooming routine with the Amazon Basics Vanity Mirror. Featuring a 360-degree rotating double-sided design, this mirror offers 1x and 5x magnification for precise makeup application, skincare, and more. The durable iron-coated construction and extra-heavy base provide exceptional stability and prevent tipping. With a mirror diameter of 6.69 inches and crystal-clear reflection, it's perfect for your vanity or countertop. The elegant white finish complements any d\u00e9cor. Easy to maintain\u2014simply wipe with a dry cloth.",
+  "searchTerms": "ab home improvement white iron ssb nj 300001 listing amazon a plus",
+  "aPlusModules": [
+    {
+      "id": "ap-hero",
+      "moduleType": "hero_full_width",
+      "type": "header-text",
+      "headline": "Catalog-Faithful Product Story",
+      "title": "Catalog-Faithful Product Story",
+      "body": "A+ content is generated from SSB attributes, source-cited enrichment, and compliance constraints.",
+      "imagePath": "/artifacts/job_02c48d9f79/a_plus_hero.jpg",
+      "imageUrl": "/artifacts/job_02c48d9f79/a_plus_hero.jpg",
+      "altText": "AB home_improvement White",
+      "imageSize": "970x600"
+    },
+    {
+      "id": "ap-feature",
+      "moduleType": "feature_detail",
+      "type": "single-image-sidebar",
+      "headline": "Measured Physical Details",
+      "title": "Measured Physical Details",
+      "body": "Dimensions: 15.0 x 9.02 x 7.01 in. Weight: 3.0 lb. Material: Iron.",
+      "imagePath": "/artifacts/job_02c48d9f79/infographic.jpg",
+      "imageUrl": "/artifacts/job_02c48d9f79/infographic.jpg",
+      "altText": "SSB-NJ-300001 dimensions material color",
+      "imageSize": "970x300"
+    },
+    {
+      "id": "ap-spec",
+      "moduleType": "spec_comparison",
+      "type": "three-column",
+      "headline": "Review-Ready Compliance",
+      "title": "Review-Ready Compliance",
+      "body": "The system validates title length, bullets, backend search bytes, alt text, main image size, and white background.",
+      "imagePath": "/artifacts/job_02c48d9f79/infographic.jpg",
+      "imageUrl": "/artifacts/job_02c48d9f79/infographic.jpg",
+      "altText": "SSB-NJ-300001 compliance checked listing",
+      "imageSize": "970x600"
+    }
+  ],
+  "images": {
+    "main": "/artifacts/job_02c48d9f79/main.jpg",
+    "lifestyle": "/artifacts/job_02c48d9f79/lifestyle.jpg",
+    "infographic": "/artifacts/job_02c48d9f79/infographic.jpg",
+    "aPlus": "/artifacts/job_02c48d9f79/a_plus_hero.jpg"
+  },
+  "compliancePassed": false,
+  "score": 93.8,
+  "physicalAttributes": {
+    "weight": {
+      "value": 3.0,
+      "unit": "lb"
+    },
+    "dimensions": {
+      "length": 15.0,
+      "width": 9.02,
+      "height": 7.01,
+      "unit": "in"
+    },
+    "unitCount": 1,
+    "workflowType": "listing",
+    "sourceSkus": [
+      "SSB-NJ-300001"
+    ],
+    "recomputedWeight": null,
+    "recomputedDimensions": null
+  }
+}

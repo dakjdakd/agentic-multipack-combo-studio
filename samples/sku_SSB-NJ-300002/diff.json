@@ -1,0 +1,45 @@
+{
+  "sku": "SSB-NJ-300002",
+  "workflowType": "listing",
+  "title": {
+    "before": "宠物床垫",
+    "after": "AB Pet Mattress, 20 x 10 x 6 Inches, Lightweight Portable Pet Bed Mat for Small Dogs and Cats"
+  },
+  "unitCount": {
+    "before": 1,
+    "after": 1
+  },
+  "weight": {
+    "before": {
+      "value": 0.99,
+      "unit": "lb"
+    },
+    "after": {
+      "value": 0.99,
+      "unit": "lb"
+    }
+  },
+  "dimensions": {
+    "before": {
+      "length": 20.0,
+      "width": 10.0,
+      "height": 5.98,
+      "unit": "in"
+    },
+    "after": {
+      "length": 20.0,
+      "width": 10.0,
+      "height": 5.98,
+      "unit": "in"
+    }
+  },
+  "images": {
+    "after": {
+      "main": "/artifacts/job_1951bed1fb/main.jpg",
+      "lifestyle": "/artifacts/job_1951bed1fb/lifestyle.jpg",
+      "infographic": "/artifacts/job_1951bed1fb/infographic.jpg",
+      "aPlus": "/artifacts/job_1951bed1fb/a_plus_hero.jpg"
+    }
+  },
+  "compliancePassed": false
+}

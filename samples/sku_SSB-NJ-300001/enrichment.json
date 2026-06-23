@@ -1,0 +1,183 @@
+{
+  "jobId": "enrich_8b764b11b1",
+  "sku": "SSB-NJ-300001",
+  "cacheHit": true,
+  "enrichedFields": [
+    {
+      "field": "category_norm",
+      "value": "home_improvement",
+      "sourceUrl": "https://uk.pinterest.com/pin/amazonbasics-vanity-mirror-with-heavy-base-1x5x-magnification-white-amazonca-home-kitchen--381187555965247729",
+      "confidence": 0.78,
+      "notes": "Category normalized from SSB category and cited listing/spec guidance.",
+      "evidence": [
+        "SSB category: home_improvement",
+        "a white round mirror sitting on top of a stand. # Amazon Basics Vanity Mirror with Heavy Base - 1X/5X Magnification, White. ## Comments. ## More about this Pin. ### Board containing this Pin. ### Related interests."
+      ],
+      "citations": [
+        {
+          "sourceId": "S1",
+          "title": "Stylish White Vanity Mirror with 5X Magnification | Cheap small vanity mirror, Cheap desk mirror, Horse makeup mirror",
+          "url": "https://uk.pinterest.com/pin/amazonbasics-vanity-mirror-with-heavy-base-1x5x-magnification-white-amazonca-home-kitchen--381187555965247729",
+          "snippet": "a white round mirror sitting on top of a stand. # Amazon Basics Vanity Mirror with Heavy Base - 1X/5X Magnification, White. ## Comments. ## More about this Pin. ### Board containing this Pin. ### Related interests.",
+          "demo": false
+        }
+      ],
+      "conflict": null,
+      "demo": false
+    },
+    {
+      "field": "common_selling_points",
+      "value": [
+        "Emphasize Iron construction only when the SKU record supports it.",
+        "Showcase White visual consistency across copy and images.",
+        "Highlight measured dimensions and everyday usage scenarios without inventing performance claims."
+      ],
+      "sourceUrl": "https://www.qualifiedremodeler.com/home-improvement-sales",
+      "confidence": 0.74,
+      "notes": "Selling points are derived from product attributes plus marketplace content norms.",
+      "evidence": [
+        "Many of them believe they must find out what homeowners want, pitch their company and its services, and then solicit those potential customers for their business. But people follow a decision-making process, and salespeople need to guide them through it with a series of questions about their commitment. “That’s clearly the result you want from this relationship; but if you go in thinking that way, you’re thinking about all the wrong things.”. “The biggest reason why salespeople don’t perform at a high level is [because] people don’t trust salespeople,” says Rodney Webb, a sales trainer and motivational speaker in the home improvement industry. You can’t just take the definition of those words and decide you know what to sell them because [you think] you know what they mean.”. “The reason [some] people will ask for previous customers is because they don’t know what to ask you to make a decision for themselves on whether you’re the right contractor,” Yoho says.",
+        "Source-of-truth physical attributes remain SKU SSB-NJ-300001."
+      ],
+      "citations": [
+        {
+          "sourceId": "S3",
+          "title": "Home Improvement Sales: Selling Points for Professionals",
+          "url": "https://www.qualifiedremodeler.com/home-improvement-sales",
+          "snippet": "Many of them believe they must find out what homeowners want, pitch their company and its services, and then solicit those potential customers for their business. But people follow a decision-making process, and salespeople need to guide them through it with a series of questions about their commitment. “That’s clearly the result you want from this relationship; but if you go in thinking that way, you’re thinking about all the wrong things.”. “The biggest reason why salespeople don’t perform at a high level is [because] people don’t trust salespeople,” says Rodney Webb, a sales trainer and motivational speaker in the home improvement industry. You can’t just take the definition of those words and decide you know what to sell them because [you think] you know what they mean.”. “The reason [some] people will ask for previous customers is because they don’t know what to ask you to make a decision for themselves on whether you’re the right contractor,” Yoho says.",
+          "demo": false
+        }
+      ],
+      "conflict": null,
+      "demo": false
+    },
+    {
+      "field": "compliance_keywords",
+      "value": [
+        "brand-first title",
+        "no promotional claims",
+        "backend search terms under 250 bytes"
+      ],
+      "sourceUrl": "https://myamazonguy.com/amazon-product-launch/amazon-home-improvement-category",
+      "confidence": 0.72,
+      "notes": "Compliance-safe keyword handling for Amazon listing content.",
+      "evidence": [
+        "**Sell your beauty products on Amazon**. **Build growth beyond Amazon**Reach high-intent shoppers outside the Amazon marketplace and boost your sales. # Selling in the Amazon Home Improvement Category the Right Way. Amazon Home Improvement Category.png. **Are you planning to bring your home improvement brand to Amazon? If you are, the real question is whether you are ready for the competition, the rules, and the work it takes to win in the Amazon Home Improvement product category.**. One of the categories that continues to perform well on the platform is the Amazon home improvement product category. *In this article, we break down how to successfully sell products in the Amazon Home Improvement category and why it’s a profitable, year-round niche. ## Why Selling Products from the Amazon Home Improvement Category Is Profitable. ## Amazon Policies for Selling Amazon Home Improvement Products. The Amazon Home Improvement category includes a wide range of subcategories, from hand tools and power tools to lighting, fixtures, and home maintenance products.",
+        "Compliance keywords are generic listing constraints, not product performance claims."
+      ],
+      "citations": [
+        {
+          "sourceId": "S2",
+          "title": "Sell Better in the Amazon Home Improvement Category",
+          "url": "https://myamazonguy.com/amazon-product-launch/amazon-home-improvement-category",
+          "snippet": "**Sell your beauty products on Amazon**. **Build growth beyond Amazon**Reach high-intent shoppers outside the Amazon marketplace and boost your sales. # Selling in the Amazon Home Improvement Category the Right Way. Amazon Home Improvement Category.png. **Are you planning to bring your home improvement brand to Amazon? If you are, the real question is whether you are ready for the competition, the rules, and the work it takes to win in the Amazon Home Improvement product category.**. One of the categories that continues to perform well on the platform is the Amazon home improvement product category. *In this article, we break down how to successfully sell products in the Amazon Home Improvement category and why it’s a profitable, year-round niche. ## Why Selling Products from the Amazon Home Improvement Category Is Profitable. ## Amazon Policies for Selling Amazon Home Improvement Products. The Amazon Home Improvement category includes a wide range of subcategories, from hand tools and power tools to lighting, fixtures, and home maintenance products.",
+          "demo": false
+        }
+      ],
+      "conflict": null,
+      "demo": false
+    },
+    {
+      "field": "certifications",
+      "value": "Do not mention certifications unless evidence is provided for Iron.",
+      "sourceUrl": "https://www.zippia.com/iron-worker-jobs/certifications",
+      "confidence": 0.55,
+      "notes": "No unverified certification is promoted; missing evidence is retained as a field conflict.",
+      "evidence": [
+        "The best certifications for an iron worker are OSHA Safety Certificate , Certified Welding Engineer, and EPA Amusement Operators Safety Certification (EPA)."
+      ],
+      "citations": [
+        {
+          "sourceId": "S4",
+          "title": "3 Best Iron Worker Certifications in 2026 - Zippia",
+          "url": "https://www.zippia.com/iron-worker-jobs/certifications",
+          "snippet": "The best certifications for an iron worker are OSHA Safety Certificate , Certified Welding Engineer, and EPA Amusement Operators Safety Certification (EPA).",
+          "demo": false
+        }
+      ],
+      "conflict": {
+        "type": "insufficient_evidence",
+        "policy": "do_not_claim_certification"
+      },
+      "demo": false
+    },
+    {
+      "field": "pricing_signals",
+      "value": "live search evidence available; still advisory only",
+      "sourceUrl": "https://uk.pinterest.com/pin/amazonbasics-vanity-mirror-with-heavy-base-1x5x-magnification-white-amazonca-home-kitchen--381187555965247729",
+      "confidence": 0.5,
+      "notes": "Pricing signal is advisory only and never treated as a final price.",
+      "evidence": [
+        "a white round mirror sitting on top of a stand. # Amazon Basics Vanity Mirror with Heavy Base - 1X/5X Magnification, White. ## Comments. ## More about this Pin. ### Board containing this Pin. ### Related interests.",
+        "No price is written back to SSB; reviewer approval is required."
+      ],
+      "citations": [
+        {
+          "sourceId": "S1",
+          "title": "Stylish White Vanity Mirror with 5X Magnification | Cheap small vanity mirror, Cheap desk mirror, Horse makeup mirror",
+          "url": "https://uk.pinterest.com/pin/amazonbasics-vanity-mirror-with-heavy-base-1x5x-magnification-white-amazonca-home-kitchen--381187555965247729",
+          "snippet": "a white round mirror sitting on top of a stand. # Amazon Basics Vanity Mirror with Heavy Base - 1X/5X Magnification, White. ## Comments. ## More about this Pin. ### Board containing this Pin. ### Related interests.",
+          "demo": false
+        }
+      ],
+      "conflict": {
+        "type": "weak_pricing_evidence",
+        "policy": "manual_review_required"
+      },
+      "demo": false
+    }
+  ],
+  "conflicts": [
+    {
+      "type": "research_llm_warning",
+      "message": "Live LLM call failed; deterministic fallback used: The read operation timed out",
+      "policy": "deterministic_evidence_summary"
+    }
+  ],
+  "missingFields": [],
+  "trace": [
+    {
+      "agentName": "Research",
+      "inputSummary": "Enrich SKU SSB-NJ-300001 using 4 cited search result(s), then summarize with LLM field evidence.",
+      "toolCalls": [
+        {
+          "name": "web_search",
+          "input": "Amazon Basics Vanity Mirror with Heavy Base - 1X/5X Magnification, White product specs",
+          "durationMs": 12639
+        },
+        {
+          "name": "web_search",
+          "input": "home_improvement amazon listing requirements",
+          "durationMs": 12639
+        },
+        {
+          "name": "web_search",
+          "input": "home_improvement common selling points",
+          "durationMs": 12639
+        },
+        {
+          "name": "web_search",
+          "input": "Iron safety certification",
+          "durationMs": 12639
+        },
+        {
+          "name": "llm_research_summarizer",
+          "input": "sources=4 required_fields=5",
+          "durationMs": 45250
+        },
+        {
+          "name": "field_evidence_guard",
+          "input": "require citation/evidence/conflict per enriched field",
+          "durationMs": 20
+        }
+      ],
+      "outputArtifact": "5 enriched fields with citations, evidence snippets, and field-level conflicts. Conflicts retained: 1.",
+      "latencyMs": 50558,
+      "inputTokens": 2570,
+      "outputTokens": 352,
+      "estimatedCostUsd": 0.021193,
+      "promptSnippet": "Research Agent: search results -> LLM summary -> sourceUrl/evidence/citation/conflict per field; never fabricate specs.",
+      "warningsOrErrors": "Live LLM call failed; deterministic fallback used: The read operation timed out"
+    }
+  ]
+}

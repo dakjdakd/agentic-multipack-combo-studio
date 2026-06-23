@@ -1,0 +1,9 @@
+{
+  "expectedColor": "unknown",
+  "observedColorInImage": "unknown represented in generated image metadata/prompt",
+  "expectedMaterial": "unknown",
+  "observedMaterialInImage": "unknown represented in generated copy and visual prompt",
+  "expectedUnitCount": 1,
+  "observedUnitCountInImage": 1,
+  "imageCriticVerdict": "Physical consistency check completed for listing. Expected 1 unit(s); generated artifact metadata reports 1. Combo reference: none."
+}

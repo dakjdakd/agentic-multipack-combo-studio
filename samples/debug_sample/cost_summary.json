@@ -1,0 +1,78 @@
+﻿{
+    "targetRmb":  1500,
+    "spentRmb":  3.4053,
+    "remainingRmb":  1497,
+    "forecastRmb":  53.4053,
+    "llmInputTokens":  55843,
+    "llmOutputTokens":  26834,
+    "imageGenerationsCount":  88,
+    "webSearchesCount":  32,
+    "retriesCount":  0,
+    "cachedSavingsRmb":  1.2,
+    "perAgentCosts":  [
+                          {
+                              "name":  "Supervisor",
+                              "calls":  22,
+                              "tokens":  "9,020",
+                              "latency":  "535ms",
+                              "costRmb":  0.0451,
+                              "efficiency":  "tracked"
+                          },
+                          {
+                              "name":  "Compliance",
+                              "calls":  11,
+                              "tokens":  "8,360",
+                              "latency":  "740ms",
+                              "costRmb":  0.0352,
+                              "efficiency":  "tracked"
+                          },
+                          {
+                              "name":  "Critic",
+                              "calls":  11,
+                              "tokens":  "10,340",
+                              "latency":  "880ms",
+                              "costRmb":  0.0409,
+                              "efficiency":  "tracked"
+                          },
+                          {
+                              "name":  "Image",
+                              "calls":  22,
+                              "tokens":  "13,860",
+                              "latency":  "2200ms",
+                              "costRmb":  1.9564,
+                              "efficiency":  "tracked"
+                          },
+                          {
+                              "name":  "Copy",
+                              "calls":  22,
+                              "tokens":  "27,357",
+                              "latency":  "7317ms",
+                              "costRmb":  0.115,
+                              "efficiency":  "tracked"
+                          },
+                          {
+                              "name":  "Research",
+                              "calls":  8,
+                              "tokens":  "10,000",
+                              "latency":  "3864ms",
+                              "costRmb":  1.1917,
+                              "efficiency":  "tracked"
+                          },
+                          {
+                              "name":  "Product Loader",
+                              "calls":  11,
+                              "tokens":  "3,740",
+                              "latency":  "520ms",
+                              "costRmb":  0.0209,
+                              "efficiency":  "tracked"
+                          },
+                          {
+                              "name":  "Research Cache",
+                              "calls":  24,
+                              "tokens":  "21,600",
+                              "latency":  "8ms",
+                              "costRmb":  0.0,
+                              "efficiency":  "tracked"
+                          }
+                      ]
+}

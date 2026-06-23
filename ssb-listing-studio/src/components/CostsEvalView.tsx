@@ -31,6 +31,10 @@ export default function CostsEvalView({
   isLoading
 }: CostsEvalViewProps) {
   const [activeTab, setActiveTab] = useState<'budget' | 'agent' | 'evaluation'>('budget');
+  const llmLabel = [costsBreakdown.llmProvider, costsBreakdown.llmModel].filter(Boolean).join(' / ') || 'Configured LLM';
+  const imageLabel = [costsBreakdown.imageProvider, costsBreakdown.imageModel].filter(Boolean).join(' / ') || 'Configured image provider';
+  const searchLabel = costsBreakdown.searchProvider || 'Configured search provider';
+  const costNotice = costsBreakdown.costNotice || 'Estimated/simulated ledger values only; not an actual provider invoice for this browser run.';
 
   // Fallback display is used only before the backend cost ledger has rows.
   const agentsCostData = costsBreakdown.perAgentCosts && costsBreakdown.perAgentCosts.length > 0 ? costsBreakdown.perAgentCosts : [
@@ -54,12 +58,12 @@ export default function CostsEvalView({
             07 / EXPENSES & QUALITY BENCHMARKS
           </h2>
           <p className="text-xs text-slate-600 mt-1 font-mono">
-            Track computational API cost allocations, budget ceilings, and multi-SKU quality assessment metrics.
+            Track simulated API cost allocations, budget ceilings, and multi-SKU quality assessment metrics.
           </p>
         </div>
         <div className="bg-slate-900 text-[#EEF4F8] text-[10px] font-mono px-3 py-1.5 rounded tracking-wide uppercase flex items-center gap-1.5 border border-slate-700">
           <Coins className="w-4 h-4 text-yellow-400" />
-          RMB BUDGET RUNTIME
+          SIMULATED RMB LEDGER
         </div>
       </div>
 
@@ -106,8 +110,11 @@ export default function CostsEvalView({
             
             {/* Primary progress bar item */}
             <div className="space-y-3 font-mono">
+              <div className="bg-amber-50 border border-amber-300 text-amber-950 rounded p-3 text-[11px] leading-relaxed">
+                <strong className="uppercase">Cost display note:</strong> {costNotice}
+              </div>
               <div className="flex justify-between items-end text-xs text-slate-500 uppercase">
-                <span>Cumulative computational expenditure against budget limit</span>
+                <span>Simulated cumulative computational expenditure against budget limit</span>
                 <span className="font-bold text-[#0B2545]">RMB {budget.spentRmb.toFixed(2)} / RMB {budget.targetRmb.toFixed(2)} Target Limit</span>
               </div>
               <div className="bg-slate-100 h-6 w-full rounded overflow-hidden border border-slate-350 p-1 flex">
@@ -127,12 +134,12 @@ export default function CostsEvalView({
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               
               <div className="p-4 bg-emerald-50 border border-emerald-350 rounded font-mono text-center">
-                <span className="text-[10px] text-emerald-800 uppercase block tracking-wider leading-none">Remaining Funds</span>
+                <span className="text-[10px] text-emerald-800 uppercase block tracking-wider leading-none">Simulated Remaining Budget</span>
                 <div className="text-xl font-bold text-emerald-950 mt-1.5 flex items-center justify-center">
                   <TrendingDown className="w-4 h-4 mr-1 shrink-0" />
                   RMB {budget.remainingRmb.toFixed(2)}
                 </div>
-                <p className="text-[9px] text-emerald-600 mt-1 leading-none uppercase font-semibold">Available for prompt queries</p>
+                <p className="text-[9px] text-emerald-600 mt-1 leading-none uppercase font-semibold">Budget guardrail, not cash balance</p>
               </div>
 
               <div className="p-4 bg-blue-50 border border-blue-350 rounded font-mono text-center">
@@ -141,7 +148,7 @@ export default function CostsEvalView({
                   <TrendingUp className="w-4 h-4 mr-1 shrink-0" />
                   RMB {budget.forecastRmb.toFixed(2)}
                 </div>
-                <p className="text-[9px] text-blue-550 mt-1 leading-none uppercase font-semibold">Projected model cost remaining</p>
+                <p className="text-[9px] text-blue-550 mt-1 leading-none uppercase font-semibold">Projected ledger value</p>
               </div>
 
               <div className="p-4 bg-yellow-50 border border-yellow-350 rounded font-mono text-center">
@@ -150,7 +157,7 @@ export default function CostsEvalView({
                   <CheckCircle2 className="w-4 h-4 mr-1 text-amber-600 shrink-0" />
                   RMB {costsBreakdown.cachedSavingsRmb.toFixed(2)}
                 </div>
-                <p className="text-[9px] text-amber-705 mt-1 leading-none uppercase font-semibold">From cached search indexes</p>
+                <p className="text-[9px] text-amber-705 mt-1 leading-none uppercase font-semibold">Estimated avoided repeat calls</p>
               </div>
 
             </div>
@@ -162,35 +169,35 @@ export default function CostsEvalView({
               </div>
               <div className="divide-y divide-slate-150 font-mono text-xs">
                 
-                <div className="p-3 bg-slate-50/50 flex justify-between items-center">
-                  <span className="font-bold text-slate-650">LLM Input Sequences (Prompt Headers)</span>
+                <div className="p-3 bg-slate-50/50 flex justify-between items-center gap-4">
+                  <span className="font-bold text-slate-650">LLM Input Sequences ({llmLabel})</span>
                   <div className="text-right">
                     <span className="font-bold text-slate-900 block">{costsBreakdown.llmInputTokens.toLocaleString()} Tokens</span>
-                    <span className="text-[10px] text-slate-400">RMB 19.34 equivalent</span>
+                    <span className="text-[10px] text-slate-400">RMB {(costsBreakdown.llmInputCostRmb || 0).toFixed(2)} estimated</span>
                   </div>
                 </div>
 
-                <div className="p-3 bg-slate-50/50 flex justify-between items-center">
-                  <span className="font-bold text-slate-650">LLM Output Sequences (Generated text blocks)</span>
+                <div className="p-3 bg-slate-50/50 flex justify-between items-center gap-4">
+                  <span className="font-bold text-slate-650">LLM Output Sequences ({llmLabel})</span>
                   <div className="text-right">
                     <span className="font-bold text-slate-900 block">{costsBreakdown.llmOutputTokens.toLocaleString()} Tokens</span>
-                    <span className="text-[10px] text-slate-400">RMB 114.71 equivalent</span>
+                    <span className="text-[10px] text-slate-400">RMB {(costsBreakdown.llmOutputCostRmb || 0).toFixed(2)} estimated</span>
                   </div>
                 </div>
 
-                <div className="p-3 bg-slate-50/50 flex justify-between items-center">
-                  <span className="font-bold text-slate-650">Creative Studio Imagery (Agnes Image Generations)</span>
+                <div className="p-3 bg-slate-50/50 flex justify-between items-center gap-4">
+                  <span className="font-bold text-slate-650">Creative Studio Imagery ({imageLabel})</span>
                   <div className="text-right">
                     <span className="font-bold text-slate-900 block">{costsBreakdown.imageGenerationsCount} Images created</span>
-                    <span className="text-[10px] text-slate-400">RMB 145.45 equivalent</span>
+                    <span className="text-[10px] text-slate-400">RMB {(costsBreakdown.imageGenerationCostRmb || 0).toFixed(2)} estimated</span>
                   </div>
                 </div>
 
-                <div className="p-3 bg-slate-50/50 flex justify-between items-center">
-                  <span className="font-bold text-slate-650">Web Search Grounding requests (Tavily Search API)</span>
+                <div className="p-3 bg-slate-50/50 flex justify-between items-center gap-4">
+                  <span className="font-bold text-slate-650">Web Search Grounding requests ({searchLabel})</span>
                   <div className="text-right">
                     <span className="font-bold text-slate-900 block">{costsBreakdown.webSearchesCount} Queries executed</span>
-                    <span className="text-[10px] text-slate-400">RMB 4.80 equivalent</span>
+                    <span className="text-[10px] text-slate-400">RMB {(costsBreakdown.webSearchCostRmb || 0).toFixed(2)} estimated</span>
                   </div>
                 </div>
 
@@ -198,7 +205,7 @@ export default function CostsEvalView({
                   <span className="font-bold text-slate-650">Prompt Compiler Retries (Errors shielding resilience)</span>
                   <div className="text-right">
                     <span className="font-bold text-slate-900 block">{costsBreakdown.retriesCount} Automatic attempts</span>
-                    <span className="text-[10px] text-rose-500">RMB 0.20 extra charges</span>
+                    <span className="text-[10px] text-rose-500">RMB {(costsBreakdown.retriesCostRmb || 0).toFixed(2)} estimated</span>
                   </div>
                 </div>
 
@@ -214,10 +221,10 @@ export default function CostsEvalView({
             </h4>
             <div className="font-mono text-xs space-y-2 leading-relaxed">
               <p>
-                <strong>Operational Constraint Rule:</strong> Listing creation uses deterministic local providers when demo mode is active, reducing actual DeepSeek, Agnes Image, and Tavily API spend.
+                <strong>Operational Constraint Rule:</strong> Listing creation uses deterministic local providers when demo mode is active, reducing actual {llmLabel}, {imageLabel}, and {searchLabel} spend.
               </p>
               <p className="text-[#A3BFD9] text-[11px]">
-                In non-demo mode, each full listing compilation carries an approximate cost of CNY RMB 1.28 calculated by token lengths, and search groundings.
+                In non-demo mode, this panel still shows estimated CNY values calculated from configured unit prices, token lengths, image counts, and search groundings.
               </p>
             </div>
           </div>

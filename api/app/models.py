@@ -145,11 +145,23 @@ class CostSummary(BaseModel):
     spentRmb: float
     remainingRmb: float
     forecastRmb: float
+    costBasis: str = "estimated"
+    costNotice: str = "Estimated ledger values only; not an actual provider invoice for this browser run."
+    llmProvider: str = ""
+    llmModel: str = ""
+    imageProvider: str = ""
+    imageModel: str = ""
+    searchProvider: str = ""
     llmInputTokens: int = 0
     llmOutputTokens: int = 0
+    llmInputCostRmb: float = 0
+    llmOutputCostRmb: float = 0
     imageGenerationsCount: int = 0
+    imageGenerationCostRmb: float = 0
     webSearchesCount: int = 0
+    webSearchCostRmb: float = 0
     retriesCount: int = 0
+    retriesCostRmb: float = 0
     cachedSavingsRmb: float = 0
     perAgentCosts: list[dict[str, Any]] = Field(default_factory=list)
 

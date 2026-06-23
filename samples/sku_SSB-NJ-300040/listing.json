@@ -1,0 +1,78 @@
+{
+  "sku": "SSB-NJ-300040",
+  "title": "Primero Basics 5-Level Adjustable Standing Desk Converter, Portable Electronic Computer Workstation",
+  "bullets": [
+    "5-level height adjustment lets you customize the riser to your ideal standing or sitting position for improved comfort and productivity.",
+    "Portable and lightweight design makes it easy to move between workspaces or store when not in use.",
+    "Spacious platform accommodates a monitor, laptop, keyboard, and other accessories, keeping everything within arm's reach.",
+    "Sturdy and stable construction provides a wobble-free typing experience, supporting your devices securely.",
+    "Simple, tool-free setup allows you to start working in minutes, perfect for home office, corporate, or remote work environments."
+  ],
+  "description": "Transform your desk into a fully adjustable standing workstation with the Primero Basics 5-Level Standing Desk Converter. Whether you're looking to reduce back pain, increase energy, or simply change your work routine, this portable riser offers 5 height settings to find the perfect ergonomic fit. Its spacious surface holds your monitor, laptop, and accessories, while the sturdy build keeps everything stable. Lightweight and easy to set up, you can switch between sitting and standing in seconds without any tools. Ideal for home offices, corporate desks, or anywhere you need a healthier workspace.",
+  "searchTerms": "sit stand desk converter height adjustable riser standing computer portable ergonomic workstation laptop topper monitor dual level office primerobasics primero basics product",
+  "aPlusModules": [
+    {
+      "id": "ap-hero",
+      "moduleType": "hero_full_width",
+      "type": "header-text",
+      "headline": "Catalog-Faithful Product Story",
+      "title": "Catalog-Faithful Product Story",
+      "body": "A+ content is generated from SSB attributes, source-cited enrichment, and compliance constraints.",
+      "imagePath": "/artifacts/job_06986496d0/a_plus_hero.jpg",
+      "imageUrl": "/artifacts/job_06986496d0/a_plus_hero.jpg",
+      "altText": "Primero Basics Product ",
+      "imageSize": "970x600"
+    },
+    {
+      "id": "ap-feature",
+      "moduleType": "feature_detail",
+      "type": "single-image-sidebar",
+      "headline": "Measured Physical Details",
+      "title": "Measured Physical Details",
+      "body": "Dimensions: unknown x unknown x unknown in. Weight: unknown lb. Material: unknown.",
+      "imagePath": "/artifacts/job_06986496d0/infographic.jpg",
+      "imageUrl": "/artifacts/job_06986496d0/infographic.jpg",
+      "altText": "SSB-NJ-300040 dimensions material color",
+      "imageSize": "970x300"
+    },
+    {
+      "id": "ap-spec",
+      "moduleType": "spec_comparison",
+      "type": "three-column",
+      "headline": "Review-Ready Compliance",
+      "title": "Review-Ready Compliance",
+      "body": "The system validates title length, bullets, backend search bytes, alt text, main image size, and white background.",
+      "imagePath": "/artifacts/job_06986496d0/infographic.jpg",
+      "imageUrl": "/artifacts/job_06986496d0/infographic.jpg",
+      "altText": "SSB-NJ-300040 compliance checked listing",
+      "imageSize": "970x600"
+    }
+  ],
+  "images": {
+    "main": "/artifacts/job_06986496d0/main.jpg",
+    "lifestyle": "/artifacts/job_06986496d0/lifestyle.jpg",
+    "infographic": "/artifacts/job_06986496d0/infographic.jpg",
+    "aPlus": "/artifacts/job_06986496d0/a_plus_hero.jpg"
+  },
+  "compliancePassed": false,
+  "score": 93.8,
+  "physicalAttributes": {
+    "weight": {
+      "value": null,
+      "unit": "lb"
+    },
+    "dimensions": {
+      "length": null,
+      "width": null,
+      "height": null,
+      "unit": "in"
+    },
+    "unitCount": 1,
+    "workflowType": "listing",
+    "sourceSkus": [
+      "SSB-NJ-300040"
+    ],
+    "recomputedWeight": null,
+    "recomputedDimensions": null
+  }
+}

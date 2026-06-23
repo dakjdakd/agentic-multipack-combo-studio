@@ -157,11 +157,23 @@ export interface BudgetConfig {
 }
 
 export interface CostBreakdown {
+  costBasis?: string;
+  costNotice?: string;
+  llmProvider?: string;
+  llmModel?: string;
+  imageProvider?: string;
+  imageModel?: string;
+  searchProvider?: string;
   llmInputTokens: number;
   llmOutputTokens: number;
+  llmInputCostRmb?: number;
+  llmOutputCostRmb?: number;
   imageGenerationsCount: number;
+  imageGenerationCostRmb?: number;
   webSearchesCount: number;
+  webSearchCostRmb?: number;
   retriesCount: number;
+  retriesCostRmb?: number;
   cachedSavingsRmb: number;
   perAgentCosts?: {
     name: string;
@@ -198,6 +210,7 @@ export interface SettingsState {
   searchProvider: string;
   searchBaseUrlConfigured?: boolean;
   visionModel?: string;
+  budgetTargetRmb?: number;
   secretsExposed?: boolean;
   messages?: string[];
 }

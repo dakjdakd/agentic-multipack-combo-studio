@@ -1,0 +1,78 @@
+{
+  "sku": "SSB-NJ-300007",
+  "title": "AB Pet Feeder - 12.99 x 12.99 x 2.99 Inch Feeding Mat, Lightweight (0.99 lb)",
+  "bullets": [
+    "Dimensions: 12.99 x 12.99 x 2.99 inches, providing a spacious feeding area for pets",
+    "Lightweight at only 0.99 lb, making it easy to move and clean",
+    "Slim profile allows for convenient storage when not in use",
+    "Suitable for both dogs and cats, fits seamlessly into any home",
+    "Simple and functional design for everyday feeding needs"
+  ],
+  "description": "The AB Pet Feeder offers a simple and effective feeding solution for your pet. With dimensions of 12.99 x 12.99 x 2.99 inches and a weight of just 0.99 lb, this mat is easy to place, move, and clean. Its compact size is ideal for both small and medium pets, providing a designated feeding area without taking up much space. Designed for practicality, it helps keep your floors clean while ensuring your pet has a comfortable space to eat. Whether you have a dog or a cat, this feeder integrates effortlessly into your daily routine.",
+  "searchTerms": "pet feeder dog bowl cat feeding mat dish food tray ab product",
+  "aPlusModules": [
+    {
+      "id": "ap-hero",
+      "moduleType": "hero_full_width",
+      "type": "header-text",
+      "headline": "Catalog-Faithful Product Story",
+      "title": "Catalog-Faithful Product Story",
+      "body": "A+ content is generated from SSB attributes, source-cited enrichment, and compliance constraints.",
+      "imagePath": "/artifacts/job_1df35add66/a_plus_hero.jpg",
+      "imageUrl": "/artifacts/job_1df35add66/a_plus_hero.jpg",
+      "altText": "AB Product ",
+      "imageSize": "970x600"
+    },
+    {
+      "id": "ap-feature",
+      "moduleType": "feature_detail",
+      "type": "single-image-sidebar",
+      "headline": "Measured Physical Details",
+      "title": "Measured Physical Details",
+      "body": "Dimensions: 12.99 x 12.99 x 2.99 in. Weight: 0.99 lb. Material: unknown.",
+      "imagePath": "/artifacts/job_1df35add66/infographic.jpg",
+      "imageUrl": "/artifacts/job_1df35add66/infographic.jpg",
+      "altText": "SSB-NJ-300007 dimensions material color",
+      "imageSize": "970x300"
+    },
+    {
+      "id": "ap-spec",
+      "moduleType": "spec_comparison",
+      "type": "three-column",
+      "headline": "Review-Ready Compliance",
+      "title": "Review-Ready Compliance",
+      "body": "The system validates title length, bullets, backend search bytes, alt text, main image size, and white background.",
+      "imagePath": "/artifacts/job_1df35add66/infographic.jpg",
+      "imageUrl": "/artifacts/job_1df35add66/infographic.jpg",
+      "altText": "SSB-NJ-300007 compliance checked listing",
+      "imageSize": "970x600"
+    }
+  ],
+  "images": {
+    "main": "/artifacts/job_1df35add66/main.jpg",
+    "lifestyle": "/artifacts/job_1df35add66/lifestyle.jpg",
+    "infographic": "/artifacts/job_1df35add66/infographic.jpg",
+    "aPlus": "/artifacts/job_1df35add66/a_plus_hero.jpg"
+  },
+  "compliancePassed": false,
+  "score": 93.8,
+  "physicalAttributes": {
+    "weight": {
+      "value": 0.99,
+      "unit": "lb"
+    },
+    "dimensions": {
+      "length": 12.99,
+      "width": 12.99,
+      "height": 2.99,
+      "unit": "in"
+    },
+    "unitCount": 1,
+    "workflowType": "listing",
+    "sourceSkus": [
+      "SSB-NJ-300007"
+    ],
+    "recomputedWeight": null,
+    "recomputedDimensions": null
+  }
+}

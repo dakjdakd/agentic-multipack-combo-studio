@@ -1,0 +1,45 @@
+{
+  "sku": "SSB-NJ-300066",
+  "workflowType": "listing",
+  "title": {
+    "before": "AmazonBasics Tie-Out Cable for Dogs up to 60lbs, 25 Feet",
+    "after": "AB pet_products -  , Measured unknown x unknown x unknown in"
+  },
+  "unitCount": {
+    "before": 1,
+    "after": 1
+  },
+  "weight": {
+    "before": {
+      "value": null,
+      "unit": "lb"
+    },
+    "after": {
+      "value": null,
+      "unit": "lb"
+    }
+  },
+  "dimensions": {
+    "before": {
+      "length": null,
+      "width": null,
+      "height": null,
+      "unit": "in"
+    },
+    "after": {
+      "length": null,
+      "width": null,
+      "height": null,
+      "unit": "in"
+    }
+  },
+  "images": {
+    "after": {
+      "main": "/artifacts/job_1061c44dfe/main.jpg",
+      "lifestyle": "/artifacts/job_1061c44dfe/lifestyle.jpg",
+      "infographic": "/artifacts/job_1061c44dfe/infographic.jpg",
+      "aPlus": "/artifacts/job_1061c44dfe/a_plus_hero.jpg"
+    }
+  },
+  "compliancePassed": false
+}

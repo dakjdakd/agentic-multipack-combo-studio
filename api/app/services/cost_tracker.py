@@ -64,6 +64,10 @@ class CostTracker:
         cached_tokens = sum(int(r["cached_input_tokens"] or 0) for r in rows)
         images = sum(int(r["image_count"] or 0) for r in rows)
         searches = sum(int(r["search_count"] or 0) for r in rows)
+        llm_input_cost_rmb = (input_tokens / 1_000_000 * self.settings.llm_input_usd_per_million) * self.settings.usd_to_rmb
+        llm_output_cost_rmb = (output_tokens / 1_000_000 * self.settings.llm_output_usd_per_million) * self.settings.usd_to_rmb
+        image_cost_rmb = images * self.settings.image_generation_usd * self.settings.usd_to_rmb
+        search_cost_rmb = searches * self.settings.search_request_usd * self.settings.usd_to_rmb
         grouped: dict[str, dict[str, Any]] = defaultdict(lambda: {"name": "", "calls": 0, "tokens": 0, "latencyMs": 0, "costRmb": 0.0})
         for row in rows:
             name = row["agent_name"] or "Unknown"
@@ -93,11 +97,23 @@ class CostTracker:
             spentRmb=round(spent, 4),
             remainingRmb=round(max(0.0, self.settings.budget_target_rmb - spent), 4),
             forecastRmb=round(min(self.settings.budget_target_rmb, forecast), 4),
+            costBasis="estimated",
+            costNotice="Estimated/simulated ledger values only. They are calculated from configured unit prices and recorded token/search/image counts; they are not an actual provider invoice for this browser run.",
+            llmProvider=self.settings.llm_provider,
+            llmModel=self.settings.llm_model,
+            imageProvider=self.settings.image_provider,
+            imageModel=self.settings.image_model,
+            searchProvider=self.settings.search_provider,
             llmInputTokens=input_tokens,
             llmOutputTokens=output_tokens,
+            llmInputCostRmb=round(llm_input_cost_rmb, 4),
+            llmOutputCostRmb=round(llm_output_cost_rmb, 4),
             imageGenerationsCount=images,
+            imageGenerationCostRmb=round(image_cost_rmb, 4),
             webSearchesCount=searches,
+            webSearchCostRmb=round(search_cost_rmb, 4),
             retriesCount=0,
+            retriesCostRmb=0,
             cachedSavingsRmb=round((cached_tokens / 1_000_000 * self.settings.llm_input_usd_per_million) * self.settings.usd_to_rmb + searches * self.settings.search_request_usd * self.settings.usd_to_rmb, 2),
             perAgentCosts=per_agent,
         )

@@ -1,0 +1,196 @@
+{
+  "jobId": "enrich_272b5859e5",
+  "sku": "SSB-NJ-300018",
+  "cacheHit": true,
+  "enrichedFields": [
+    {
+      "field": "category_norm",
+      "value": "General Amazon Product",
+      "sourceUrl": "https://api-services.vescom.com/product/specsheet/swan/zh-CN",
+      "confidence": 0.78,
+      "notes": "Category normalized from SSB category and cited listing/spec guidance.",
+      "evidence": [
+        "SSB category: missing",
+        "产品. 窗帘. 描述. 基本透明的窗帘，天然哑光外观. 成分. 100% 阻燃聚酯纤维. 宽幅. ± 300 cm, ± 118 inches. 重量. ± 285 gr/m¹, ± 9 oz/yd¹. 视觉及热舒适控制. EN 410/EN"
+      ],
+      "citations": [
+        {
+          "sourceId": "S1",
+          "title": "[PDF] 天然哑光外观100% 阻燃聚酯纤维 - Vescom",
+          "url": "https://api-services.vescom.com/product/specsheet/swan/zh-CN",
+          "snippet": "产品. 窗帘. 描述. 基本透明的窗帘，天然哑光外观. 成分. 100% 阻燃聚酯纤维. 宽幅. ± 300 cm, ± 118 inches. 重量. ± 285 gr/m¹, ± 9 oz/yd¹. 视觉及热舒适控制. EN 410/EN",
+          "demo": false
+        }
+      ],
+      "conflict": null,
+      "demo": false
+    },
+    {
+      "field": "common_selling_points",
+      "value": [
+        "Emphasize documented material construction only when the SKU record supports it.",
+        "Showcase catalog color visual consistency across copy and images.",
+        "Highlight measured dimensions and everyday usage scenarios without inventing performance claims."
+      ],
+      "sourceUrl": "https://www.brightonescrow.com/top-10-home-selling-points-you-should-know",
+      "confidence": 0.74,
+      "notes": "Selling points are derived from product attributes plus marketplace content norms.",
+      "evidence": [
+        "# Top 10 Home Selling Points You Should Know. Home  Home Inspection  Top 10 Home Selling Points You Should Know. If you’re planning to sell your home, you’ll want to make sure that it stands out from the competition. There are a number of factors that can make a home more appealing to potential buyers, and focusing on these “selling points” can help you get a better price and sell your home more quickly. In this article, we’ll take a look at 10 of the top home selling points, and offer some tips on how to make the most of them. The location of your home can be a major selling point, especially if it’s in a desirable neighborhood or close to popular amenities like parks, shopping centers, and schools. If you’re planning to sell your home, focusing on these top selling points can help you attract more buyers and sell your home more quickly.",
+        "Source-of-truth physical attributes remain SKU SSB-NJ-300018."
+      ],
+      "citations": [
+        {
+          "sourceId": "S3",
+          "title": "Top 10 Home Selling Points You Should Know | Brighton Escrow, Inc.",
+          "url": "https://www.brightonescrow.com/top-10-home-selling-points-you-should-know",
+          "snippet": "# Top 10 Home Selling Points You Should Know. Home  Home Inspection  Top 10 Home Selling Points You Should Know. If you’re planning to sell your home, you’ll want to make sure that it stands out from the competition. There are a number of factors that can make a home more appealing to potential buyers, and focusing on these “selling points” can help you get a better price and sell your home more quickly. In this article, we’ll take a look at 10 of the top home selling points, and offer some tips on how to make the most of them. The location of your home can be a major selling point, especially if it’s in a desirable neighborhood or close to popular amenities like parks, shopping centers, and schools. If you’re planning to sell your home, focusing on these top selling points can help you attract more buyers and sell your home more quickly.",
+          "demo": false
+        }
+      ],
+      "conflict": null,
+      "demo": false
+    },
+    {
+      "field": "compliance_keywords",
+      "value": [
+        "brand-first title",
+        "no promotional claims",
+        "backend search terms under 250 bytes"
+      ],
+      "sourceUrl": "https://sellercentral.amazon.com/gp/help/external/G200301050",
+      "confidence": 0.72,
+      "notes": "Compliance-safe keyword handling for Amazon listing content.",
+      "evidence": [
+        "Image 2**Get over $50K in potential incentives when you start selling with Amazon.**Learn how. *   Image 3Image 4: Amazon Seller Central logo. # Category, product, and listing restrictions. If you list products on Amazon, you must comply with all applicable laws, regulations, standards, and our policies related to those products and product listings. To maintain a safe and trustworthy shopping experience, certain products cannot be listed or sold on Amazon due to legal, regulatory (for example, prescription drugs), or policy restrictions (for example, crime scene photos). For detailed information on excluded products, prohibited content, and categories requiring prior approval, see the resources below. ## Product compliance requirements. *   Categories and products requiring approval. ## Safety and labeling requirements. *   Marking and labeling requirements for children's products. ## Content and listing requirements. *   Safety, compliance, and product restrictions. Selling on Amazon Business fee schedule. Fee category guidelines for your products. Visit Seller ForumsSee more on Seller Central. Image 8: Amazon Seller Central logo.",
+        "Compliance keywords are generic listing constraints, not product performance claims."
+      ],
+      "citations": [
+        {
+          "sourceId": "S2",
+          "title": "Category, product, and listing restrictions",
+          "url": "https://sellercentral.amazon.com/gp/help/external/G200301050",
+          "snippet": "Image 2**Get over $50K in potential incentives when you start selling with Amazon.**Learn how. *   Image 3Image 4: Amazon Seller Central logo. # Category, product, and listing restrictions. If you list products on Amazon, you must comply with all applicable laws, regulations, standards, and our policies related to those products and product listings. To maintain a safe and trustworthy shopping experience, certain products cannot be listed or sold on Amazon due to legal, regulatory (for example, prescription drugs), or policy restrictions (for example, crime scene photos). For detailed information on excluded products, prohibited content, and categories requiring prior approval, see the resources below. ## Product compliance requirements. *   Categories and products requiring approval. ## Safety and labeling requirements. *   Marking and labeling requirements for children's products. ## Content and listing requirements. *   Safety, compliance, and product restrictions. Selling on Amazon Business fee schedule. Fee category guidelines for your products. Visit Seller ForumsSee more on Seller Central. Image 8: Amazon Seller Central logo.",
+          "demo": false
+        }
+      ],
+      "conflict": null,
+      "demo": false
+    },
+    {
+      "field": "certifications",
+      "value": "not found",
+      "sourceUrl": "https://www.columbiasouthern.edu/blog/blog-articles/2020/april/safety-certifications",
+      "confidence": 0.55,
+      "notes": "No unverified certification is promoted; missing evidence is retained as a field conflict.",
+      "evidence": [
+        "In addition to formal education, a growing number of companies are looking for occupational safety and health specialists who hold professional safety certifications. Many positions in the industry require a bachelor’s degree, and others require a master’s, but certifications can be just as important to companies that prioritize workplace safety and seek to minimize Occupational Safety and Health Administration (OSHA) violations. A professional safety certification is a designation for occupational safety and health specialists that proves that they have the experience, knowledge and skills required to be successful in preventing safety violations and promoting a safe work environment. A certification tells employers that you have not only completed the necessary education, but you also have experience in the field and the knowledge required to pass a specialized exam. The CSP® has similar requirements for the type of work you do, but you must have at least four years of work experience in the field and a bachelor’s degree is required."
+      ],
+      "citations": [
+        {
+          "sourceId": "S4",
+          "title": "Safety Certifications: Which Are Right for You? [Flowchart] | The Link",
+          "url": "https://www.columbiasouthern.edu/blog/blog-articles/2020/april/safety-certifications",
+          "snippet": "In addition to formal education, a growing number of companies are looking for occupational safety and health specialists who hold professional safety certifications. Many positions in the industry require a bachelor’s degree, and others require a master’s, but certifications can be just as important to companies that prioritize workplace safety and seek to minimize Occupational Safety and Health Administration (OSHA) violations. A professional safety certification is a designation for occupational safety and health specialists that proves that they have the experience, knowledge and skills required to be successful in preventing safety violations and promoting a safe work environment. A certification tells employers that you have not only completed the necessary education, but you also have experience in the field and the knowledge required to pass a specialized exam. The CSP® has similar requirements for the type of work you do, but you must have at least four years of work experience in the field and a bachelor’s degree is required.",
+          "demo": false
+        }
+      ],
+      "conflict": {
+        "type": "insufficient_evidence",
+        "policy": "do_not_claim_certification"
+      },
+      "demo": false
+    },
+    {
+      "field": "pricing_signals",
+      "value": "live search evidence available; still advisory only",
+      "sourceUrl": "https://api-services.vescom.com/product/specsheet/swan/zh-CN",
+      "confidence": 0.5,
+      "notes": "Pricing signal is advisory only and never treated as a final price.",
+      "evidence": [
+        "产品. 窗帘. 描述. 基本透明的窗帘，天然哑光外观. 成分. 100% 阻燃聚酯纤维. 宽幅. ± 300 cm, ± 118 inches. 重量. ± 285 gr/m¹, ± 9 oz/yd¹. 视觉及热舒适控制. EN 410/EN",
+        "No price is written back to SSB; reviewer approval is required."
+      ],
+      "citations": [
+        {
+          "sourceId": "S1",
+          "title": "[PDF] 天然哑光外观100% 阻燃聚酯纤维 - Vescom",
+          "url": "https://api-services.vescom.com/product/specsheet/swan/zh-CN",
+          "snippet": "产品. 窗帘. 描述. 基本透明的窗帘，天然哑光外观. 成分. 100% 阻燃聚酯纤维. 宽幅. ± 300 cm, ± 118 inches. 重量. ± 285 gr/m¹, ± 9 oz/yd¹. 视觉及热舒适控制. EN 410/EN",
+          "demo": false
+        }
+      ],
+      "conflict": {
+        "type": "weak_pricing_evidence",
+        "policy": "manual_review_required"
+      },
+      "demo": false
+    }
+  ],
+  "conflicts": [
+    {
+      "type": "missing_product_fields",
+      "fields": [
+        "category",
+        "color",
+        "material"
+      ],
+      "policy": "do_not_fabricate"
+    },
+    {
+      "type": "research_llm_warning",
+      "message": "Live LLM call failed; deterministic fallback used: The read operation timed out",
+      "policy": "deterministic_evidence_summary"
+    }
+  ],
+  "missingFields": [
+    "category",
+    "color",
+    "material"
+  ],
+  "trace": [
+    {
+      "agentName": "Research",
+      "inputSummary": "Enrich SKU SSB-NJ-300018 using 4 cited search result(s), then summarize with LLM field evidence.",
+      "toolCalls": [
+        {
+          "name": "web_search",
+          "input": "合纤窗帘 product specs",
+          "durationMs": 13486
+        },
+        {
+          "name": "web_search",
+          "input": " amazon listing requirements",
+          "durationMs": 13486
+        },
+        {
+          "name": "web_search",
+          "input": " common selling points",
+          "durationMs": 13486
+        },
+        {
+          "name": "web_search",
+          "input": " safety certification",
+          "durationMs": 13486
+        },
+        {
+          "name": "llm_research_summarizer",
+          "input": "sources=4 required_fields=5",
+          "durationMs": 48101
+        },
+        {
+          "name": "field_evidence_guard",
+          "input": "require citation/evidence/conflict per enriched field",
+          "durationMs": 20
+        }
+      ],
+      "outputArtifact": "5 enriched fields with citations, evidence snippets, and field-level conflicts. Conflicts retained: 2.",
+      "latencyMs": 53947,
+      "inputTokens": 2615,
+      "outputTokens": 352,
+      "estimatedCostUsd": 0.021207,
+      "promptSnippet": "Research Agent: search results -> LLM summary -> sourceUrl/evidence/citation/conflict per field; never fabricate specs.",
+      "warningsOrErrors": "Live LLM call failed; deterministic fallback used: The read operation timed out"
+    }
+  ]
+}

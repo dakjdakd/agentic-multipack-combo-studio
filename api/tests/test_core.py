@@ -48,6 +48,15 @@ def test_agnes_endpoint_builder():
     assert provider._agnes_endpoint() == "https://apihub.agnes-ai.com/v1/images/generations"
 
 
+def test_agnes_img2img_payload_keeps_reference_image():
+    provider = ImageProvider(Settings(image_provider="agnes", image_base_url="https://apihub.agnes-ai.com"))
+    payloads = provider._agnes_payloads("Keep product shape", "1024x1024", "data:image/png;base64,abc")
+
+    assert payloads[0]["extra_body"]["image"] == ["data:image/png;base64,abc"]
+    assert payloads[0]["extra_body"]["response_format"] == "b64_json"
+    assert payloads[1]["image"] == ["data:image/png;base64,abc"]
+
+
 def test_cost_estimate_uses_configured_agnes_unit_price():
     class DummyStore:
         pass

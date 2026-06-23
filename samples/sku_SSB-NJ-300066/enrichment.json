@@ -1,0 +1,204 @@
+{
+  "jobId": "enrich_e0499f059d",
+  "sku": "SSB-NJ-300066",
+  "cacheHit": true,
+  "enrichedFields": [
+    {
+      "field": "category_norm",
+      "value": "pet_products",
+      "sourceUrl": "https://brandclub.com/Amazon-Basics-TieOut-Cable-for-Dogs-up/p/27D1B660/product",
+      "confidence": 0.78,
+      "notes": "Category normalized from SSB category and cited listing/spec guidance.",
+      "evidence": [
+        "SSB category: pet_products",
+        "AmazonBasics Tie-Out Cable for Dogs up to 60lbs, 25 Feet. $6.99. retailer-logo. purchase-reward-icon"
+      ],
+      "citations": [
+        {
+          "sourceId": "S1",
+          "title": "AmazonBasics - Brandclub - Amazon Basics Tie-Out Cable for Dogs ...",
+          "url": "https://brandclub.com/Amazon-Basics-TieOut-Cable-for-Dogs-up/p/27D1B660/product",
+          "snippet": "AmazonBasics Tie-Out Cable for Dogs up to 60lbs, 25 Feet. $6.99. retailer-logo. purchase-reward-icon",
+          "demo": false
+        }
+      ],
+      "conflict": null,
+      "demo": false
+    },
+    {
+      "field": "common_selling_points",
+      "value": [
+        "Emphasize documented material construction only when the SKU record supports it.",
+        "Showcase catalog color visual consistency across copy and images.",
+        "Highlight measured dimensions and everyday usage scenarios without inventing performance claims."
+      ],
+      "sourceUrl": "https://www.qeretail.com/blog/top-selling-pet-products",
+      "confidence": 0.74,
+      "notes": "Selling points are derived from product attributes plus marketplace content norms.",
+      "evidence": [
+        "# Top Selling Pet Products: A Must-Read for eCommerce Store Owners in 2024. The love for animals and pets is booming across the globe, and so is the pet care industry. With the pet market projected to hit $358.62 billion by 2027 and Americans spending a whopping $103.6 billion annually on pet products, it’s clear that pets hold a special place in buyers’ hearts and wallets. And so these online top selling pet products. In this blog, we’ll uncover the top selling pet products & trends shaping the pet care industry in 2024, from high-tech gadgets to eco-friendly solutions. ## Top selling pet products online in 2024 are:. The global market for pet meal kit delivery services, valued at USD 1.67 billion in 2020, is expected to grow at a robust CAGR of 15.3% from 2021 to 2028. The global market for automatic and smart pet feeders is booming, starting at $1,847.05 million in 2022 and is expected to reach an impressive $5,061.95 million by 2030.",
+        "Source-of-truth physical attributes remain SKU SSB-NJ-300066."
+      ],
+      "citations": [
+        {
+          "sourceId": "S3",
+          "title": "Top Selling Pet Products - Must Read Guide for 2024 eCommerce Owners - QeRetail",
+          "url": "https://www.qeretail.com/blog/top-selling-pet-products",
+          "snippet": "# Top Selling Pet Products: A Must-Read for eCommerce Store Owners in 2024. The love for animals and pets is booming across the globe, and so is the pet care industry. With the pet market projected to hit $358.62 billion by 2027 and Americans spending a whopping $103.6 billion annually on pet products, it’s clear that pets hold a special place in buyers’ hearts and wallets. And so these online top selling pet products. In this blog, we’ll uncover the top selling pet products & trends shaping the pet care industry in 2024, from high-tech gadgets to eco-friendly solutions. ## Top selling pet products online in 2024 are:. The global market for pet meal kit delivery services, valued at USD 1.67 billion in 2020, is expected to grow at a robust CAGR of 15.3% from 2021 to 2028. The global market for automatic and smart pet feeders is booming, starting at $1,847.05 million in 2022 and is expected to reach an impressive $5,061.95 million by 2030.",
+          "demo": false
+        }
+      ],
+      "conflict": null,
+      "demo": false
+    },
+    {
+      "field": "compliance_keywords",
+      "value": [
+        "brand-first title",
+        "no promotional claims",
+        "backend search terms under 250 bytes"
+      ],
+      "sourceUrl": "https://sellercentral.amazon.com/seller-forums/discussions/t/a562d83d-9a53-4a9a-b7e0-1cdd03c6e4b9",
+      "confidence": 0.72,
+      "notes": "Compliance-safe keyword handling for Amazon listing content.",
+      "evidence": [
+        "##### Seller Forums. # Pet Product Requirements Question. I am selling my own brand of products with FBA currently and am considering expanding my product line to include some things for pets. I've seen some comments about Amazon not accepting new applications to sell in the Pet category, and I'm wondering if that is something that can be overcome or if that should deter me from even venturing into that category. I am also wondering if there are any certifications/ testing reports Amazon will ask for to show my product is safe for pets. Just trying to do my due diligence and identify pitfalls ahead of time before I spend the money to manufacture the products. Thank you for reaching out to us regarding pet product selling guidelines. Since the requirements vary depending on your specific pet product type, please review the help page here to understand basic requirements:. Please contact Seller Support for specific approval requirements for your product.",
+        "Compliance keywords are generic listing constraints, not product performance claims."
+      ],
+      "citations": [
+        {
+          "sourceId": "S2",
+          "title": "Pet Product Requirements Question",
+          "url": "https://sellercentral.amazon.com/seller-forums/discussions/t/a562d83d-9a53-4a9a-b7e0-1cdd03c6e4b9",
+          "snippet": "##### Seller Forums. # Pet Product Requirements Question. I am selling my own brand of products with FBA currently and am considering expanding my product line to include some things for pets. I've seen some comments about Amazon not accepting new applications to sell in the Pet category, and I'm wondering if that is something that can be overcome or if that should deter me from even venturing into that category. I am also wondering if there are any certifications/ testing reports Amazon will ask for to show my product is safe for pets. Just trying to do my due diligence and identify pitfalls ahead of time before I spend the money to manufacture the products. Thank you for reaching out to us regarding pet product selling guidelines. Since the requirements vary depending on your specific pet product type, please review the help page here to understand basic requirements:. Please contact Seller Support for specific approval requirements for your product.",
+          "demo": false
+        }
+      ],
+      "conflict": null,
+      "demo": false
+    },
+    {
+      "field": "certifications",
+      "value": "not found",
+      "sourceUrl": "https://www.tuvsud.com/en-us/services/product-certification/ps-cert/certification-mark-for-consumer-products-for-pets",
+      "confidence": 0.55,
+      "notes": "No unverified certification is promoted; missing evidence is retained as a field conflict.",
+      "evidence": [
+        "Certification is to determine whether the products are suitable for pets and their owners and to verify compliance with the threshold values of certain"
+      ],
+      "citations": [
+        {
+          "sourceId": "S4",
+          "title": "Certification mark for consumer products for pets - TÜV SÜD",
+          "url": "https://www.tuvsud.com/en-us/services/product-certification/ps-cert/certification-mark-for-consumer-products-for-pets",
+          "snippet": "Certification is to determine whether the products are suitable for pets and their owners and to verify compliance with the threshold values of certain",
+          "demo": false
+        }
+      ],
+      "conflict": {
+        "type": "insufficient_evidence",
+        "policy": "do_not_claim_certification"
+      },
+      "demo": false
+    },
+    {
+      "field": "pricing_signals",
+      "value": "live search evidence available; still advisory only",
+      "sourceUrl": "https://brandclub.com/Amazon-Basics-TieOut-Cable-for-Dogs-up/p/27D1B660/product",
+      "confidence": 0.5,
+      "notes": "Pricing signal is advisory only and never treated as a final price.",
+      "evidence": [
+        "AmazonBasics Tie-Out Cable for Dogs up to 60lbs, 25 Feet. $6.99. retailer-logo. purchase-reward-icon",
+        "No price is written back to SSB; reviewer approval is required."
+      ],
+      "citations": [
+        {
+          "sourceId": "S1",
+          "title": "AmazonBasics - Brandclub - Amazon Basics Tie-Out Cable for Dogs ...",
+          "url": "https://brandclub.com/Amazon-Basics-TieOut-Cable-for-Dogs-up/p/27D1B660/product",
+          "snippet": "AmazonBasics Tie-Out Cable for Dogs up to 60lbs, 25 Feet. $6.99. retailer-logo. purchase-reward-icon",
+          "demo": false
+        }
+      ],
+      "conflict": {
+        "type": "weak_pricing_evidence",
+        "policy": "manual_review_required"
+      },
+      "demo": false
+    }
+  ],
+  "conflicts": [
+    {
+      "type": "missing_product_fields",
+      "fields": [
+        "color",
+        "material",
+        "length",
+        "width",
+        "height",
+        "weight",
+        "image"
+      ],
+      "policy": "do_not_fabricate"
+    },
+    {
+      "type": "research_llm_warning",
+      "message": "Live LLM call failed; deterministic fallback used: The read operation timed out",
+      "policy": "deterministic_evidence_summary"
+    }
+  ],
+  "missingFields": [
+    "color",
+    "material",
+    "length",
+    "width",
+    "height",
+    "weight",
+    "image"
+  ],
+  "trace": [
+    {
+      "agentName": "Research",
+      "inputSummary": "Enrich SKU SSB-NJ-300066 using 4 cited search result(s), then summarize with LLM field evidence.",
+      "toolCalls": [
+        {
+          "name": "web_search",
+          "input": "AmazonBasics Tie-Out Cable for Dogs up to 60lbs, 25 Feet product specs",
+          "durationMs": 12670
+        },
+        {
+          "name": "web_search",
+          "input": "pet_products amazon listing requirements",
+          "durationMs": 12670
+        },
+        {
+          "name": "web_search",
+          "input": "pet_products common selling points",
+          "durationMs": 12670
+        },
+        {
+          "name": "web_search",
+          "input": "pet_products safety certification",
+          "durationMs": 12670
+        },
+        {
+          "name": "llm_research_summarizer",
+          "input": "sources=4 required_fields=5",
+          "durationMs": 45788
+        },
+        {
+          "name": "field_evidence_guard",
+          "input": "require citation/evidence/conflict per enriched field",
+          "durationMs": 20
+        }
+      ],
+      "outputArtifact": "5 enriched fields with citations, evidence snippets, and field-level conflicts. Conflicts retained: 2.",
+      "latencyMs": 50681,
+      "inputTokens": 2358,
+      "outputTokens": 352,
+      "estimatedCostUsd": 0.02113,
+      "promptSnippet": "Research Agent: search results -> LLM summary -> sourceUrl/evidence/citation/conflict per field; never fabricate specs.",
+      "warningsOrErrors": "Live LLM call failed; deterministic fallback used: The read operation timed out"
+    }
+  ]
+}

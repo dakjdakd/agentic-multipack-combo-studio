@@ -1,0 +1,45 @@
+{
+  "sku": "SSB-NJ-300001",
+  "workflowType": "listing",
+  "title": {
+    "before": "Amazon Basics Vanity Mirror with Heavy Base - 1X/5X Magnification, White",
+    "after": "AB home_improvement - White Iron, Measured 15.0 x 9.02 x 7.01 in"
+  },
+  "unitCount": {
+    "before": 1,
+    "after": 1
+  },
+  "weight": {
+    "before": {
+      "value": 3.0,
+      "unit": "lb"
+    },
+    "after": {
+      "value": 3.0,
+      "unit": "lb"
+    }
+  },
+  "dimensions": {
+    "before": {
+      "length": 15.0,
+      "width": 9.02,
+      "height": 7.01,
+      "unit": "in"
+    },
+    "after": {
+      "length": 15.0,
+      "width": 9.02,
+      "height": 7.01,
+      "unit": "in"
+    }
+  },
+  "images": {
+    "after": {
+      "main": "/artifacts/job_647c71ff45/main.jpg",
+      "lifestyle": "/artifacts/job_647c71ff45/lifestyle.jpg",
+      "infographic": "/artifacts/job_647c71ff45/infographic.jpg",
+      "aPlus": "/artifacts/job_647c71ff45/a_plus_hero.jpg"
+    }
+  },
+  "compliancePassed": false
+}

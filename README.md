@@ -37,7 +37,7 @@ IMAGE_MODEL=agnes-image-2.1-flash
 SEARCH_PROVIDER=tavily
 SEARCH_BASE_URL=https://api.tavily.com
 SEARCH_API_KEY=
-BUDGET_TARGET_RMB=1700
+BUDGET_TARGET_RMB=1500
 IMAGE_GENERATION_USD=0.003
 SEARCH_REQUEST_USD=0.005
 ```
@@ -88,7 +88,7 @@ Recomposition Agent
 
 ## Provider 模式
 
-- Live mode 默认配置为 DeepSeek LLM、Agnes Image 2.1 Flash 图片生成、Tavily Search。填入 `.env` 后会调用真实 provider。
+- Live mode 默认配置为 DeepSeek LLM、Agnes Image 2.1 Flash 图片生成、Tavily Search；这些只是默认值，实际页面显示来自后端 `.env` / Docker environment。比如把 `LLM_PROVIDER=openai`、`LLM_MODEL=gpt-...` 后重启 API，Settings 和 Costs 页会显示新的 provider/model。
 - DeepSeek 走 OpenAI-compatible `/chat/completions`：`LLM_BASE_URL=https://api.deepseek.com`，`LLM_MODEL=deepseek-v4-flash`。
 - Agnes 走 `https://apihub.agnes-ai.com/v1/images/generations`：`IMAGE_MODEL=agnes-image-2.1-flash`，文生图使用 `return_base64=true`，生成结果保存到本地 artifacts。
 - Tavily 走 `/search`：`SEARCH_PROVIDER=tavily`，用于 enrichment 的联网搜索和 source URL citations。
@@ -135,7 +135,7 @@ GET  /api/variations/{sku}
 - Agent Trace：按 jobId 展示真实后端 trace，不用静态 demo trace 冒充。
 - Chat Recomposer：支持 `Make this a 3-pack`、中文 `把这个 SKU 做成 3 件装`、`Combine this with SKU STAND-ALUM-09`、中文 combo 指令。
 - Review / Diff：人工审核、approve/reject/request revision、合规报告、物理属性 diff、物理一致性报告。
-- Costs & Eval：1700 RMB 预算、cost ledger、cache savings、agent 成本、eval harness。
+- Costs & Eval：1500 RMB 预算、模拟/估算 cost ledger、cache savings、agent 成本、eval harness。
 - Settings：显示 DB/LLM/Image/Search 配置状态，强调前端不暴露 secret。
 
 ## Demo 流程
@@ -149,7 +149,7 @@ GET  /api/variations/{sku}
 7. Chat 输入 `把这个 SKU 做成 3 件装`，查看 multipack 的重量、尺寸、文案和图片变化。
 8. Chat 输入 `Combine this with SKU STAND-ALUM-09`，查看 combo 结果。
 9. Review / Diff 页面审核生成结果。
-10. Costs & Eval 页面查看 1700 RMB 预算、cache savings 和 eval 分数。
+10. Costs & Eval 页面查看 1500 RMB 预算、cache savings 和 eval 分数。注意这里的 RMB 是按配置单价、token、图片和搜索次数计算的估算值，不代表本次浏览器运行真实扣费。
 
 ## 样例产出
 

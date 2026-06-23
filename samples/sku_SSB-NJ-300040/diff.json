@@ -1,0 +1,45 @@
+{
+  "sku": "SSB-NJ-300040",
+  "workflowType": "listing",
+  "title": {
+    "before": "Primero Basics 5-Level Adjustable/Portable Electronic Computer Workstation, Standing Desk Converter,",
+    "after": "Primero Basics 5-Level Adjustable Standing Desk Converter, Portable Electronic Computer Workstation"
+  },
+  "unitCount": {
+    "before": 1,
+    "after": 1
+  },
+  "weight": {
+    "before": {
+      "value": null,
+      "unit": "lb"
+    },
+    "after": {
+      "value": null,
+      "unit": "lb"
+    }
+  },
+  "dimensions": {
+    "before": {
+      "length": null,
+      "width": null,
+      "height": null,
+      "unit": "in"
+    },
+    "after": {
+      "length": null,
+      "width": null,
+      "height": null,
+      "unit": "in"
+    }
+  },
+  "images": {
+    "after": {
+      "main": "/artifacts/job_06986496d0/main.jpg",
+      "lifestyle": "/artifacts/job_06986496d0/lifestyle.jpg",
+      "infographic": "/artifacts/job_06986496d0/infographic.jpg",
+      "aPlus": "/artifacts/job_06986496d0/a_plus_hero.jpg"
+    }
+  },
+  "compliancePassed": false
+}

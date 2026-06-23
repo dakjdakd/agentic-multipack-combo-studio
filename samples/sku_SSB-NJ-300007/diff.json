@@ -1,0 +1,45 @@
+{
+  "sku": "SSB-NJ-300007",
+  "workflowType": "listing",
+  "title": {
+    "before": "宠物喂食器",
+    "after": "AB Pet Feeder - 12.99 x 12.99 x 2.99 Inch Feeding Mat, Lightweight (0.99 lb)"
+  },
+  "unitCount": {
+    "before": 1,
+    "after": 1
+  },
+  "weight": {
+    "before": {
+      "value": 0.99,
+      "unit": "lb"
+    },
+    "after": {
+      "value": 0.99,
+      "unit": "lb"
+    }
+  },
+  "dimensions": {
+    "before": {
+      "length": 12.99,
+      "width": 12.99,
+      "height": 2.99,
+      "unit": "in"
+    },
+    "after": {
+      "length": 12.99,
+      "width": 12.99,
+      "height": 2.99,
+      "unit": "in"
+    }
+  },
+  "images": {
+    "after": {
+      "main": "/artifacts/job_1df35add66/main.jpg",
+      "lifestyle": "/artifacts/job_1df35add66/lifestyle.jpg",
+      "infographic": "/artifacts/job_1df35add66/infographic.jpg",
+      "aPlus": "/artifacts/job_1df35add66/a_plus_hero.jpg"
+    }
+  },
+  "compliancePassed": false
+}

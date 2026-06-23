@@ -39,7 +39,7 @@ IMAGE_MODEL=agnes-image-2.1-flash
 SEARCH_API_KEY=
 SEARCH_PROVIDER=tavily
 SEARCH_BASE_URL=https://api.tavily.com
-BUDGET_TARGET_RMB=1700
+BUDGET_TARGET_RMB=1500
 IMAGE_GENERATION_USD=0.003
 SEARCH_REQUEST_USD=0.005
 ```
@@ -113,7 +113,7 @@ GET  /api/variations/{sku}
 - Agent Trace: job-based trace inspection plus SSE replay endpoint
 - Chat Recomposer: English and Chinese multipack/combo generation
 - Review / Diff: human review, compliance report, physical consistency report
-- Costs & Eval: 1700 RMB budget, agent costs, evaluation harness
+- Costs & Eval: 1500 RMB budget, simulated/estimated agent costs, evaluation harness
 - Settings: provider status without exposing secrets
 
 ## Security
@@ -122,7 +122,7 @@ GET  /api/variations/{sku}
 - No API keys, database passwords, or `.env` files are committed.
 - Generated outputs are stored locally in SQLite, `artifacts/`, and `samples/`.
 - Missing keys do not crash the service; key-dependent workflows use clearly marked demo providers.
-- Live mode defaults to DeepSeek for chat completions, Agnes Image 2.1 Flash for image generation, and Tavily for cited web search when credentials are supplied.
+- Live mode defaults to DeepSeek for chat completions, Agnes Image 2.1 Flash for image generation, and Tavily for cited web search when credentials are supplied. These are defaults only: Settings and Costs read provider/model values from the backend `.env` / Docker environment, so switching to another configured model such as a GPT model will be reflected after the API service restarts.
 - Cost tracking keeps provider prices configurable; the default image unit price is `IMAGE_GENERATION_USD=0.003` for Agnes.
 
 ## Verification

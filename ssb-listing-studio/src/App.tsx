@@ -124,11 +124,23 @@ export default function App() {
       forecastRmb: summary.forecastRmb,
     });
     setCostsBreakdown({
+      costBasis: summary.costBasis,
+      costNotice: summary.costNotice,
+      llmProvider: summary.llmProvider,
+      llmModel: summary.llmModel,
+      imageProvider: summary.imageProvider,
+      imageModel: summary.imageModel,
+      searchProvider: summary.searchProvider,
       llmInputTokens: summary.llmInputTokens,
       llmOutputTokens: summary.llmOutputTokens,
+      llmInputCostRmb: summary.llmInputCostRmb,
+      llmOutputCostRmb: summary.llmOutputCostRmb,
       imageGenerationsCount: summary.imageGenerationsCount,
+      imageGenerationCostRmb: summary.imageGenerationCostRmb,
       webSearchesCount: summary.webSearchesCount,
+      webSearchCostRmb: summary.webSearchCostRmb,
       retriesCount: summary.retriesCount,
+      retriesCostRmb: summary.retriesCostRmb,
       cachedSavingsRmb: summary.cachedSavingsRmb,
       perAgentCosts: summary.perAgentCosts,
     });

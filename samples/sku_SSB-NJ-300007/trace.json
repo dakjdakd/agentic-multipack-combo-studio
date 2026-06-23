@@ -1,0 +1,216 @@
+[
+  {
+    "agentName": "Supervisor",
+    "inputSummary": "Create listing LangGraph workflow for SKU SSB-NJ-300007; mode=full.",
+    "toolCalls": [
+      {
+        "name": "create_job",
+        "input": "Create listing LangGraph workflow for SKU SSB-NJ-300007; mode=full.",
+        "durationMs": 216
+      },
+      {
+        "name": "compile_state_graph",
+        "input": "Create listing LangGraph workflow for SKU SSB-NJ-300007; mode=full.",
+        "durationMs": 216
+      },
+      {
+        "name": "dispatch_agents",
+        "input": "Create listing LangGraph workflow for SKU SSB-NJ-300007; mode=full.",
+        "durationMs": 216
+      }
+    ],
+    "outputArtifact": "Workflow initialized with explicit graph nodes and request mode.",
+    "latencyMs": 650,
+    "inputTokens": 220,
+    "outputTokens": 180,
+    "estimatedCostUsd": 0.000282,
+    "promptSnippet": "Supervisor prompt/contract: structured JSON output, source-of-truth product attributes, traceable tools.",
+    "warningsOrErrors": null
+  },
+  {
+    "agentName": "Product Loader",
+    "inputSummary": "Load normalized product for SSB-NJ-300007.",
+    "toolCalls": [
+      {
+        "name": "read_only_product_repository",
+        "input": "Load normalized product for SSB-NJ-300007.",
+        "durationMs": 520
+      }
+    ],
+    "outputArtifact": "Loaded source=ssb_mysql, missing=['category', 'color', 'material'].",
+    "latencyMs": 520,
+    "inputTokens": 160,
+    "outputTokens": 180,
+    "estimatedCostUsd": 0.000264,
+    "promptSnippet": "Product Loader prompt/contract: structured JSON output, source-of-truth product attributes, traceable tools.",
+    "warningsOrErrors": null
+  },
+  {
+    "agentName": "Research",
+    "inputSummary": "Enrich SKU SSB-NJ-300007 using product title/category/material/color.",
+    "toolCalls": [
+      {
+        "name": "web_search",
+        "input": "宠物喂食器 product specs",
+        "durationMs": 867
+      },
+      {
+        "name": "web_search",
+        "input": " amazon listing requirements",
+        "durationMs": 867
+      },
+      {
+        "name": "web_search",
+        "input": " common selling points",
+        "durationMs": 867
+      },
+      {
+        "name": "web_search",
+        "input": " safety certification",
+        "durationMs": 867
+      },
+      {
+        "name": "source_citation_guard",
+        "input": "require sourceUrl per enriched field",
+        "durationMs": 20
+      }
+    ],
+    "outputArtifact": "5 enriched fields with URL citations. Missing/conflicts retained: 1.",
+    "latencyMs": 3469,
+    "inputTokens": 900,
+    "outputTokens": 350,
+    "estimatedCostUsd": 0.02069,
+    "promptSnippet": "Research Agent: collect category norms, competitor-safe selling points, compliance terms, never fabricate specs.",
+    "warningsOrErrors": null
+  },
+  {
+    "agentName": "Copy",
+    "inputSummary": "Generate Amazon A+ copy for SSB-NJ-300007.",
+    "toolCalls": [
+      {
+        "name": "llm_json_schema_generation",
+        "input": "Generate Amazon A+ copy for SSB-NJ-300007.",
+        "durationMs": 900
+      },
+      {
+        "name": "backend_search_terms_guard",
+        "input": "Generate Amazon A+ copy for SSB-NJ-300007.",
+        "durationMs": 900
+      }
+    ],
+    "outputArtifact": "Generated brand-first title, five bullets, description, A+ modules, and search terms.",
+    "latencyMs": 1800,
+    "inputTokens": 900,
+    "outputTokens": 180,
+    "estimatedCostUsd": 0.000486,
+    "promptSnippet": "Copy prompt/contract: structured JSON output, source-of-truth product attributes, traceable tools.",
+    "warningsOrErrors": null
+  },
+  {
+    "agentName": "Image",
+    "inputSummary": "Generate images for SSB-NJ-300007; workflow=listing.",
+    "toolCalls": [
+      {
+        "name": "image_prompt_builder",
+        "input": "Generate images for SSB-NJ-300007; workflow=listing.",
+        "durationMs": 733
+      },
+      {
+        "name": "image_generator",
+        "input": "Generate images for SSB-NJ-300007; workflow=listing.",
+        "durationMs": 733
+      },
+      {
+        "name": "artifact_writer",
+        "input": "Generate images for SSB-NJ-300007; workflow=listing.",
+        "durationMs": 733
+      }
+    ],
+    "outputArtifact": "Saved main, lifestyle, infographic, and A+ images under artifacts.",
+    "latencyMs": 2200,
+    "inputTokens": 450,
+    "outputTokens": 180,
+    "estimatedCostUsd": 0.012351,
+    "promptSnippet": "Image prompt/contract: structured JSON output, source-of-truth product attributes, traceable tools.",
+    "warningsOrErrors": null
+  },
+  {
+    "agentName": "Critic",
+    "inputSummary": "Compare generated images/copy against product physical attributes.",
+    "toolCalls": [
+      {
+        "name": "physical_consistency_check",
+        "input": "Compare generated images/copy against product physical attributes.",
+        "durationMs": 440
+      },
+      {
+        "name": "image_metadata_check",
+        "input": "Compare generated images/copy against product physical attributes.",
+        "durationMs": 440
+      }
+    ],
+    "outputArtifact": "Physical consistency check completed for listing. Expected 1 unit(s); generated artifact metadata reports 1. Combo reference: none.",
+    "latencyMs": 880,
+    "inputTokens": 680,
+    "outputTokens": 260,
+    "estimatedCostUsd": 0.000516,
+    "promptSnippet": "Critic prompt/contract: structured JSON output, source-of-truth product attributes, traceable tools.",
+    "warningsOrErrors": null
+  },
+  {
+    "agentName": "Compliance",
+    "inputSummary": "Run Amazon A+ and listing compliance validator.",
+    "toolCalls": [
+      {
+        "name": "rules_validator",
+        "input": "Run Amazon A+ and listing compliance validator.",
+        "durationMs": 246
+      },
+      {
+        "name": "byte_counter",
+        "input": "Run Amazon A+ and listing compliance validator.",
+        "durationMs": 246
+      },
+      {
+        "name": "image_validator",
+        "input": "Run Amazon A+ and listing compliance validator.",
+        "durationMs": 246
+      }
+    ],
+    "outputArtifact": "Compliance passed=False; score=93.8.",
+    "latencyMs": 740,
+    "inputTokens": 520,
+    "outputTokens": 240,
+    "estimatedCostUsd": 0.00044399999999999995,
+    "promptSnippet": "Compliance prompt/contract: structured JSON output, source-of-truth product attributes, traceable tools.",
+    "warningsOrErrors": null
+  },
+  {
+    "agentName": "Supervisor",
+    "inputSummary": "Finalize workflow and persist reviewable artifacts.",
+    "toolCalls": [
+      {
+        "name": "save_listing",
+        "input": "Finalize workflow and persist reviewable artifacts.",
+        "durationMs": 140
+      },
+      {
+        "name": "save_trace",
+        "input": "Finalize workflow and persist reviewable artifacts.",
+        "durationMs": 140
+      },
+      {
+        "name": "create_review",
+        "input": "Finalize workflow and persist reviewable artifacts.",
+        "durationMs": 140
+      }
+    ],
+    "outputArtifact": "Listing, trace, compliance report, physical report, and review gate saved.",
+    "latencyMs": 420,
+    "inputTokens": 240,
+    "outputTokens": 180,
+    "estimatedCostUsd": 0.000288,
+    "promptSnippet": "Supervisor prompt/contract: structured JSON output, source-of-truth product attributes, traceable tools.",
+    "warningsOrErrors": null
+  }
+]

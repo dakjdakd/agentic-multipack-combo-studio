@@ -166,7 +166,7 @@ The recomputed weight, dimensions, unit count, source SKUs, and workflow type ar
 
 ## 10. Cost Budget and Actual Spend
 
-Target budget: 1700 RMB.
+Target budget: 1500 RMB.
 
 Planned allocation:
 
@@ -177,11 +177,11 @@ Planned allocation:
 | Web search / fetch | 150 |
 | Vision / Critic / Eval | 200 |
 | Retry buffer | 200 |
-| Total | 1700 |
+| Total | 1500 |
 
-Every provider call writes a cost ledger row with input tokens, cached input tokens, output tokens, image count, search count, latency, estimated USD, and estimated RMB. Demo providers still record estimated cost so the budget dashboard remains meaningful.
+Every provider call writes a cost ledger row with input tokens, cached input tokens, output tokens, image count, search count, latency, estimated USD, and estimated RMB. These are estimated/simulated ledger values calculated from configured unit prices and observed counts, not an actual provider invoice for the browser run. Demo providers still record estimated cost so the budget dashboard remains meaningful.
 
-Current live provider choices:
+Current default live provider choices, all overridable from `.env` / Docker environment:
 
 | Capability | Provider | Model / Endpoint |
 | --- | --- | --- |

@@ -6,7 +6,7 @@
       {
         "name": "llm_intent_extractor",
         "input": "deepseek:deepseek-v4-pro",
-        "durationMs": 543
+        "durationMs": 867
       },
       {
         "name": "regex_intent_fallback",
@@ -14,8 +14,8 @@
         "durationMs": 15
       }
     ],
-    "outputArtifact": "intent=combo; qty=3; source=regex_fallback; job=job_b3cdd55f91",
-    "latencyMs": 543,
+    "outputArtifact": "intent=combo; qty=3; source=regex_fallback; job=job_367749ed7a",
+    "latencyMs": 867,
     "inputTokens": 45,
     "outputTokens": 2,
     "estimatedCostUsd": 0.0,

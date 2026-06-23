@@ -1,0 +1,45 @@
+{
+  "sku": "SSB-NJ-300018",
+  "workflowType": "listing",
+  "title": {
+    "before": "合纤窗帘",
+    "after": "AB Synthetic Fiber Curtain Panel - Soft & Durable Window Treatment, Privacy and Light Control, 1 Panel"
+  },
+  "unitCount": {
+    "before": 1,
+    "after": 1
+  },
+  "weight": {
+    "before": {
+      "value": 4.5,
+      "unit": "lb"
+    },
+    "after": {
+      "value": 4.5,
+      "unit": "lb"
+    }
+  },
+  "dimensions": {
+    "before": {
+      "length": 14.0,
+      "width": 11.0,
+      "height": 3.0,
+      "unit": "in"
+    },
+    "after": {
+      "length": 14.0,
+      "width": 11.0,
+      "height": 3.0,
+      "unit": "in"
+    }
+  },
+  "images": {
+    "after": {
+      "main": "/artifacts/job_78ba42b757/main.jpg",
+      "lifestyle": "/artifacts/job_78ba42b757/lifestyle.jpg",
+      "infographic": "/artifacts/job_78ba42b757/infographic.jpg",
+      "aPlus": "/artifacts/job_78ba42b757/a_plus_hero.jpg"
+    }
+  },
+  "compliancePassed": false
+}

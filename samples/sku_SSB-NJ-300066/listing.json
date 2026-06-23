@@ -1,0 +1,78 @@
+{
+  "sku": "SSB-NJ-300066",
+  "title": "AB pet_products -  , Measured unknown x unknown x unknown in",
+  "bullets": [
+    "ATTRIBUTE-TRUE BUILD: Uses documented catalog material construction so copy stays tied to the SKU record.",
+    "CATALOG COLOR MATCH: Generated content and image prompts lock to the stored color for physical consistency review.",
+    "MEASURED FIT DETAILS: Dimensions are carried from SSB data (unknown x unknown x unknown in) to avoid invented sizing claims.",
+    "PACKAGING-AWARE VALUE: Listing workflow recalculates unit count, package weight, and bundle presentation before review.",
+    "REVIEWABLE A+ OUTPUT: Includes image-ready modules, backend keywords under 250 bytes, and a human approval gate before publishing."
+  ],
+  "description": "Give your furry friend the freedom to explore the outdoors safely with the AmazonBasics Tie-Out Cable. Suitable for dogs up to 60 pounds, this 25-foot cable provides plenty of room for your pet to roam while keeping them secure. The durable steel construction with a weather-resistant coating ensures long-lasting performance in any environment. Swivel clips on both ends help prevent tangling and make attaching to a stake or collar quick and easy. Perfect for camping trips, backyard time, or outdoor gatherings, this tie-out cable offers peace of mind and joyful experiences for you and your dog.",
+  "searchTerms": "ab pet products ssb nj 300066 listing amazon a plus",
+  "aPlusModules": [
+    {
+      "id": "ap-hero",
+      "moduleType": "hero_full_width",
+      "type": "header-text",
+      "headline": "Catalog-Faithful Product Story",
+      "title": "Catalog-Faithful Product Story",
+      "body": "A+ content is generated from SSB attributes, source-cited enrichment, and compliance constraints.",
+      "imagePath": "/artifacts/job_1061c44dfe/a_plus_hero.jpg",
+      "imageUrl": "/artifacts/job_1061c44dfe/a_plus_hero.jpg",
+      "altText": "AB pet_products ",
+      "imageSize": "970x600"
+    },
+    {
+      "id": "ap-feature",
+      "moduleType": "feature_detail",
+      "type": "single-image-sidebar",
+      "headline": "Measured Physical Details",
+      "title": "Measured Physical Details",
+      "body": "Dimensions: unknown x unknown x unknown in. Weight: unknown lb. Material: unknown.",
+      "imagePath": "/artifacts/job_1061c44dfe/infographic.jpg",
+      "imageUrl": "/artifacts/job_1061c44dfe/infographic.jpg",
+      "altText": "SSB-NJ-300066 dimensions material color",
+      "imageSize": "970x300"
+    },
+    {
+      "id": "ap-spec",
+      "moduleType": "spec_comparison",
+      "type": "three-column",
+      "headline": "Review-Ready Compliance",
+      "title": "Review-Ready Compliance",
+      "body": "The system validates title length, bullets, backend search bytes, alt text, main image size, and white background.",
+      "imagePath": "/artifacts/job_1061c44dfe/infographic.jpg",
+      "imageUrl": "/artifacts/job_1061c44dfe/infographic.jpg",
+      "altText": "SSB-NJ-300066 compliance checked listing",
+      "imageSize": "970x600"
+    }
+  ],
+  "images": {
+    "main": "/artifacts/job_1061c44dfe/main.jpg",
+    "lifestyle": "/artifacts/job_1061c44dfe/lifestyle.jpg",
+    "infographic": "/artifacts/job_1061c44dfe/infographic.jpg",
+    "aPlus": "/artifacts/job_1061c44dfe/a_plus_hero.jpg"
+  },
+  "compliancePassed": false,
+  "score": 93.8,
+  "physicalAttributes": {
+    "weight": {
+      "value": null,
+      "unit": "lb"
+    },
+    "dimensions": {
+      "length": null,
+      "width": null,
+      "height": null,
+      "unit": "in"
+    },
+    "unitCount": 1,
+    "workflowType": "listing",
+    "sourceSkus": [
+      "SSB-NJ-300066"
+    ],
+    "recomputedWeight": null,
+    "recomputedDimensions": null
+  }
+}

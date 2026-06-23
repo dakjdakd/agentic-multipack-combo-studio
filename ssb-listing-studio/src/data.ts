@@ -457,18 +457,30 @@ export const INITIAL_REVIEWS: ReviewItem[] = [
 ];
 
 export const INITIAL_BUDGET: BudgetConfig = {
-  targetRmb: 1700.00,
+  targetRmb: 1500.00,
   spentRmb: 284.50,
-  remainingRmb: 1415.50,
+  remainingRmb: 1215.50,
   forecastRmb: 610.20
 };
 
 export const INITIAL_COSTS_BREAKDOWN: CostBreakdown = {
+  costBasis: "estimated",
+  costNotice: "Estimated/simulated ledger values only; not an actual provider invoice for this browser run.",
+  llmProvider: "deepseek",
+  llmModel: "deepseek-v4-flash",
+  imageProvider: "agnes",
+  imageModel: "agnes-image-2.1-flash",
+  searchProvider: "tavily",
   llmInputTokens: 954000,
   llmOutputTokens: 382000,
+  llmInputCostRmb: 2.06,
+  llmOutputCostRmb: 3.30,
   imageGenerationsCount: 112,
+  imageGenerationCostRmb: 2.42,
   webSearchesCount: 48,
+  webSearchCostRmb: 1.73,
   retriesCount: 6,
+  retriesCostRmb: 0,
   cachedSavingsRmb: 45.80
 };
 
@@ -497,6 +509,7 @@ export const INITIAL_SETTINGS: SettingsState = {
   searchProvider: "tavily",
   searchBaseUrlConfigured: true,
   visionModel: "",
+  budgetTargetRmb: 1500,
   secretsExposed: false
 };
 

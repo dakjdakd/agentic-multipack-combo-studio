@@ -1,0 +1,45 @@
+{
+  "sku": "SSB-NJ-300024",
+  "workflowType": "listing",
+  "title": {
+    "before": "Amazon Basics Portable Travel Window Blackout Curtain Shades with Suction Cups - Dark Grey, 1-Pack",
+    "after": "AB Nursery - Dark Grey  100% Polyester, Measured 12.0 x 7.7 x 4.0 in"
+  },
+  "unitCount": {
+    "before": 1,
+    "after": 1
+  },
+  "weight": {
+    "before": {
+      "value": 10.0,
+      "unit": "lb"
+    },
+    "after": {
+      "value": 10.0,
+      "unit": "lb"
+    }
+  },
+  "dimensions": {
+    "before": {
+      "length": 12.0,
+      "width": 7.7,
+      "height": 4.0,
+      "unit": "in"
+    },
+    "after": {
+      "length": 12.0,
+      "width": 7.7,
+      "height": 4.0,
+      "unit": "in"
+    }
+  },
+  "images": {
+    "after": {
+      "main": "/artifacts/job_db04d07f8c/main.jpg",
+      "lifestyle": "/artifacts/job_db04d07f8c/lifestyle.jpg",
+      "infographic": "/artifacts/job_db04d07f8c/infographic.jpg",
+      "aPlus": "/artifacts/job_db04d07f8c/a_plus_hero.jpg"
+    }
+  },
+  "compliancePassed": false
+}

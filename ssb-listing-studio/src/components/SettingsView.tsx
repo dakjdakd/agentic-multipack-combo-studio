@@ -80,6 +80,9 @@ function ProviderSpec({
 export default function SettingsView({ settings }: SettingsViewProps) {
   const liveMode = !settings.demoMode;
   const dbOk = Boolean(settings.dbConfigured && settings.dbReachable);
+  const llmLabel = [settings.llmProvider, settings.llmModel].filter(Boolean).join(' / ') || 'LLM not configured';
+  const imageLabel = [settings.imageProvider, settings.imageModel].filter(Boolean).join(' / ') || 'image provider not configured';
+  const searchLabel = settings.searchProvider || 'search provider not configured';
 
   return (
     <div className="space-y-6 animate-fadeIn font-sans">
@@ -157,28 +160,28 @@ export default function SettingsView({ settings }: SettingsViewProps) {
                 icon={<Cpu className="w-4 h-4 text-blue-900 shrink-0" />}
                 title="Primary LLM"
                 provider={settings.llmProvider}
-                model={settings.llmModel || 'deepseek-v4-flash'}
+                model={settings.llmModel}
                 configured={settings.llmApiConfigured}
                 baseUrlConfigured={settings.llmBaseUrlConfigured}
-                notes="DeepSeek is used for structured JSON copy generation, intent extraction, critic reasoning, and agent coordination."
+                notes={`${llmLabel} is read from backend environment variables and used for structured JSON copy generation, intent extraction, critic reasoning, and agent coordination.`}
               />
               <ProviderSpec
                 icon={<Sparkles className="w-4 h-4 text-fuchsia-800 shrink-0" />}
                 title="Image Generator"
                 provider={settings.imageProvider}
-                model={settings.imageModel || 'agnes-image-2.1-flash'}
+                model={settings.imageModel}
                 configured={settings.imageApiConfigured}
                 baseUrlConfigured={settings.imageBaseUrlConfigured}
-                notes="Agnes Image 2.1 Flash is used by the Image Agent for main image, lifestyle image, infographic, and A+ modules."
+                notes={`${imageLabel} is read from backend environment variables and used by the Image Agent for main image, lifestyle image, infographic, and A+ modules.`}
               />
               <ProviderSpec
                 icon={<Search className="w-4 h-4 text-emerald-800 shrink-0" />}
                 title="Search Grounding"
                 provider={settings.searchProvider}
-                model="Tavily Search API"
+                model={settings.searchProvider ? `${settings.searchProvider} API` : undefined}
                 configured={settings.searchApiConfigured}
                 baseUrlConfigured={settings.searchBaseUrlConfigured}
-                notes="Tavily powers enrichment citations. Only facts with source URLs are written into enrichment fields."
+                notes={`${searchLabel} is read from backend environment variables and powers enrichment citations. Only facts with source URLs are written into enrichment fields.`}
               />
             </div>
           </div>
@@ -249,7 +252,7 @@ export default function SettingsView({ settings }: SettingsViewProps) {
               Operational Reminder
             </div>
             <p className="text-[10px] leading-relaxed text-amber-900">
-              Live mode requires backend environment credentials for DeepSeek, Agnes Image, Tavily Search, and optional SSB MySQL. Missing keys produce clear backend messages instead of crashing the app.
+              Live mode requires backend environment credentials for the configured providers: {llmLabel}, {imageLabel}, {searchLabel}, and optional SSB MySQL. Missing keys produce clear backend messages instead of crashing the app.
             </p>
             {settings.messages && settings.messages.length > 0 && (
               <ul className="mt-2 space-y-1 text-[10px] leading-relaxed text-amber-900">
@@ -268,7 +271,7 @@ export default function SettingsView({ settings }: SettingsViewProps) {
             </p>
             <div className="flex items-center gap-2 text-[10px] font-bold text-slate-700">
               <Settings className="w-4 h-4 text-slate-500" />
-              Budget target: 1700 RMB with provider cost ledger.
+              Budget target: {settings.budgetTargetRmb || 1500} RMB with simulated provider cost ledger.
             </div>
           </div>
         </div>

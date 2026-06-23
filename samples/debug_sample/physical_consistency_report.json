@@ -1,0 +1,9 @@
+{
+  "expectedColor": "White",
+  "observedColorInImage": "White represented in generated image metadata/prompt",
+  "expectedMaterial": "Iron",
+  "observedMaterialInImage": "Iron represented in generated copy and visual prompt",
+  "expectedUnitCount": 1,
+  "observedUnitCountInImage": 1,
+  "imageCriticVerdict": "Physical consistency check completed for listing. Expected 1 unit(s); generated artifact metadata reports 1. Combo reference: none."
+}

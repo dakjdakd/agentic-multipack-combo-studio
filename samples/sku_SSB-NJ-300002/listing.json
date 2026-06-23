@@ -1,0 +1,78 @@
+{
+  "sku": "SSB-NJ-300002",
+  "title": "AB Pet Mattress, 20 x 10 x 6 Inches, Lightweight Portable Pet Bed Mat for Small Dogs and Cats",
+  "bullets": [
+    "Perfect size for small pets: 20 x 10 x 6 inches (LxWxH), ideal for small dogs, cats, and puppies",
+    "Lightweight at only 0.99 lb, easy to carry from room to room or take on trips",
+    "Compact design fits most standard crates, carriers, and kennels, providing a cozy resting spot",
+    "Versatile use: place on the floor, in a pet bed frame, or on your bedroom furniture to give your pet a designated space",
+    "Durable construction from AB, a trusted brand, ensures long-lasting comfort for your furry friend"
+  ],
+  "description": "Give your small pet a comfortable place to relax with the AB Pet Mattress. This compact bed mat measures 20 x 10 x 6 inches, making it just right for small dogs, cats, puppies, and other small animals. Weighing only 0.99 lb, it's lightweight and portable, so you can easily move it around the house or take it with you when traveling. The versatile design fits into crates, carriers, or can be used as a standalone bed. Crafted with attention to quality, it provides a dedicated resting spot that helps keep your pet cozy and secure. Easy to maintain and built to last, the AB Pet Mattress is a great addition to your pet care essentials.",
+  "searchTerms": "pet mattress small dog bed cat mat crate pad sleeping lightweight ab 20x10 puppy animal portable indoor comfortable product",
+  "aPlusModules": [
+    {
+      "id": "ap-hero",
+      "moduleType": "hero_full_width",
+      "type": "header-text",
+      "headline": "Catalog-Faithful Product Story",
+      "title": "Catalog-Faithful Product Story",
+      "body": "A+ content is generated from SSB attributes, source-cited enrichment, and compliance constraints.",
+      "imagePath": "/artifacts/job_1951bed1fb/a_plus_hero.jpg",
+      "imageUrl": "/artifacts/job_1951bed1fb/a_plus_hero.jpg",
+      "altText": "AB Product ",
+      "imageSize": "970x600"
+    },
+    {
+      "id": "ap-feature",
+      "moduleType": "feature_detail",
+      "type": "single-image-sidebar",
+      "headline": "Measured Physical Details",
+      "title": "Measured Physical Details",
+      "body": "Dimensions: 20.0 x 10.0 x 5.98 in. Weight: 0.99 lb. Material: unknown.",
+      "imagePath": "/artifacts/job_1951bed1fb/infographic.jpg",
+      "imageUrl": "/artifacts/job_1951bed1fb/infographic.jpg",
+      "altText": "SSB-NJ-300002 dimensions material color",
+      "imageSize": "970x300"
+    },
+    {
+      "id": "ap-spec",
+      "moduleType": "spec_comparison",
+      "type": "three-column",
+      "headline": "Review-Ready Compliance",
+      "title": "Review-Ready Compliance",
+      "body": "The system validates title length, bullets, backend search bytes, alt text, main image size, and white background.",
+      "imagePath": "/artifacts/job_1951bed1fb/infographic.jpg",
+      "imageUrl": "/artifacts/job_1951bed1fb/infographic.jpg",
+      "altText": "SSB-NJ-300002 compliance checked listing",
+      "imageSize": "970x600"
+    }
+  ],
+  "images": {
+    "main": "/artifacts/job_1951bed1fb/main.jpg",
+    "lifestyle": "/artifacts/job_1951bed1fb/lifestyle.jpg",
+    "infographic": "/artifacts/job_1951bed1fb/infographic.jpg",
+    "aPlus": "/artifacts/job_1951bed1fb/a_plus_hero.jpg"
+  },
+  "compliancePassed": false,
+  "score": 93.8,
+  "physicalAttributes": {
+    "weight": {
+      "value": 0.99,
+      "unit": "lb"
+    },
+    "dimensions": {
+      "length": 20.0,
+      "width": 10.0,
+      "height": 5.98,
+      "unit": "in"
+    },
+    "unitCount": 1,
+    "workflowType": "listing",
+    "sourceSkus": [
+      "SSB-NJ-300002"
+    ],
+    "recomputedWeight": null,
+    "recomputedDimensions": null
+  }
+}

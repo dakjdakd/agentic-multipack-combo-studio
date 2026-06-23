@@ -1,0 +1,114 @@
+[
+  {
+    "id": "title_brand_first",
+    "rule": "Title starts with brand",
+    "status": "passed",
+    "observedValue": "AB",
+    "expectedLimit": "AB"
+  },
+  {
+    "id": "title_length_under_200",
+    "rule": "Title <= 200 characters",
+    "status": "passed",
+    "observedValue": "76 chars",
+    "expectedLimit": "<= 200 chars"
+  },
+  {
+    "id": "title_target_under_150",
+    "rule": "Title target <= 150 characters",
+    "status": "passed",
+    "observedValue": "76 chars",
+    "expectedLimit": "<= 150 chars target"
+  },
+  {
+    "id": "title_banned_words",
+    "rule": "Title has no banned promotional words",
+    "status": "passed",
+    "observedValue": "none",
+    "expectedLimit": "no banned words"
+  },
+  {
+    "id": "bullet_count_exactly_5",
+    "rule": "Exactly five bullet points",
+    "status": "passed",
+    "observedValue": "5 bullets",
+    "expectedLimit": "5 bullets"
+  },
+  {
+    "id": "bullet_length_under_500",
+    "rule": "Each bullet <= 500 characters",
+    "status": "passed",
+    "observedValue": "max 83 chars",
+    "expectedLimit": "<= 500 chars each"
+  },
+  {
+    "id": "bullet_no_contact_info",
+    "rule": "Bullets contain no contact info",
+    "status": "passed",
+    "observedValue": "scan completed",
+    "expectedLimit": "no contact info"
+  },
+  {
+    "id": "bullet_no_medical_claims",
+    "rule": "Bullets contain no medical cure claims",
+    "status": "passed",
+    "observedValue": "scan completed",
+    "expectedLimit": "no cure/treatment claims"
+  },
+  {
+    "id": "backend_search_terms_under_250_bytes",
+    "rule": "Backend search terms <= 250 bytes",
+    "status": "passed",
+    "observedValue": "61 bytes",
+    "expectedLimit": "<= 250 bytes"
+  },
+  {
+    "id": "a_plus_has_alt_text",
+    "rule": "A+ modules include alt text",
+    "status": "passed",
+    "observedValue": "3/3 with alt",
+    "expectedLimit": "all modules"
+  },
+  {
+    "id": "a_plus_image_sizes_valid",
+    "rule": "A+ image sizes declared",
+    "status": "passed",
+    "observedValue": "declared",
+    "expectedLimit": "970x600/970x300/etc"
+  },
+  {
+    "id": "main_image_min_1600",
+    "rule": "Main image longest side >= 1600px",
+    "status": "passed",
+    "observedValue": "1600x1600",
+    "expectedLimit": ">= 1600px"
+  },
+  {
+    "id": "main_image_white_background",
+    "rule": "Main image background is pure white",
+    "status": "passed",
+    "observedValue": "[(255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255), (255, 255, 255)]",
+    "expectedLimit": "edge pixels near RGB 255,255,255"
+  },
+  {
+    "id": "main_image_product_fill_ratio",
+    "rule": "Main image product occupies most of frame",
+    "status": "failed",
+    "observedValue": "40.96%",
+    "expectedLimit": ">= 55% deterministic bounding-box target"
+  },
+  {
+    "id": "main_image_file_under_10mb",
+    "rule": "Main image < 10MB",
+    "status": "passed",
+    "observedValue": "0.16MB",
+    "expectedLimit": "< 10MB"
+  },
+  {
+    "id": "main_image_no_text_watermark",
+    "rule": "Main image has no text/watermark",
+    "status": "passed",
+    "observedValue": "demo/live critic required for full proof",
+    "expectedLimit": "no text/watermark"
+  }
+]

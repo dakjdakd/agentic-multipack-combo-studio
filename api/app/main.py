@@ -92,6 +92,7 @@ def settings_status() -> dict[str, Any]:
         "searchProvider": settings.search_provider,
         "searchBaseUrlConfigured": bool(settings.search_base_url),
         "visionModel": settings.vision_model or "",
+        "budgetTargetRmb": settings.budget_target_rmb,
         "secretsExposed": False,
         "messages": messages,
     }

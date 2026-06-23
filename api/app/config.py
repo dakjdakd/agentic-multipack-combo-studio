@@ -35,7 +35,7 @@ class Settings(BaseSettings):
     search_base_url: str = "https://api.tavily.com"
     search_api_key: str = ""
 
-    budget_target_rmb: float = 1700.0
+    budget_target_rmb: float = 1500.0
     usd_to_rmb: float = 7.2
     llm_input_usd_per_million: float = 0.30
     llm_output_usd_per_million: float = 1.20

@@ -1,0 +1,187 @@
+{
+  "jobId": "enrich_240bd4d9c7",
+  "sku": "SSB-NJ-300040",
+  "cacheHit": true,
+  "enrichedFields": [
+    {
+      "field": "category_norm",
+      "value": "Standing Desk Converters",
+      "sourceUrl": "https://www.ebay.com/itm/318095922819",
+      "confidence": 0.5,
+      "notes": "Category inferred from similar product listing on eBay.",
+      "evidence": [
+        "Amazon Basics 5-Level Adjustable/Portable Electronic Computer Workstation, Standing Desk Converter, Wood Surface – Black."
+      ],
+      "citations": [
+        {
+          "sourceId": "S1",
+          "title": "Amazon Basics 5-Level Adjustable/Portable Electronic Computer ...",
+          "url": "https://www.ebay.com/itm/318095922819",
+          "snippet": "Amazon Basics 5-Level Adjustable/Portable Electronic Computer Workstation, Standing Desk Converter, Wood Surface – Black.",
+          "demo": false
+        }
+      ],
+      "conflict": null,
+      "demo": false
+    },
+    {
+      "field": "common_selling_points",
+      "value": null,
+      "sourceUrl": "https://www.ebay.com/itm/318095922819",
+      "confidence": 0.0,
+      "notes": "No source provided common selling points for this product.",
+      "evidence": [
+        "Amazon Basics 5-Level Adjustable/Portable Electronic Computer Workstation, Standing Desk Converter, Wood Surface – Black."
+      ],
+      "citations": [
+        {
+          "sourceId": "S1",
+          "title": "Amazon Basics 5-Level Adjustable/Portable Electronic Computer ...",
+          "url": "https://www.ebay.com/itm/318095922819",
+          "snippet": "Amazon Basics 5-Level Adjustable/Portable Electronic Computer Workstation, Standing Desk Converter, Wood Surface – Black.",
+          "demo": false
+        }
+      ],
+      "conflict": null,
+      "demo": false
+    },
+    {
+      "field": "compliance_keywords",
+      "value": [
+        "compliance",
+        "laws",
+        "regulations",
+        "standards",
+        "policies"
+      ],
+      "sourceUrl": "https://sellercentral.amazon.com/gp/help/external/G200301050",
+      "confidence": 0.7,
+      "notes": "Derived from Amazon listing requirements document.",
+      "evidence": [
+        "comply with all applicable laws, regulations, standards, and our policies"
+      ],
+      "citations": [
+        {
+          "sourceId": "S2",
+          "title": "Category, product, and listing restrictions",
+          "url": "https://sellercentral.amazon.com/gp/help/external/G200301050",
+          "snippet": "Image 2**Get over $50K in potential incentives when you start selling with Amazon.**Learn how. *   Image 3Image 4: Amazon Seller Central logo. # Category, product, and listing restrictions. If you list products on Amazon, you must comply with all applicable laws, regulations, standards, and our policies related to those products and product listings. To maintain a safe and trustworthy shopping experience, certain products cannot be listed or sold on Amazon due to legal, regulatory (for example, prescription drugs), or policy restrictions (for example, crime scene photos). For detailed information on excluded products, prohibited content, and categories requiring prior approval, see the resources below. ## Product compliance requirements. *   Categories and products requiring approval. ## Safety and labeling requirements. *   Marking and labeling requirements for children's products. ## Content and listing requirements. *   Safety, compliance, and product restrictions. Selling on Amazon Business fee schedule. Fee category guidelines for your products. Visit Seller ForumsSee more on Seller Central. Image 8: Amazon Seller Central logo.",
+          "demo": false
+        }
+      ],
+      "conflict": null,
+      "demo": false
+    },
+    {
+      "field": "certifications",
+      "value": null,
+      "sourceUrl": "https://www.ebay.com/itm/318095922819",
+      "confidence": 0.0,
+      "notes": "No source provided certifications for this product. S4 is about professional safety certifications, not product certifications.",
+      "evidence": [
+        "Amazon Basics 5-Level Adjustable/Portable Electronic Computer Workstation, Standing Desk Converter, Wood Surface – Black."
+      ],
+      "citations": [
+        {
+          "sourceId": "S1",
+          "title": "Amazon Basics 5-Level Adjustable/Portable Electronic Computer ...",
+          "url": "https://www.ebay.com/itm/318095922819",
+          "snippet": "Amazon Basics 5-Level Adjustable/Portable Electronic Computer Workstation, Standing Desk Converter, Wood Surface – Black.",
+          "demo": false
+        }
+      ],
+      "conflict": null,
+      "demo": false
+    },
+    {
+      "field": "pricing_signals",
+      "value": null,
+      "sourceUrl": "https://www.ebay.com/itm/318095922819",
+      "confidence": 0.0,
+      "notes": "No source provided pricing information.",
+      "evidence": [
+        "Amazon Basics 5-Level Adjustable/Portable Electronic Computer Workstation, Standing Desk Converter, Wood Surface – Black."
+      ],
+      "citations": [
+        {
+          "sourceId": "S1",
+          "title": "Amazon Basics 5-Level Adjustable/Portable Electronic Computer ...",
+          "url": "https://www.ebay.com/itm/318095922819",
+          "snippet": "Amazon Basics 5-Level Adjustable/Portable Electronic Computer Workstation, Standing Desk Converter, Wood Surface – Black.",
+          "demo": false
+        }
+      ],
+      "conflict": null,
+      "demo": false
+    }
+  ],
+  "conflicts": [
+    {
+      "type": "missing_product_fields",
+      "fields": [
+        "category",
+        "color",
+        "material",
+        "length",
+        "width",
+        "height",
+        "weight"
+      ],
+      "policy": "do_not_fabricate"
+    }
+  ],
+  "missingFields": [
+    "category",
+    "color",
+    "material",
+    "length",
+    "width",
+    "height",
+    "weight"
+  ],
+  "trace": [
+    {
+      "agentName": "Research",
+      "inputSummary": "Enrich SKU SSB-NJ-300040 using 4 cited search result(s), then summarize with LLM field evidence.",
+      "toolCalls": [
+        {
+          "name": "web_search",
+          "input": "Primero Basics 5-Level Adjustable/Portable Electronic Computer Workstation, Standing Desk Converter, product specs",
+          "durationMs": 7939
+        },
+        {
+          "name": "web_search",
+          "input": " amazon listing requirements",
+          "durationMs": 7939
+        },
+        {
+          "name": "web_search",
+          "input": " common selling points",
+          "durationMs": 7939
+        },
+        {
+          "name": "web_search",
+          "input": " safety certification",
+          "durationMs": 7939
+        },
+        {
+          "name": "llm_research_summarizer",
+          "input": "sources=4 required_fields=5",
+          "durationMs": 28623
+        },
+        {
+          "name": "field_evidence_guard",
+          "input": "require citation/evidence/conflict per enriched field",
+          "durationMs": 20
+        }
+      ],
+      "outputArtifact": "5 enriched fields with citations, evidence snippets, and field-level conflicts. Conflicts retained: 1.",
+      "latencyMs": 31756,
+      "inputTokens": 2833,
+      "outputTokens": 2491,
+      "estimatedCostUsd": 0.023839,
+      "promptSnippet": "Research Agent: search results -> LLM summary -> sourceUrl/evidence/citation/conflict per field; never fabricate specs.",
+      "warningsOrErrors": null
+    }
+  ]
+}

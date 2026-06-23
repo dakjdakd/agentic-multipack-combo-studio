@@ -21,14 +21,14 @@ class ImageService:
         infographic = job_dir / "infographic.jpg"
         aplus = job_dir / "a_plus_hero.jpg"
         specs = [
-            (main, 1600, 1600, mode_label, True, "Main Amazon product image on pure white background, no text, no props, product fills most of the frame."),
-            (lifestyle, 1200, 900, "lifestyle " + mode_label, False, "Lifestyle product scene that remains faithful to color, material, and unit count."),
-            (infographic, 970, 600, "infographic " + mode_label, False, "Amazon infographic image with clean layout, based only on verified specifications."),
-            (aplus, 970, 600, "A+ " + mode_label, False, "Amazon A+ hero image showing product features faithfully."),
+            (main, 1600, 1600, mode_label, True, "Amazon main image. Keep the exact product from the reference image, remove the original background, place it on a pure white background, no text, no props, product fills most of the frame."),
+            (lifestyle, 1200, 900, "lifestyle " + mode_label, False, "Lifestyle product scene. Preserve the referenced product shape, color, material, proportions, and camera angle; only change the surrounding environment."),
+            (infographic, 970, 600, "infographic " + mode_label, False, "Amazon infographic-style product image. Preserve the referenced product and add only clean layout space for verified specifications, without inventing labels."),
+            (aplus, 970, 600, "A+ " + mode_label, False, "Amazon A+ hero image. Preserve the referenced product identity and create a polished brand-content composition."),
         ]
         for path, width, height, label, pure_white, prompt_prefix in specs:
             prompt = self._prompt(prompt_prefix, product, mode_label, unit_count, combo_label)
-            result = self.provider.generate_to_file(prompt, path, size="1024x1024")
+            result = self.provider.generate_to_file(prompt, path, size="1024x1024", reference_image=product.image)
             if result.path and result.path.exists():
                 self._normalize_image(result.path, path, width, height, pure_white)
             else:
@@ -42,12 +42,14 @@ class ImageService:
 
     @staticmethod
     def _prompt(prefix: str, product: Product, mode_label: str, unit_count: int, combo_label: str) -> str:
-        count_text = f"exactly {unit_count} identical units" if mode_label == "multipack" else "one catalog-faithful unit"
+        count_text = f"exactly {unit_count} identical copies of the same referenced product" if mode_label == "multipack" else "one catalog-faithful unit matching the reference image"
         combo_text = f" show both Product A and Product B together, second SKU {combo_label}" if combo_label else ""
         return (
-            f"{prefix} Product SKU {product.sku}. Show {count_text}{combo_text}. "
+            f"{prefix} Product SKU {product.sku}. Use the input image as the source of truth. "
+            "Preserve the original product identity, silhouette, shape, visible structure, proportions, color, material, and camera angle as much as possible. "
+            f"Show {count_text}{combo_text}. "
             f"Color: {product.color or 'unknown'}. Material: {product.material or 'unknown'}. "
-            "No unverified certifications, no competitor branding, no misleading scale."
+            "Do not replace the product with a different item. No unverified certifications, no competitor branding, no misleading scale."
         )
 
     @staticmethod

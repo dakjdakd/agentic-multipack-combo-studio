@@ -1,0 +1,78 @@
+{
+  "sku": "SSB-NJ-300018",
+  "title": "AB Synthetic Fiber Curtain Panel - Soft & Durable Window Treatment, Privacy and Light Control, 1 Panel",
+  "bullets": [
+    "Premium Synthetic Fiber: Crafted from high-quality synthetic fiber, this curtain panel is soft to the touch, durable, and wrinkle-resistant, ensuring long-lasting elegance.",
+    "Privacy & Light Control: The semi-sheer fabric gently filters light while providing essential privacy, creating a cozy and comfortable atmosphere in any room.",
+    "Easy Installation: Features a rod pocket design that fits most standard curtain rods, making setup quick and hassle-free without the need for additional tools.",
+    "Versatile Style: Classic solid color design seamlessly complements any home decor, making it an ideal choice for bedrooms, living rooms, kitchens, and more.",
+    "Easy Care: Machine washable in cold water on a gentle cycle; tumble dry low or hang to dry for effortless maintenance and a fresh look."
+  ],
+  "description": "Enhance your living space with the AB Synthetic Fiber Curtain Panel. Made from premium synthetic fiber, this curtain offers a soft and durable solution for your windows. The semi-sheer fabric strikes the perfect balance between natural light and privacy, making it suitable for any room. The rod pocket design ensures easy installation on standard curtain rods, while the classic solid color blends effortlessly with your existing decor. Care is simple: just machine wash cold and tumble dry low. Transform your home with this elegant and practical window treatment from AB.",
+  "searchTerms": "synthetic fiber curtain window panel rod pocket privacy machine washable ab brand bedroom living room semi sheer durable treatment product",
+  "aPlusModules": [
+    {
+      "id": "ap-hero",
+      "moduleType": "hero_full_width",
+      "type": "header-text",
+      "headline": "Catalog-Faithful Product Story",
+      "title": "Catalog-Faithful Product Story",
+      "body": "A+ content is generated from SSB attributes, source-cited enrichment, and compliance constraints.",
+      "imagePath": "/artifacts/job_78ba42b757/a_plus_hero.jpg",
+      "imageUrl": "/artifacts/job_78ba42b757/a_plus_hero.jpg",
+      "altText": "AB Product ",
+      "imageSize": "970x600"
+    },
+    {
+      "id": "ap-feature",
+      "moduleType": "feature_detail",
+      "type": "single-image-sidebar",
+      "headline": "Measured Physical Details",
+      "title": "Measured Physical Details",
+      "body": "Dimensions: 14.0 x 11.0 x 3.0 in. Weight: 4.5 lb. Material: unknown.",
+      "imagePath": "/artifacts/job_78ba42b757/infographic.jpg",
+      "imageUrl": "/artifacts/job_78ba42b757/infographic.jpg",
+      "altText": "SSB-NJ-300018 dimensions material color",
+      "imageSize": "970x300"
+    },
+    {
+      "id": "ap-spec",
+      "moduleType": "spec_comparison",
+      "type": "three-column",
+      "headline": "Review-Ready Compliance",
+      "title": "Review-Ready Compliance",
+      "body": "The system validates title length, bullets, backend search bytes, alt text, main image size, and white background.",
+      "imagePath": "/artifacts/job_78ba42b757/infographic.jpg",
+      "imageUrl": "/artifacts/job_78ba42b757/infographic.jpg",
+      "altText": "SSB-NJ-300018 compliance checked listing",
+      "imageSize": "970x600"
+    }
+  ],
+  "images": {
+    "main": "/artifacts/job_78ba42b757/main.jpg",
+    "lifestyle": "/artifacts/job_78ba42b757/lifestyle.jpg",
+    "infographic": "/artifacts/job_78ba42b757/infographic.jpg",
+    "aPlus": "/artifacts/job_78ba42b757/a_plus_hero.jpg"
+  },
+  "compliancePassed": false,
+  "score": 93.8,
+  "physicalAttributes": {
+    "weight": {
+      "value": 4.5,
+      "unit": "lb"
+    },
+    "dimensions": {
+      "length": 14.0,
+      "width": 11.0,
+      "height": 3.0,
+      "unit": "in"
+    },
+    "unitCount": 1,
+    "workflowType": "listing",
+    "sourceSkus": [
+      "SSB-NJ-300018"
+    ],
+    "recomputedWeight": null,
+    "recomputedDimensions": null
+  }
+}

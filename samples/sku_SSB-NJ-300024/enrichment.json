@@ -1,0 +1,97 @@
+{
+  "jobId": "enrich_d3780f15af",
+  "sku": "SSB-NJ-300024",
+  "cacheHit": true,
+  "enrichedFields": [
+    {
+      "field": "category_norm",
+      "value": "Nursery",
+      "sourceUrl": "https://www.pinterest.com/pin/amazon-basics-portable-window-blackout-curtain-shade-with-suction-cups-for-travel-50-x-78-1pack-dark-grey--514606694939908782",
+      "confidence": 0.78,
+      "notes": "Category normalized from SSB category and Amazon listing guidance.",
+      "demo": false
+    },
+    {
+      "field": "common_selling_points",
+      "value": [
+        "Emphasize 100% Polyester construction.",
+        "Showcase Dark Grey  visual consistency.",
+        "Highlight measurable dimensions and everyday usage scenarios."
+      ],
+      "sourceUrl": "https://fastercapital.com/content/Nursery-unique-selling-point--Nursery-Marketing-Secrets--Capitalizing-on-Your-Unique-Selling-Point.html",
+      "confidence": 0.74,
+      "notes": "Derived from product attributes and marketplace content norms.",
+      "demo": false
+    },
+    {
+      "field": "compliance_keywords",
+      "value": [
+        "brand-first title",
+        "no promotional claims",
+        "backend search terms under 250 bytes"
+      ],
+      "sourceUrl": "https://sellercentral.amazon.com/seller-forums/discussions/t/e2dbc107c1d8525725d347aa4bea76c6",
+      "confidence": 0.72,
+      "notes": "Compliance-safe keyword handling for Amazon listing content.",
+      "demo": false
+    },
+    {
+      "field": "certifications",
+      "value": "Verify safety claims before mentioning certifications for 100% Polyester.",
+      "sourceUrl": "https://www.mh-chine.com/blog/products/polyester-oeko-tex",
+      "confidence": 0.55,
+      "notes": "No unverified certification is promoted; missing evidence is retained as a gap.",
+      "demo": false
+    },
+    {
+      "field": "pricing_signals",
+      "value": "see cited search result",
+      "sourceUrl": "https://www.pinterest.com/pin/amazon-basics-portable-window-blackout-curtain-shade-with-suction-cups-for-travel-50-x-78-1pack-dark-grey--514606694939908782",
+      "confidence": 0.5,
+      "notes": "Pricing signal is advisory only and never treated as a final price.",
+      "demo": false
+    }
+  ],
+  "conflicts": [],
+  "missingFields": [],
+  "trace": [
+    {
+      "agentName": "Research",
+      "inputSummary": "Enrich SKU SSB-NJ-300024 using product title/category/material/color.",
+      "toolCalls": [
+        {
+          "name": "web_search",
+          "input": "Amazon Basics Portable Travel Window Blackout Curtain Shades with Suction Cups - Dark Grey, 1-Pack product specs",
+          "durationMs": 910
+        },
+        {
+          "name": "web_search",
+          "input": "Nursery amazon listing requirements",
+          "durationMs": 910
+        },
+        {
+          "name": "web_search",
+          "input": "Nursery common selling points",
+          "durationMs": 910
+        },
+        {
+          "name": "web_search",
+          "input": "100% Polyester safety certification",
+          "durationMs": 910
+        },
+        {
+          "name": "source_citation_guard",
+          "input": "require sourceUrl per enriched field",
+          "durationMs": 20
+        }
+      ],
+      "outputArtifact": "5 enriched fields with URL citations. Missing/conflicts retained: 0.",
+      "latencyMs": 3642,
+      "inputTokens": 900,
+      "outputTokens": 350,
+      "estimatedCostUsd": 0.02069,
+      "promptSnippet": "Research Agent: collect category norms, competitor-safe selling points, compliance terms, never fabricate specs.",
+      "warningsOrErrors": null
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "jobId": "enrich_db96fa699b",
+  "sku": "SSB-NJ-300002",
+  "cacheHit": true,
+  "enrichedFields": [
+    {
+      "field": "category_norm",
+      "value": "General Amazon Product",
+      "sourceUrl": "https://www.magniflex.com.hk/pages/pets",
+      "confidence": 0.78,
+      "notes": "Category normalized from SSB category and Amazon listing guidance.",
+      "demo": false
+    },
+    {
+      "field": "common_selling_points",
+      "value": [
+        "Emphasize documented material construction.",
+        "Showcase catalog color visual consistency.",
+        "Highlight measurable dimensions and everyday usage scenarios."
+      ],
+      "sourceUrl": "https://www.brightonescrow.com/top-10-home-selling-points-you-should-know",
+      "confidence": 0.74,
+      "notes": "Derived from product attributes and marketplace content norms.",
+      "demo": false
+    },
+    {
+      "field": "compliance_keywords",
+      "value": [
+        "brand-first title",
+        "no promotional claims",
+        "backend search terms under 250 bytes"
+      ],
+      "sourceUrl": "https://sellercentral.amazon.com/help/hub/reference/external/GYTR6SYGFA5E3EQC?locale=en-US",
+      "confidence": 0.72,
+      "notes": "Compliance-safe keyword handling for Amazon listing content.",
+      "demo": false
+    },
+    {
+      "field": "certifications",
+      "value": "not found",
+      "sourceUrl": "https://www.columbiasouthern.edu/blog/blog-articles/2020/april/safety-certifications",
+      "confidence": 0.55,
+      "notes": "No unverified certification is promoted; missing evidence is retained as a gap.",
+      "demo": false
+    },
+    {
+      "field": "pricing_signals",
+      "value": "see cited search result",
+      "sourceUrl": "https://www.magniflex.com.hk/pages/pets",
+      "confidence": 0.5,
+      "notes": "Pricing signal is advisory only and never treated as a final price.",
+      "demo": false
+    }
+  ],
+  "conflicts": [
+    {
+      "type": "missing_product_fields",
+      "fields": [
+        "category",
+        "color",
+        "material",
+        "image"
+      ],
+      "policy": "do_not_fabricate"
+    }
+  ],
+  "missingFields": [
+    "category",
+    "color",
+    "material",
+    "image"
+  ],
+  "trace": [
+    {
+      "agentName": "Research",
+      "inputSummary": "Enrich SKU SSB-NJ-300002 using product title/category/material/color.",
+      "toolCalls": [
+        {
+          "name": "web_search",
+          "input": "宠物床垫 product specs",
+          "durationMs": 1501
+        },
+        {
+          "name": "web_search",
+          "input": " amazon listing requirements",
+          "durationMs": 1501
+        },
+        {
+          "name": "web_search",
+          "input": " common selling points",
+          "durationMs": 1501
+        },
+        {
+          "name": "web_search",
+          "input": " safety certification",
+          "durationMs": 1501
+        },
+        {
+          "name": "source_citation_guard",
+          "input": "require sourceUrl per enriched field",
+          "durationMs": 20
+        }
+      ],
+      "outputArtifact": "5 enriched fields with URL citations. Missing/conflicts retained: 1.",
+      "latencyMs": 6006,
+      "inputTokens": 900,
+      "outputTokens": 350,
+      "estimatedCostUsd": 0.02069,
+      "promptSnippet": "Research Agent: collect category norms, competitor-safe selling points, compliance terms, never fabricate specs.",
+      "warningsOrErrors": null
+    }
+  ]
+}
