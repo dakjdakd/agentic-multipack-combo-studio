@@ -8,7 +8,7 @@
     "PACKAGING-AWARE VALUE: Listing workflow recalculates unit count, package weight, and bundle presentation before review.",
     "REVIEWABLE A+ OUTPUT: Includes image-ready modules, backend keywords under 250 bytes, and a human approval gate before publishing."
   ],
-  "description": "The Amazon Basics Vanity Mirror is a double-sided tabletop mirror with a heavy base, measuring 15 x 9.02 x 7.01 inches and weighing 3 pounds. It features 1x and 5x magnification, a 360-degree rotating design, and durable iron-coated construction in a white finish. The 6.69-inch diameter mirror provides crystal clear reflection for makeup application, skincare, and grooming. Its sturdy base prevents tipping for stable use.",
+  "description": "This Amazon Basics vanity mirror features a double-sided design with 1X and 5X magnification, perfect for precise makeup application, grooming, and skincare. The mirror rotates 360 degrees on a heavy, durable iron-coated base that prevents tipping. The crystal-clear reflection and 6.69-inch diameter provide a flawless view. Its white finish adds a sleek touch, and cleaning is easy with a dry cloth.",
   "searchTerms": "ab home improvement white iron ssb nj 300001 listing amazon a plus",
   "aPlusModules": [
     {
@@ -18,8 +18,8 @@
       "headline": "Catalog-Faithful Product Story",
       "title": "Catalog-Faithful Product Story",
       "body": "A+ content is generated from SSB attributes, source-cited enrichment, and compliance constraints.",
-      "imagePath": "/artifacts/job_647c71ff45/a_plus_hero.jpg",
-      "imageUrl": "/artifacts/job_647c71ff45/a_plus_hero.jpg",
+      "imagePath": "/artifacts/job_857c9f10ee/a_plus_hero.jpg",
+      "imageUrl": "/artifacts/job_857c9f10ee/a_plus_hero.jpg",
       "altText": "AB home_improvement White",
       "imageSize": "970x600"
     },
@@ -30,8 +30,8 @@
       "headline": "Measured Physical Details",
       "title": "Measured Physical Details",
       "body": "Dimensions: 15.0 x 9.02 x 7.01 in. Weight: 3.0 lb. Material: Iron.",
-      "imagePath": "/artifacts/job_647c71ff45/infographic.jpg",
-      "imageUrl": "/artifacts/job_647c71ff45/infographic.jpg",
+      "imagePath": "/artifacts/job_857c9f10ee/infographic.jpg",
+      "imageUrl": "/artifacts/job_857c9f10ee/infographic.jpg",
       "altText": "SSB-NJ-300001 dimensions material color",
       "imageSize": "970x300"
     },
@@ -42,17 +42,17 @@
       "headline": "Review-Ready Compliance",
       "title": "Review-Ready Compliance",
       "body": "The system validates title length, bullets, backend search bytes, alt text, main image size, and white background.",
-      "imagePath": "/artifacts/job_647c71ff45/infographic.jpg",
-      "imageUrl": "/artifacts/job_647c71ff45/infographic.jpg",
+      "imagePath": "/artifacts/job_857c9f10ee/infographic.jpg",
+      "imageUrl": "/artifacts/job_857c9f10ee/infographic.jpg",
       "altText": "SSB-NJ-300001 compliance checked listing",
       "imageSize": "970x600"
     }
   ],
   "images": {
-    "main": "/artifacts/job_647c71ff45/main.jpg",
-    "lifestyle": "/artifacts/job_647c71ff45/lifestyle.jpg",
-    "infographic": "/artifacts/job_647c71ff45/infographic.jpg",
-    "aPlus": "/artifacts/job_647c71ff45/a_plus_hero.jpg"
+    "main": "/artifacts/job_857c9f10ee/main.jpg",
+    "lifestyle": "/artifacts/job_857c9f10ee/lifestyle.jpg",
+    "infographic": "/artifacts/job_857c9f10ee/infographic.jpg",
+    "aPlus": "/artifacts/job_857c9f10ee/a_plus_hero.jpg"
   },
   "compliancePassed": false,
   "score": 93.8,

@@ -1,9 +1,9 @@
 {
-  "sku": "MUG-STEEL-01",
+  "sku": "SSB-NJ-300001",
   "workflowType": "multipack",
   "title": {
-    "before": "AeroTherm Matte Black Stainless Steel Travel Mug - 16oz Vacuum Insulated Tumbler",
-    "after": "AeroTherm Tumblers, Pack of 3 - Matte Black 18/8 Double-Wall Stainless Steel, Measured 3.4 x 3.4 x 20.6 in"
+    "before": "Amazon Basics Vanity Mirror with Heavy Base - 1X/5X Magnification, White",
+    "after": "AB home_improvement, Pack of 3 - White Iron, Measured 15.2 x 9.2 x 21.2 in"
   },
   "unitCount": {
     "before": 1,
@@ -11,34 +11,34 @@
   },
   "weight": {
     "before": {
-      "value": 0.75,
+      "value": 3.0,
       "unit": "lb"
     },
     "after": {
-      "value": 2.43,
+      "value": 9.72,
       "unit": "lb"
     }
   },
   "dimensions": {
     "before": {
-      "length": 3.2,
-      "width": 3.2,
-      "height": 6.8,
+      "length": 15.0,
+      "width": 9.02,
+      "height": 7.01,
       "unit": "in"
     },
     "after": {
-      "length": 3.4,
-      "width": 3.4,
-      "height": 20.6,
+      "length": 15.2,
+      "width": 9.2,
+      "height": 21.2,
       "unit": "in"
     }
   },
   "images": {
     "after": {
-      "main": "/artifacts/job_1713f8faff/main.jpg",
-      "lifestyle": "/artifacts/job_1713f8faff/lifestyle.jpg",
-      "infographic": "/artifacts/job_1713f8faff/infographic.jpg",
-      "aPlus": "/artifacts/job_1713f8faff/a_plus_hero.jpg"
+      "main": "/artifacts/job_082594705b/main.jpg",
+      "lifestyle": "/artifacts/job_082594705b/lifestyle.jpg",
+      "infographic": "/artifacts/job_082594705b/infographic.jpg",
+      "aPlus": "/artifacts/job_082594705b/a_plus_hero.jpg"
     }
   },
   "compliancePassed": true

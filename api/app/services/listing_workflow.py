@@ -189,12 +189,29 @@ class ListingWorkflow:
                 state["trace"].append(self._step(state["job_id"], "Copy", f"No prior listing found for images_only mode on {product.sku}; generated copy fallback with warning.", ["latest_listing_lookup", "llm_json_schema_generation"], "No previous listing existed, so safe copy was generated before image regeneration.", 1200, 520, output_tokens=260))
         state["listing"] = listing
         image_paths = self.images.generate_set(state["job_id"], product, state["workflow_type"], state["unit_count"], state["combo_label"])
+        image_reports = list(self.images.last_generation_reports)
         listing.images = ListingImages(**image_paths)
         for idx, module in enumerate(listing.aPlusModules):
             module.imagePath = image_paths["aPlus" if idx == 0 else "infographic"]
             module.imageUrl = module.imagePath
+        listing.physicalAttributes["imageGeneration"] = image_reports
         self.cost.record(state["job_id"], "Image", "demo_image" if self.settings.demo_mode else self.settings.image_provider, self.settings.image_model, input_tokens=450, output_tokens=180, image_count=4, latency_ms=2200)
-        state["trace"].append(self._step(state["job_id"], "Image", f"Generate images for {product.sku}; workflow={state['workflow_type']}.", ["image_prompt_builder", "image_generator", "artifact_writer"], "Saved main, lifestyle, infographic, and A+ images under artifacts.", 2200, 450, output_tokens=180, image_count=4))
+        modes = sorted({str(report.get("assetMode")) for report in image_reports})
+        reference_count = sum(1 for report in image_reports if report.get("referenceUsed"))
+        warnings = "; ".join(str(report["warning"]) for report in image_reports if report.get("warning")) or None
+        image_step = self._step(
+            state["job_id"],
+            "Image",
+            f"Generate images for {product.sku}; workflow={state['workflow_type']}.",
+            ["image_prompt_builder", "reference_image_loader", "image_generator", "artifact_writer"],
+            f"Saved main, lifestyle, infographic, and A+ images. assetModes={','.join(modes)}; referenceUsed={reference_count}/{len(image_reports)}.",
+            2200,
+            450,
+            output_tokens=180,
+            image_count=4,
+        )
+        image_step.warningsOrErrors = warnings
+        state["trace"].append(image_step)
         return state
 
     def _node_critic(self, state: ListingGraphState) -> ListingGraphState:

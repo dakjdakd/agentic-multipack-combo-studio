@@ -1,44 +1,44 @@
 [
   {
     "agentName": "Recomposition",
-    "inputSummary": "Parse chat message for SKU MUG-STEEL-01 with intent source regex_fallback.",
+    "inputSummary": "Parse chat message for SKU SSB-NJ-300001 with intent source llm_json.",
     "toolCalls": [
       {
         "name": "llm_intent_extractor",
         "input": "deepseek:deepseek-v4-pro",
-        "durationMs": 829
+        "durationMs": 13377
       },
       {
         "name": "regex_intent_fallback",
-        "input": "把这个 SKU 做成 3 件装",
+        "input": "Make this a 3-pack",
         "durationMs": 15
       }
     ],
-    "outputArtifact": "intent=multipack; qty=3; source=regex_fallback; job=job_1713f8faff",
-    "latencyMs": 829,
-    "inputTokens": 40,
-    "outputTokens": 2,
+    "outputArtifact": "intent=multipack; qty=3; source=llm_json; job=job_082594705b",
+    "latencyMs": 13377,
+    "inputTokens": 43,
+    "outputTokens": 214,
     "estimatedCostUsd": 0.0,
     "promptSnippet": "Recomposition intent extraction contract: prefer LLM JSON, fall back to regex, persist the true intent source.",
-    "warningsOrErrors": "Live LLM call failed; deterministic fallback used: [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。"
+    "warningsOrErrors": null
   },
   {
     "agentName": "Supervisor",
-    "inputSummary": "Create multipack LangGraph workflow for SKU MUG-STEEL-01; mode=full.",
+    "inputSummary": "Create multipack LangGraph workflow for SKU SSB-NJ-300001; mode=full.",
     "toolCalls": [
       {
         "name": "create_job",
-        "input": "Create multipack LangGraph workflow for SKU MUG-STEEL-01; mode=full.",
+        "input": "Create multipack LangGraph workflow for SKU SSB-NJ-300001; mode=full.",
         "durationMs": 216
       },
       {
         "name": "compile_state_graph",
-        "input": "Create multipack LangGraph workflow for SKU MUG-STEEL-01; mode=full.",
+        "input": "Create multipack LangGraph workflow for SKU SSB-NJ-300001; mode=full.",
         "durationMs": 216
       },
       {
         "name": "dispatch_agents",
-        "input": "Create multipack LangGraph workflow for SKU MUG-STEEL-01; mode=full.",
+        "input": "Create multipack LangGraph workflow for SKU SSB-NJ-300001; mode=full.",
         "durationMs": 216
       }
     ],
@@ -52,15 +52,15 @@
   },
   {
     "agentName": "Product Loader",
-    "inputSummary": "Load normalized product for MUG-STEEL-01.",
+    "inputSummary": "Load normalized product for SSB-NJ-300001.",
     "toolCalls": [
       {
         "name": "read_only_product_repository",
-        "input": "Load normalized product for MUG-STEEL-01.",
+        "input": "Load normalized product for SSB-NJ-300001.",
         "durationMs": 520
       }
     ],
-    "outputArtifact": "Loaded source=demo, missing=['image'].",
+    "outputArtifact": "Loaded source=ssb_mysql, missing=[].",
     "latencyMs": 520,
     "inputTokens": 160,
     "outputTokens": 180,
@@ -70,32 +70,32 @@
   },
   {
     "agentName": "Research",
-    "inputSummary": "Enrich SKU MUG-STEEL-01 using 4 cited search result(s), then summarize with LLM field evidence.",
+    "inputSummary": "Enrich SKU SSB-NJ-300001 using 4 cited search result(s), then summarize with LLM field evidence.",
     "toolCalls": [
       {
         "name": "web_search",
-        "input": "AeroTherm Matte Black Stainless Steel Travel Mug - 16oz Vacuum Insulated Tumbler product specs",
-        "durationMs": 540
+        "input": "Amazon Basics Vanity Mirror with Heavy Base - 1X/5X Magnification, White product specs",
+        "durationMs": 12639
       },
       {
         "name": "web_search",
-        "input": "Kitchen & Dining > Drinkware > Tumblers amazon listing requirements",
-        "durationMs": 540
+        "input": "home_improvement amazon listing requirements",
+        "durationMs": 12639
       },
       {
         "name": "web_search",
-        "input": "Kitchen & Dining > Drinkware > Tumblers common selling points",
-        "durationMs": 540
+        "input": "home_improvement common selling points",
+        "durationMs": 12639
       },
       {
         "name": "web_search",
-        "input": "18/8 Double-Wall Stainless Steel safety certification",
-        "durationMs": 540
+        "input": "Iron safety certification",
+        "durationMs": 12639
       },
       {
         "name": "llm_research_summarizer",
         "input": "sources=4 required_fields=5",
-        "durationMs": 926
+        "durationMs": 45250
       },
       {
         "name": "field_evidence_guard",
@@ -103,26 +103,26 @@
         "durationMs": 20
       }
     ],
-    "outputArtifact": "5 enriched fields with citations, evidence snippets, and field-level conflicts. Conflicts retained: 3.",
-    "latencyMs": 2163,
-    "inputTokens": 1821,
+    "outputArtifact": "5 enriched fields with citations, evidence snippets, and field-level conflicts. Conflicts retained: 1.",
+    "latencyMs": 50558,
+    "inputTokens": 2570,
     "outputTokens": 352,
-    "estimatedCostUsd": 0.020969,
+    "estimatedCostUsd": 0.021193,
     "promptSnippet": "Research Agent: search results -> LLM summary -> sourceUrl/evidence/citation/conflict per field; never fabricate specs.",
-    "warningsOrErrors": "Live search failed; deterministic cited results used: [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。; Live LLM call failed; deterministic fallback used: [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。"
+    "warningsOrErrors": "Live LLM call failed; deterministic fallback used: The read operation timed out"
   },
   {
     "agentName": "Copy",
-    "inputSummary": "Generate Amazon A+ copy for MUG-STEEL-01.",
+    "inputSummary": "Generate Amazon A+ copy for SSB-NJ-300001.",
     "toolCalls": [
       {
         "name": "llm_json_schema_generation",
-        "input": "Generate Amazon A+ copy for MUG-STEEL-01.",
+        "input": "Generate Amazon A+ copy for SSB-NJ-300001.",
         "durationMs": 900
       },
       {
         "name": "backend_search_terms_guard",
-        "input": "Generate Amazon A+ copy for MUG-STEEL-01.",
+        "input": "Generate Amazon A+ copy for SSB-NJ-300001.",
         "durationMs": 900
       }
     ],
@@ -136,21 +136,21 @@
   },
   {
     "agentName": "Image",
-    "inputSummary": "Generate images for MUG-STEEL-01; workflow=multipack.",
+    "inputSummary": "Generate images for SSB-NJ-300001; workflow=multipack.",
     "toolCalls": [
       {
         "name": "image_prompt_builder",
-        "input": "Generate images for MUG-STEEL-01; workflow=multipack.",
+        "input": "Generate images for SSB-NJ-300001; workflow=multipack.",
         "durationMs": 733
       },
       {
         "name": "image_generator",
-        "input": "Generate images for MUG-STEEL-01; workflow=multipack.",
+        "input": "Generate images for SSB-NJ-300001; workflow=multipack.",
         "durationMs": 733
       },
       {
         "name": "artifact_writer",
-        "input": "Generate images for MUG-STEEL-01; workflow=multipack.",
+        "input": "Generate images for SSB-NJ-300001; workflow=multipack.",
         "durationMs": 733
       }
     ],

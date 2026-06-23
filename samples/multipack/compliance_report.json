@@ -3,21 +3,21 @@
     "id": "title_brand_first",
     "rule": "Title starts with brand",
     "status": "passed",
-    "observedValue": "AeroTherm",
-    "expectedLimit": "AeroTherm"
+    "observedValue": "AB",
+    "expectedLimit": "AB"
   },
   {
     "id": "title_length_under_200",
     "rule": "Title <= 200 characters",
     "status": "passed",
-    "observedValue": "106 chars",
+    "observedValue": "74 chars",
     "expectedLimit": "<= 200 chars"
   },
   {
     "id": "title_target_under_150",
     "rule": "Title target <= 150 characters",
     "status": "passed",
-    "observedValue": "106 chars",
+    "observedValue": "74 chars",
     "expectedLimit": "<= 150 chars target"
   },
   {
@@ -59,7 +59,7 @@
     "id": "backend_search_terms_under_250_bytes",
     "rule": "Backend search terms <= 250 bytes",
     "status": "passed",
-    "observedValue": "102 bytes",
+    "observedValue": "76 bytes",
     "expectedLimit": "<= 250 bytes"
   },
   {
@@ -94,14 +94,14 @@
     "id": "main_image_product_fill_ratio",
     "rule": "Main image product occupies most of frame",
     "status": "passed",
-    "observedValue": "60.99%",
+    "observedValue": "60.92%",
     "expectedLimit": ">= 55% deterministic bounding-box target"
   },
   {
     "id": "main_image_file_under_10mb",
     "rule": "Main image < 10MB",
     "status": "passed",
-    "observedValue": "0.07MB",
+    "observedValue": "0.08MB",
     "expectedLimit": "< 10MB"
   },
   {

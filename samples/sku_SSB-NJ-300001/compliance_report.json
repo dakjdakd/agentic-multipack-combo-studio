@@ -94,14 +94,14 @@
     "id": "main_image_product_fill_ratio",
     "rule": "Main image product occupies most of frame",
     "status": "failed",
-    "observedValue": "40.96%",
+    "observedValue": "26.62%",
     "expectedLimit": ">= 55% deterministic bounding-box target"
   },
   {
     "id": "main_image_file_under_10mb",
     "rule": "Main image < 10MB",
     "status": "passed",
-    "observedValue": "0.15MB",
+    "observedValue": "0.10MB",
     "expectedLimit": "< 10MB"
   },
   {

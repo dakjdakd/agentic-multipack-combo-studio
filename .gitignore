@@ -13,6 +13,7 @@ dist/
 build/
 
 artifacts/
+output/
 outputs/
 .cache/
 data/
@@ -38,4 +39,5 @@ FRONTEND_SPEC.md
 # Local runtime logs and helper scripts.
 *.log
 .codex-start-local.ps1
+.playwright-cli/
 

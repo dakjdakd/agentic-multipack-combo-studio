@@ -86,7 +86,7 @@
     "outputTokens": 352,
     "estimatedCostUsd": 0.020969,
     "promptSnippet": "Research Agent: search results -> LLM summary -> sourceUrl/evidence/citation/conflict per field; never fabricate specs.",
-    "warningsOrErrors": "Live search failed; deterministic cited results used: [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。; Live LLM call failed; deterministic fallback used: [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。"
+    "warningsOrErrors": "Live search unavailable in offline validation; deterministic cited results used.; Live LLM unavailable in offline validation; deterministic fallback used."
   },
   {
     "agentName": "Copy",

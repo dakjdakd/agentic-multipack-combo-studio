@@ -18,6 +18,8 @@ class ImageGenerationResult:
     provider: str
     model: str
     warning: str | None = None
+    generation_mode: str = "text_to_image"
+    reference_used: bool = False
 
 
 class ImageProvider:
@@ -31,6 +33,11 @@ class ImageProvider:
 
     def generate_to_file(self, prompt: str, path: Path, *, size: str = "1024x1024", reference_image: str | None = None) -> ImageGenerationResult:
         started = time.perf_counter()
+        provider_name = self.settings.image_provider.lower()
+        reference_input = self._image_input(reference_image)
+        reference_supported = provider_name == "agnes"
+        reference_used = bool(reference_input and reference_supported)
+        generation_mode = "image_to_image_reference" if reference_used else "text_to_image"
         if self.settings.demo_mode or not self.configured():
             return ImageGenerationResult(
                 path=None,
@@ -38,11 +45,13 @@ class ImageProvider:
                 provider="demo_image",
                 model=self.settings.image_model,
                 warning="Image provider not configured; Pillow demo image should be used.",
+                generation_mode="demo_fallback",
+                reference_used=False,
             )
 
-        if self.settings.image_provider.lower() == "agnes":
+        if provider_name == "agnes":
             url = self._agnes_endpoint()
-            payloads = self._agnes_payloads(prompt, size, reference_image)
+            payloads = self._agnes_payloads(prompt, size, reference_input)
         else:
             url = self.settings.image_base_url.rstrip("/")
             if not url.endswith("/images/generations"):
@@ -78,10 +87,10 @@ class ImageProvider:
                     image_response.raise_for_status()
                     path.write_bytes(image_response.content)
             else:
-                return ImageGenerationResult(None, self._elapsed(started), self.settings.image_provider, self.settings.image_model, "Image API did not return b64_json or url; Pillow fallback should be used.")
-            return ImageGenerationResult(path, self._elapsed(started), self.settings.image_provider, self.settings.image_model)
+                return ImageGenerationResult(None, self._elapsed(started), self.settings.image_provider, self.settings.image_model, "Image API did not return b64_json or url; Pillow fallback should be used.", generation_mode, reference_used)
+            return ImageGenerationResult(path, self._elapsed(started), self.settings.image_provider, self.settings.image_model, None, generation_mode, reference_used)
         except Exception as exc:  # noqa: BLE001
-            return ImageGenerationResult(None, self._elapsed(started), self.settings.image_provider, self.settings.image_model, f"Live image call failed; Pillow fallback should be used: {exc}")
+            return ImageGenerationResult(None, self._elapsed(started), self.settings.image_provider, self.settings.image_model, f"Live image call failed; Pillow fallback should be used: {exc}", generation_mode, reference_used)
 
     def _agnes_endpoint(self) -> str:
         base = self.settings.image_base_url.rstrip("/")
@@ -94,7 +103,7 @@ class ImageProvider:
         return f"{base}/v1/images/generations"
 
     def _agnes_payloads(self, prompt: str, size: str, reference_image: str | None) -> list[dict[str, object]]:
-        image = self._image_input(reference_image)
+        image = reference_image
         base: dict[str, object] = {
             "model": self.settings.image_model,
             "prompt": prompt,

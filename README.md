@@ -1,67 +1,234 @@
-﻿# SSB Listing Studio
+# SSB Listing Studio
 
-SSB Listing Studio 是一个可用 Docker 复跑的 Agentic Amazon Listing 系统。它从 SSB SKU 数据源读取商品，做带来源引用的 enrichment，通过多 Agent 工作流生成 Amazon A+ Listing 和图片，支持聊天式 multipack/combo 重组，并提供 trace、review、diff、成本预算和 eval 评分。
+> 我做的一个 Agentic Amazon Listing 自动化原型：从 SSB SKU 数据读取商品，通过联网调研、多 Agent 编排、文案生成、图片生成、合规校验、人工审核、成本追踪，最终生成可审查的 Amazon A+ 风格 Listing。
 
-## 快速启动
+这个项目不是一个简单的“输入商品名，让大模型写几句文案”的 demo。我把它做成了一个尽量接近真实业务流程的 0 到 1 面试原型：数据从哪里来、Agent 每一步做了什么、生成结果能不能审查、图片是否尽量贴近原图、成本花在哪里、失败时有没有提示，这些都被放进了系统里。
 
-没有数据库、没有 API key 时也能启动。系统会进入 demo provider 模式，使用本地可复跑数据和确定性生成器，方便 reviewer 先完整体验流程。
+## 我想解决什么问题
 
-```bash
-docker compose up --build
+电商团队要上架商品时，通常需要做很多重复但又不能随便糊弄的事情：
+
+- 从商品数据库里读 SKU、标题、品牌、尺寸、重量、颜色、材质等基础信息。
+- 查资料补充卖点，但不能乱编参数，也要保留来源。
+- 写 Amazon 标题、五点描述、详情文案、A+ 模块和后台搜索词。
+- 生成主图、场景图、信息图等视觉素材。
+- 检查 Amazon 规则、违禁词、搜索词字节数、图片要求。
+- 做 multipack 或 combo 时，要重新计算件数、重量、尺寸和文案。
+- 让人可以审核、退回、看 diff，而不是 AI 直接“黑箱发布”。
+- 追踪 LLM、图片生成、联网搜索、缓存节省和整体预算。
+
+所以我把这个项目设计成一个 Listing Studio，而不是一个聊天框。它的重点是“可运行、可复查、可解释、可继续扩展”。
+
+## 项目亮点
+
+| 亮点 | 我做了什么 | 为什么重要 |
+| --- | --- | --- |
+| 真实工作流 | 使用 FastAPI + React + LangGraph，把 Research、Copy、Image、Critic、Compliance 等角色拆成独立节点 | 面试官可以看到我不是只写了一个大 prompt，而是在做工程化编排 |
+| SSB 数据只读 | 按提供的 MySQL `fbm_sku` 凭证实现 read-only adapter，生成内容只写本地 SQLite/artifacts/samples | 避免污染真实业务数据库，也符合安全边界 |
+| 带来源的联网增强 | Enrichment 返回 `sourceUrl`、evidence、citations、confidence、conflict | 让 AI 补充的信息有依据，弱证据不会变成假参数 |
+| Amazon A+ Listing | 输出 title、5 bullets、description、A+ modules、images、backend search terms | 覆盖题目要求的核心交付物 |
+| 图片一致性改进 | Agnes Image live 模式下优先使用商品原图做 image-to-image reference，trace 中记录 `referenceUsed` | 解决纯文生图容易和原图完全不像的问题 |
+| 对话式重组 | 支持 “Make this a 3-pack”、中文“把这个 SKU 做成 3 件装”、combo 指令 | 展示 Agent 能处理自然语言业务意图，不只是固定按钮 |
+| 可审查 Trace | 每个 job 记录 Agent 步骤、工具调用、tokens、latency、cost、warning | 方便定位为什么慢、为什么失败、为什么结果长这样 |
+| Human Review | Review / Diff 页面支持 approve、reject、request revision | AI 生成结果进入人工审核，而不是假装全自动发布 |
+| 成本预算 | 按 token、图片、search、cache savings 估算成本，围绕 1500 RMB 预算展示 | 回应题目和项目讨论中对成本意识的要求 |
+| Demo + Live 双模式 | 没有 key 可以 demo 复跑，有真实配置时走 live provider | 既方便面试官快速看，也能证明真实接口路径存在 |
+
+## 界面演示
+
+我把前端做成几个明确的工作台页面。面试官可以按下面顺序看项目，基本就能理解完整链路。
+
+### 1. Dashboard - 总览和入口
+
+![Dashboard](assets/DASHBOARD.png)
+
+Dashboard 是我设计的项目入口。它不是单纯摆数据，而是让 reviewer 一进来就知道系统当前状态：
+
+- 当前加载到了多少 SKU。
+- 已生成多少 listing。
+- 有多少内容等待人工审核。
+- 当前预计花费多少 RMB。
+- 合规通过率大概是多少。
+- 最近有哪些 pipeline job，可以点进 Trace 继续追踪。
+- 可以直接启动某个 SKU 的 listing 生成，也可以进入 Chat Recomposer 或 Eval。
+
+之前这里有一个体验问题：刚打开时页面是空的，数据加载完成后突然跳变。我已经加了 loading skeleton、同步提示、数字过渡和渐入动画，让它更像真实 SaaS 工具，而不是突然闪一下。
+
+### 2. Products DB - SKU 数据读取和归一化
+
+![Products DB](assets/PRODUCTS%20DB.png)
+
+Products DB 页面展示的是商品数据层。我希望面试官能看到我没有把商品信息写死在前端，而是把“读数据、归一化、缺失字段、原始字段”都展示出来。
+
+这个页面主要做几件事：
+
+- 读取 SSB SKU 数据，或者在无数据库时读取 demo SKU。
+- 展示 normalized product model，方便后续 Agent 使用稳定字段。
+- 保留 raw fields，让 reviewer 知道原始数据长什么样。
+- 标记 missing fields，避免 AI 在缺字段时假装自己知道。
+- 展示 variation / pricing suggestion，作为后续商品变体扩展入口。
+- 提供 Enrich 和 Generate Listing 操作，让数据进入下一步流程。
+
+题目 README 里提到 PostgreSQL，但提供的凭证文档是 MySQL、端口 3306、核心表 `fbm_sku`。我按实际可运行凭证做了 MySQL read-only adapter，并在 [REPORT.md](./REPORT.md) 里说明了这个冲突。
+
+### 3. Listing Studio - 多 Agent 生成 Listing
+
+![Listing Studio](assets/LISTING%20STUDIO.png)
+
+Listing Studio 是项目最核心的页面。这里点击 `EXECUTE MULTI-AGENT PIPELINE` 后，后端会启动真实流程，而不是前端假装生成。
+
+我在这里做了几层体验和工程保护：
+
+- 按阶段展示 Fetch、Enrich、Research、Copy、Image、Critic、Compliance。
+- 按钮进入运行状态，避免用户以为点击后没反应。
+- live provider 运行时间可能需要 1-3 分钟，页面会显示正在运行的提示。
+- 生成完成后展示 Amazon title、五点描述、description、backend search terms。
+- backend search terms 会按 250 bytes 做限制提醒。
+- 图片区展示 main、lifestyle、infographic、A+ hero 四类资产。
+- 生成结果可以保存 draft，也可以送到 Review / Diff。
+
+我之前发现一个很现实的问题：如果只用文字 prompt 生图，生成图可能和原始商品完全不像。现在 Image Agent 会在 Agnes live 模式下优先把商品原图作为 reference input，并且在 trace 里记录本次到底是 `image_to_image_reference`、`text_to_image` 还是 fallback。这样 reviewer 不需要猜系统有没有真的用原图。
+
+### 4. Agent Trace - 每一步都能审查
+
+![Agent Trace](assets/AGENT%20TRACE.png)
+
+Agent Trace 是我认为这个项目很加分的地方，因为它证明系统不是黑箱。
+
+这里可以按 jobId 查看：
+
+- Supervisor 有没有启动和收尾。
+- Product Loader 读到了什么 SKU。
+- Research Agent 用了哪些来源。
+- Copy Agent 输出了什么结构化文案。
+- Image Agent 有没有使用原图 reference。
+- Critic 发现了什么物理一致性风险。
+- Compliance 有没有拦截标题、bullet、search terms、图片规则等问题。
+- 每一步的 latency、tokens、estimated cost 和 warning。
+
+如果某个按钮点了之后没立刻出结果，Trace 页面就是我用来解释“它到底在运行什么、卡在哪里、有没有失败”的页面。
+
+### 5. Chat Recomposer - 用自然语言做 multipack / combo
+
+![Chat Recomposer](assets/CHAT%20RECOMPOSER.png)
+
+Chat Recomposer 是为了覆盖题目里的 multipack 和 combo 要求。
+
+它支持这类指令：
+
+```text
+Make this a 3-pack
+把这个 SKU 做成 3 件装
+Combine this with SKU STAND-ALUM-09
+把当前商品和另一个 SKU 组合成套装
 ```
 
-打开：
+我没有只靠按钮或正则硬写死，而是做了 LLM-first intent extraction，再加 fallback parser。也就是说：
 
-- 前端：http://localhost:3000
-- 后端健康检查：http://localhost:8000/api/health
+- 有 LLM 时，优先让模型理解用户意图。
+- LLM 输出不稳定时，用确定性 parser 兜底。
+- trace 会记录 intent 来源，例如 `llm_json`、`regex_fallback`、`clarification`。
 
-## 环境变量
+multipack 会重新计算：
 
-复制 `.env.example` 为 `.env`，再填入真实配置。不要提交 `.env`。
+- unit count
+- package weight
+- package dimensions
+- title 中的 Pack of N
+- bullets 和图片 prompt
+- physical attributes diff
 
-```env
-DEMO_MODE=true
-SSB_DB_HOST=
-SSB_DB_PORT=3306
-SSB_DB_USER=
-SSB_DB_PASSWORD=
-SSB_DB_NAME=
-LLM_PROVIDER=deepseek
-LLM_BASE_URL=https://api.deepseek.com
-LLM_API_KEY=
-LLM_MODEL=deepseek-v4-flash
-IMAGE_PROVIDER=agnes
-IMAGE_BASE_URL=https://apihub.agnes-ai.com
-IMAGE_API_KEY=
-IMAGE_MODEL=agnes-image-2.1-flash
-SEARCH_PROVIDER=tavily
-SEARCH_BASE_URL=https://api.tavily.com
-SEARCH_API_KEY=
-BUDGET_TARGET_RMB=1500
-IMAGE_GENERATION_USD=0.003
-SEARCH_REQUEST_USD=0.005
-```
+combo 会合并两个 SKU 的基础信息，重新组织标题、卖点、套装价值和图片提示。当前版本 combo 生图主要使用主 SKU 原图，并把第二 SKU 写入 prompt，这是能运行的实现；后续更好的方式是把两个 SKU 的图片都传入 Agnes 的 image array。
 
-题目 README 提到 PostgreSQL，但提供的数据库凭证文档写的是 MySQL、端口 3306、核心表 `fbm_sku`。本项目按凭证文档实现 MySQL read-only adapter，并在 [REPORT.md](./REPORT.md) 说明这个冲突。
+### 6. Review / Diff - 人工审核和风险检查
+
+![Review](assets/REVIEW.png)
+
+我不想把这个项目包装成“AI 直接替人发布商品”。真实电商场景里，listing 应该进入人工审核，所以我做了 Review / Diff。
+
+这个页面可以看到：
+
+- 待审核 listing。
+- approve / reject / request revision。
+- 文案 diff。
+- 物理属性 diff，比如重量、尺寸、件数是否因为 multipack/combo 改变。
+- compliance report。
+- physical consistency report。
+
+这让系统更像一个真实的运营工具：AI 负责生成和初筛，人负责最终判断。
+
+### 7. Costs & Eval - 成本和质量评估
+
+![Costs](assets/COSTS.png)
+
+题目和项目讨论里都强调了成本意识，所以我单独做了 Costs & Eval。
+
+这里展示：
+
+- 1500 RMB 目标预算。
+- 更宽松的 1700 RMB 规划上限。
+- LLM token 成本估算。
+- 图片生成次数和成本估算。
+- 联网 search 请求成本估算。
+- cache savings。
+- 每个 Agent 的 cost ledger。
+- eval harness 评分。
+
+我的理解是，AI 应用不能只说“能生成”，还要能解释“生成一次大概要花多少钱，哪里可以缓存，哪里应该限制重试”。
+
+### 8. Settings - Live / Demo 配置状态
+
+Settings 页面没有放截图，但它是项目里很重要的安全页。它会显示 DB、LLM、Image、Search 当前是 live、demo 还是 missing，但不会展示任何 secret。
+
+我这样设计是因为：
+
+- 面试官没有 key 时，也可以用 demo mode 完整看流程。
+- 我自己配置真实 key 时，可以把 `DEMO_MODE=false` 切到 live mode。
+- 前端只看 provider 状态，不接触 API key 或数据库密码。
+- `.env` 不会提交到 GitHub。
 
 ## 系统架构
 
-```text
-React / Vite Frontend
-  -> FastAPI Backend
-      -> Read-only MySQL Product Repository
-      -> SQLite App Store
-      -> Local artifacts/ and samples/
-      -> LangGraph Agent Workflow
-      -> LLM / Image / Search Providers
-      -> Compliance / Physical Consistency / Eval
+```mermaid
+flowchart TD
+    UI["React / Vite Frontend"] --> API["FastAPI Backend"]
+    API --> Repo["Read-only Product Repository"]
+    Repo --> DB["SSB MySQL fbm_sku"]
+    API --> Store["Local SQLite App Store"]
+    API --> Files["artifacts / samples"]
+    API --> Graph["LangGraph Agent Workflows"]
+    Graph --> Research["Research Agent"]
+    Graph --> Copy["Copy Agent"]
+    Graph --> Image["Image Agent"]
+    Graph --> Critic["Critic Agent"]
+    Graph --> Compliance["Compliance Agent"]
+    Graph --> Supervisor["Supervisor"]
+    Research --> Search["Tavily / Search Provider"]
+    Copy --> LLM["DeepSeek-compatible LLM Provider"]
+    Image --> Agnes["Agnes Image Provider"]
+    Compliance --> Rules["Amazon Validators"]
 ```
 
-SSB 数据库只读。所有生成内容、trace、review、cost ledger、eval 结果都写入本地 SQLite、`artifacts/` 和 `samples/`。
+后端的原则是：SSB 数据库只读，所有生成内容都保存在本地应用侧。
+
+```text
+SSB MySQL fbm_sku
+  -> ProductRepository read-only
+  -> Product normalization
+  -> Enrichment with citations
+  -> LangGraph multi-agent workflow
+  -> Listing / Images / Compliance / Trace
+  -> Local SQLite + artifacts + samples
+```
+
+这样做有两个好处：
+
+1. 不会把 AI 生成的内容写回真实 SSB 数据库。
+2. reviewer 可以从本地 artifacts、samples、trace 里复查每一次生成。
 
 ## Agent 工作流
 
-Listing workflow 使用显式 LangGraph 节点：
+Listing 生成流程：
 
 ```text
 Supervisor Start
@@ -74,27 +241,129 @@ Supervisor Start
 -> Supervisor Finalize
 ```
 
-Chat recomposition 也使用图编排：
+Chat recomposition 流程：
 
 ```text
 Recomposition Agent
 -> Product Resolver
 -> Physical Recalculator
--> Copy/Image/Critic/Compliance
+-> Copy / Image / Critic / Compliance
 -> Finalize
 ```
 
-每个节点都会记录 trace：输入摘要、tool calls、latency、tokens、estimated cost、warning 和中间产物。`GET /api/listings/{job_id}/events` 返回 `text/event-stream`，可以流式回放 agent step。
+每个 Agent 的职责是分开的：
 
-## Provider 模式
+| Agent | 职责 |
+| --- | --- |
+| Supervisor | 创建 job、调度流程、收集最终 artifact |
+| Product Loader | 读取 SKU、记录 normalized data 和 missing fields |
+| Research | 联网调研并保留 citations、evidence、conflict |
+| Copy | 生成 Amazon listing 文案和 A+ 模块 |
+| Image | 生成主图、场景图、信息图、A+ 图，并记录 reference 使用情况 |
+| Critic | 检查文案和图片描述是否偏离 SKU 物理属性 |
+| Compliance | 检查标题、bullet、违禁词、搜索词字节数、图片规则 |
+| Recomposition | 识别 multipack/combo 意图，并重新计算物理属性 |
 
-- Live mode 默认配置为 DeepSeek LLM、Agnes Image 2.1 Flash 图片生成、Tavily Search；这些只是默认值，实际页面显示来自后端 `.env` / Docker environment。比如把 `LLM_PROVIDER=openai`、`LLM_MODEL=gpt-...` 后重启 API，Settings 和 Costs 页会显示新的 provider/model。
-- DeepSeek 走 OpenAI-compatible `/chat/completions`：`LLM_BASE_URL=https://api.deepseek.com`，`LLM_MODEL=deepseek-v4-flash`。
-- Agnes 走 `https://apihub.agnes-ai.com/v1/images/generations`：`IMAGE_MODEL=agnes-image-2.1-flash`，文生图使用 `return_base64=true`，生成结果保存到本地 artifacts。
-- Tavily 走 `/search`：`SEARCH_PROVIDER=tavily`，用于 enrichment 的联网搜索和 source URL citations。
-- Demo mode：缺少 key 或 `DEMO_MODE=true` 时，系统使用确定性 demo provider，不崩溃，不伪装成真实联网或真实商业图片生成。
-- Provider 自检：`GET /api/providers/status` 和 `POST /api/providers/self-test` 返回 DB/LLM/Image/Search 状态，不暴露 secret。
-- Settings 页面只显示 configured/missing/demo/read-only 状态，不显示任何密钥值。
+我选择拆 Agent，而不是一个 prompt 一次写完，是因为这样更容易 debug、展示、评估和扩展。
+
+## Live 模式和 Demo 模式
+
+项目支持两种运行方式。
+
+| 模式 | 适合场景 | 行为 |
+| --- | --- | --- |
+| Demo mode | 面试官没有数据库和 API key，只想快速看完整流程 | 使用本地 deterministic provider，流程可复跑 |
+| Live mode | 我配置了真实 DB、LLM、Image、Search API | 读取 SSB MySQL，调用真实 provider，生成真实结果 |
+
+Demo mode 不是为了“假装 live 成功”，而是为了让项目在没有 secret 的 GitHub 环境里也能被完整 review。系统会在 provider status、trace warning、image generation report 里标记当前模式。
+
+## 快速启动
+
+```bash
+docker compose up --build
+```
+
+打开：
+
+- 前端：http://localhost:3000
+- 后端健康检查：http://localhost:8000/api/health
+
+如果只想本地开发前端：
+
+```bash
+cd ssb-listing-studio
+npm install
+npm run dev
+```
+
+如果只想运行后端测试：
+
+```bash
+python -m pytest api
+```
+
+## Live 模式配置
+
+复制 `.env.example` 为 `.env`，填入真实配置，然后设置：
+
+```env
+DEMO_MODE=false
+```
+
+示例字段如下，真实 key 不要提交：
+
+```env
+SSB_DB_HOST=
+SSB_DB_PORT=3306
+SSB_DB_USER=
+SSB_DB_PASSWORD=
+SSB_DB_NAME=
+
+LLM_PROVIDER=deepseek
+LLM_BASE_URL=https://api.deepseek.com
+LLM_API_KEY=
+LLM_MODEL=deepseek-v4-flash
+
+IMAGE_PROVIDER=agnes
+IMAGE_BASE_URL=https://apihub.agnes-ai.com
+IMAGE_API_KEY=
+IMAGE_MODEL=agnes-image-2.1-flash
+
+SEARCH_PROVIDER=tavily
+SEARCH_BASE_URL=https://api.tavily.com
+SEARCH_API_KEY=
+
+BUDGET_TARGET_RMB=1500
+IMAGE_GENERATION_USD=0.003
+SEARCH_REQUEST_USD=0.005
+```
+
+安全注意：
+
+- 不提交 `.env`。
+- 不提交 API key。
+- 不提交数据库密码。
+- 不提交私密凭证文档。
+- 前端不显示 secret。
+- 生成 listing、trace、review、cost、images 只写本地，不写回 SSB 数据库。
+
+## Challenge 覆盖情况
+
+| Challenge 要求 | 我的实现 |
+| --- | --- |
+| 从 SSB 数据库读取 SKU | `ProductRepository` 支持 MySQL `fbm_sku`，并保持只读 |
+| schema / 数据归一化 | `/api/schema`、`/api/products`、`/api/products/{sku}`，保留 raw fields 和 missing fields |
+| 联网调研增强 | Tavily/search adapter + LLM summary + field-level citations |
+| 多 Agent 编排 | Listing 使用 LangGraph，拆分 Supervisor、Research、Copy、Image、Critic、Compliance |
+| Amazon A+ Listing | title、5 bullets、description、A+ modules、images、backend search terms |
+| 图片生成 | Agnes Image 2.1 Flash live adapter，支持原图 reference；失败时 fallback 并写 warning |
+| multipack / combo | `/api/chat` 支持中英文自然语言指令，重新计算物理属性 |
+| Agent Trace | `/api/traces/{job_id}` 和 `/api/listings/{job_id}/events` 展示执行轨迹 |
+| 合规校验 | 标题、bullet、违禁词、search terms bytes、A+ alt、主图基础规则 |
+| 物理一致性 | SKU 属性锁定、multipack/combo 重算、Critic report、Review diff |
+| 成本统计 | token、图片、search、cache savings、per-agent cost、预算 dashboard |
+| Human review | Review / Diff 支持 approve、reject、request revision |
+| Eval harness | `/api/evals/run` 输出 `samples/eval_report.json` 和 `samples/eval_report.md` |
 
 ## API 列表
 
@@ -127,51 +396,59 @@ GET  /api/variations
 GET  /api/variations/{sku}
 ```
 
-## 前端页面
+## 样例输出
 
-- Dashboard：SKU、jobs、pending review、预算和合规概览。
-- Products：真实 SKU 或 demo SKU、source 标记、normalized JSON、raw fields、missing fields、variation/pricing suggestion、enrich/generate 操作。
-- Listing Studio：生成 listing、图片、A+ modules、backend search terms；Full/Copy-only/Images-only 都调用后端 API。
-- Agent Trace：按 jobId 展示真实后端 trace，不用静态 demo trace 冒充。
-- Chat Recomposer：支持 `Make this a 3-pack`、中文 `把这个 SKU 做成 3 件装`、`Combine this with SKU STAND-ALUM-09`、中文 combo 指令。
-- Review / Diff：人工审核、approve/reject/request revision、合规报告、物理属性 diff、物理一致性报告。
-- Costs & Eval：1500 RMB 预算、模拟/估算 cost ledger、cache savings、agent 成本、eval harness。
-- Settings：显示 DB/LLM/Image/Search 配置状态，强调前端不暴露 secret。
+我在 `samples/` 里保留了可审查样例，方便面试官不配置 live key 也能看输出结构。
 
-## Demo 流程
+典型内容包括：
 
-1. `docker compose up --build` 启动。
-2. 打开 Settings，确认 DB/LLM/Image/Search 配置状态和 provider self-test。
-3. 进入 Products，选择 SKU，查看 source、normalized JSON、raw fields 和 variation 建议。
-4. 点击 Enrich，查看带 `sourceUrl` 的增强字段和 cache 命中。
-5. 点击 Generate Listing，进入 Listing Studio 查看 title、bullets、A+ modules、images。
-6. 打开 Agent Trace，按 jobId 查看每个 agent 的工具调用、tokens、latency、cost。
-7. Chat 输入 `把这个 SKU 做成 3 件装`，查看 multipack 的重量、尺寸、文案和图片变化。
-8. Chat 输入 `Combine this with SKU STAND-ALUM-09`，查看 combo 结果。
-9. Review / Diff 页面审核生成结果。
-10. Costs & Eval 页面查看 1500 RMB 预算、cache savings 和 eval 分数。注意这里的 RMB 是按配置单价、token、图片和搜索次数计算的估算值，不代表本次浏览器运行真实扣费。
+- 普通 SKU listing。
+- multipack listing。
+- combo listing。
+- `listing.json`
+- `trace.json`
+- `enrichment.json`
+- `compliance_report.json`
+- `physical_consistency_report.json`
+- `cost_summary.json`
+- `diff.json`
+- 生成图片 assets。
+- `samples/eval_report.json`
+- `samples/eval_report.md`
 
-## 样例产出
+## 成本预算设计
 
-`samples/` 中包含：
+我按 1500 RMB 目标预算设计成本面板，同时保留 1700 RMB 左右的规划上限。
 
-- 至少 3 个普通 SKU listing 样例。
-- 1 个 multipack 样例。
-- 1 个 combo 样例。
-- 每个样例包含 JSON、trace、compliance report、physical consistency report、cost summary、diff 和图片。
-- `samples/eval_report.json` 与 `samples/eval_report.md`。
+| 成本项 | 预算思路 |
+| --- | ---: |
+| LLM multi-agent generation | 600 RMB |
+| Image generation | 550 RMB |
+| Web search / fetch | 150 RMB |
+| Vision / Critic / Eval | 200 RMB |
+| Retry buffer | 200 RMB |
+| 合计目标 | 1500 RMB |
 
-## 安全规则
+项目里记录的是估算成本，不是 provider 最终账单。这样做的目的是让 reviewer 能看到我的成本意识和工程埋点：一次生成走了哪些 provider、用了多少 token、图片生成几次、search 几次、缓存省了多少。
 
-- 不提交 `.env`、`.env.*`、数据库密码、API key。
-- `SSB系统SKU数据库访问.md` 不应进入 GitHub。
-- 前端不保存、不显示、不调用任何 secret。
-- SSB 数据库只读，应用没有写回 SSB 的代码路径。
-- 缺 key 时返回清晰配置提示，并使用 demo provider 保持演示可用。
+## 我做过的关键修复
 
-## 验证
+项目过程中我遇到过几个实际问题，并做了修复：
 
-已执行：
+| 问题 | 修复 |
+| --- | --- |
+| Listing Studio 点击后像没反应 | 增加运行状态、阶段进度、按钮 disabled、backend status message |
+| Chat Recomposer 点击 Create 3-Pack 后用户不知道发生什么 | 增加 submitting 状态、运行提示、错误提示和空数据保护 |
+| Dashboard 数据加载完成时突然跳变 | 加 skeleton、loading banner、数字动画和渐入过渡 |
+| 生成图片和原图不沾边 | live image provider 增加 reference image input，并在 trace 记录是否使用 |
+| 测试可能误读 live `.env` | 测试启动前强制 demo env，避免消耗真实 API 或污染 samples |
+| `docker compose config` 可能打印 secret | 文档改为推荐 `docker compose config --quiet` |
+
+这些修复对我来说很重要，因为它们不是只改样式，而是让项目更像一个真实可用的系统。
+
+## 验证方式
+
+提交前建议执行：
 
 ```bash
 python -m pytest api
@@ -179,7 +456,40 @@ cd ssb-listing-studio
 npm run lint
 npm run build
 cd ..
-docker compose config
+docker compose config --quiet
 ```
 
-说明：当前本机 Docker 读取 `C:\Users\MR\.docker\config.json` 时有权限警告，但 `docker compose config` 能解析项目配置。这是本机 Docker 配置权限问题，不是项目 compose 文件语法问题。
+最近一次本机验证结果：
+
+- `python -m pytest api`：13 passed。
+- `npm run lint`：通过。
+- `npm run build`：通过。
+- `docker compose config --quiet`：项目 compose 配置可解析。
+
+说明：如果本地 `.env` 已经填了真实 key，不建议运行普通的 `docker compose config`，因为它可能打印展开后的环境变量。用 `docker compose config --quiet` 更安全。
+
+## 还有提升空间
+
+我认为这个版本已经覆盖面试挑战的主要闭环，但它还不是生产级发布系统。我会诚实保留这些提升空间：
+
+- combo 生图最好同时传入两个 SKU 的原图，而不是主图 reference + 第二 SKU 文本描述。
+- live 模式可以接入真正的多模态视觉 critic，对最终图片像素做更严格检查。
+- Amazon 不同类目的规则差异很大，后续可以做 category-specific compliance policy。
+- pricing suggestion 目前偏保守，后续应该接入更强的 marketplace pricing 数据。
+- provider 重试、队列化、并发限制和预算熔断还可以继续增强。
+- 当前系统生成的是 reviewable listing artifacts，不包含真实 Seller Central 发布。
+
+我没有把这些不足藏起来，因为我理解面试官更想看的是：我是否知道系统边界在哪里，以及下一步应该怎么把原型推进到生产。
+
+## 我希望面试官看到的能力
+
+这个项目主要体现的是我的端到端实现能力：
+
+- 能把开放题目拆成可运行产品。
+- 能先做出前端体验，再补齐后端 API。
+- 能把 LLM 应用从“单 prompt”推进到 Agent workflow。
+- 能处理数据库只读、安全、secret、fallback、trace、成本这些工程细节。
+- 能在发现体验问题后主动修复，而不是只追求功能勉强跑通。
+- 能诚实说明限制，同时给出下一步改进方向。
+
+如果只看一句话总结：我做的是一个可演示、可复查、可配置 live provider、带成本意识的 Agentic Listing Studio。

@@ -1,4 +1,11 @@
-﻿from api.app.db.mysql_repository import normalize_product, parse_pack_count
+import os
+
+os.environ["DEMO_MODE"] = "true"
+os.environ["APP_DB_URL"] = "sqlite:///./output/test_app.db"
+os.environ["ARTIFACT_DIR"] = "./output/test_artifacts"
+os.environ["SAMPLES_DIR"] = "./output/test_samples"
+
+from api.app.db.mysql_repository import normalize_product, parse_pack_count
 from api.app.main import app
 from api.app.models import AmazonListing, APlusModule, ListingImages
 from api.app.config import Settings
@@ -146,6 +153,10 @@ def test_api_listing_trace_review_eval_flow():
     assert len(payload["trace"]) >= 7
     assert [step["agentName"] for step in payload["trace"]][:3] == ["Supervisor", "Product Loader", "Research"]
     assert len(payload["listing"]["bullets"]) == 5
+    image_step = next(step for step in payload["trace"] if step["agentName"] == "Image")
+    assert "referenceUsed=" in image_step["outputArtifact"]
+    assert payload["listing"]["physicalAttributes"]["imageGeneration"]
+    assert "generationMode" in payload["listing"]["physicalAttributes"]["imageGeneration"][0]
 
     trace = client.get(f"/api/traces/{payload['jobId']}")
     assert trace.status_code == 200

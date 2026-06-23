@@ -12,10 +12,12 @@ class ImageService:
     def __init__(self, settings: Settings):
         self.settings = settings
         self.provider = ImageProvider(settings)
+        self.last_generation_reports: list[dict[str, object]] = []
 
     def generate_set(self, job_id: str, product: Product, mode_label: str = "single", unit_count: int = 1, combo_label: str = "") -> dict[str, str]:
         job_dir = Path(self.settings.artifact_dir) / job_id
         job_dir.mkdir(parents=True, exist_ok=True)
+        self.last_generation_reports = []
         main = job_dir / "main.jpg"
         lifestyle = job_dir / "lifestyle.jpg"
         infographic = job_dir / "infographic.jpg"
@@ -31,8 +33,23 @@ class ImageService:
             result = self.provider.generate_to_file(prompt, path, size="1024x1024", reference_image=product.image)
             if result.path and result.path.exists():
                 self._normalize_image(result.path, path, width, height, pure_white)
+                asset_mode = result.generation_mode
             else:
                 self._draw_product_image(path, width, height, product, label, unit_count, combo_label, pure_white=pure_white)
+                asset_mode = "pillow_fallback"
+            self.last_generation_reports.append(
+                {
+                    "asset": path.stem,
+                    "provider": result.provider,
+                    "model": result.model,
+                    "generationMode": result.generation_mode,
+                    "assetMode": asset_mode,
+                    "referenceUsed": result.reference_used,
+                    "referenceAvailable": bool(product.image),
+                    "latencyMs": result.latency_ms,
+                    "warning": result.warning,
+                }
+            )
         return {
             "main": f"/artifacts/{job_id}/main.jpg",
             "lifestyle": f"/artifacts/{job_id}/lifestyle.jpg",
