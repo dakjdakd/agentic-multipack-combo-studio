@@ -2,9 +2,9 @@
 
 ## 1. Executive Summary
 
-SSB Listing Studio is an agentic Amazon listing generation prototype. It reads SKU data from the provided SSB catalog, enriches product facts with cited research, runs a multi-agent workflow, generates Amazon A+ listing content and images, validates compliance and physical consistency, supports chat-based multipack/combo recomposition, and records trace/cost/review/evaluation artifacts.
+SSB Listing Studio is an agentic Amazon listing generation prototype. It reads SKU data from the provided SSB catalog, enriches product facts with cited research, runs a multi-agent workflow, generates Amazon A+ listing content and images, validates compliance and physical consistency, supports chat-based multipack/combo recomposition, and records trace, cost, review, and evaluation artifacts.
 
-The system is intentionally reproducible without secrets: when live API keys or the SSB database are not configured, deterministic demo providers keep the full workflow runnable while clearly marking fallback mode.
+The system is intentionally reproducible without secrets. When live API keys or the SSB database are not configured, deterministic demo providers keep the workflow runnable while clearly marking fallback mode.
 
 ## 2. Architecture
 
@@ -77,7 +77,7 @@ Each step records trace entries with tool calls, latency, token estimates, cost 
 Providers are isolated behind adapters:
 
 - `LLMProvider`: DeepSeek live mode through OpenAI-compatible `/chat/completions` with `LLM_BASE_URL=https://api.deepseek.com` and `LLM_MODEL=deepseek-v4-flash`; usage is parsed for the cost ledger, with deterministic fallback when not configured.
-- `SearchProvider`: Tavily live search through `/search`; enrichment citations are parsed from Tavily `results[].url`, with cited demo fallback when not configured. The adapter still keeps a SerpAPI branch for reviewer substitution if needed.
+- `SearchProvider`: Tavily live search through `/search`; enrichment citations are parsed from Tavily `results[].url`, with cited demo fallback when not configured.
 - `ImageProvider`: Agnes Image 2.1 Flash live image generation through `https://apihub.agnes-ai.com/v1/images/generations`. The Agnes adapter uses `return_base64=true` for text-to-image output and saves images into local artifacts. Pillow fallback is used when no image key is available.
 
 Demo mode is explicit. Demo citations and demo images are marked as demo/fallback behavior and are not presented as real marketplace research or real commercial photography.
@@ -88,6 +88,15 @@ Provider readiness is exposed through `/api/providers/status` and `/api/provider
 
 Prompts are stored under `api/app/prompts/` and separated by role. The main design change was moving from one broad generation instruction to narrow role contracts with structured JSON outputs, source requirements, and explicit "do not fabricate physical specs" rules.
 
+Important prompt iterations:
+
+| Iteration | Problem Found | Change Made | Current Evidence |
+| --- | --- | --- | --- |
+| Broad listing prompt | Early output mixed research, copy, image, and QA responsibilities, making trace review weak. | Split the workflow into Supervisor, Product Loader, Research, Copy, Image, Critic, Compliance, and Recomposition contracts. | `ListingWorkflow` and `RecompositionService` both compile explicit LangGraph state graphs. |
+| Research fields only had URLs | A `sourceUrl` alone was not enough to prove what fact came from which source. | Research now performs search -> LLM summary -> field-level `sourceUrl`, `evidence`, `citations`, and `conflict`. | `enrich_3f102c45ba` produced 5 fields with citations/evidence/conflicts in local validation. |
+| Chat intent felt like regex only | Multipack/combo parsing needed LLM intent extraction but still needed robust fallback. | Recomposition now tries LLM JSON first, then records `llm_json`, `llm_partial_with_regex_intent`, `regex_fallback`, or `clarification` as the true intent source. | `job_7f7f8769d0` trace step 0 records `source=regex_fallback` for a combo request. |
+| Physical facts were easy to overclaim | Copy and image prompts could imply specs not present in SSB data. | Prompts explicitly lock weight, dimensions, unit count, material, and color to the normalized product record or recomputed multipack/combo result. | Listing `physicalAttributes` and review diff record before/after values. |
+
 ## 6. Enrichment and Citation Strategy
 
 Enrichment queries four research categories:
@@ -97,7 +106,13 @@ Enrichment queries four research categories:
 - `{category} common selling points`
 - `{material/category} safety certification`
 
-It produces structured fields such as category norms, common selling points, compliance keywords, certifications, pricing signals, and risks. Every enriched field requires a `sourceUrl`, `confidence`, and `notes`.
+The Research Agent now follows a three-step evidence pipeline:
+
+1. Search provider returns cited results with title, snippet, URL, provider mode, and query.
+2. LLM Research Summary receives only the numbered sources and the normalized SSB product.
+3. Each enriched field is normalized with `sourceUrl`, `confidence`, `notes`, `evidence`, `citations`, and `conflict`.
+
+The generated fields include category norms, common selling points, compliance keywords, certifications, pricing signals, and risks. The `citations` array points to the exact source objects used, while `evidence` stores short snippets or SSB facts that justify the value. `conflict` is `null` when there is no conflict, or a structured object such as `insufficient_evidence`, `weak_pricing_evidence`, or `missing_required_research_field`.
 
 Database physical fields remain the source of truth. Web research may add context, but conflicting dimensions, weight, material, color, or unit count are retained as conflicts instead of overwriting the SKU record.
 
@@ -129,7 +144,7 @@ The system does not claim perfect physical consistency. It uses layered safeguar
 
 ## 9. Multipack and Combo Recomposition
 
-The `/api/chat` workflow supports natural language requests such as "Make this a 3-pack", "把这个 SKU 做成 3 件装", "Combine this with SKU STAND-ALUM-09", and Chinese combo instructions such as "把它和 SKU STAND-ALUM-09 组合".
+The `/api/chat` workflow supports natural language requests for multipack and combo generation. Intent extraction is LLM-first with a deterministic parser fallback. The actual source used is persisted into the job trace as the first `Recomposition` step, so reviewers can see whether a request came from live LLM JSON, partial LLM output plus fallback parsing, pure fallback parsing, or a clarification path.
 
 Multipack recomputes:
 
@@ -197,7 +212,15 @@ Generated listings automatically enter a pending review queue. Reviewers can app
 
 ## 14. AI Tool Usage
 
-AI assistance was used for scaffolding, prompt drafting, implementation planning, and repetitive code generation. Engineering decisions, data mapping, compliance rules, safety constraints, and final integration checks were reviewed and adjusted to match the challenge requirements.
+AI assistance was used for:
+
+- Converting the challenge requirements into an implementation plan and acceptance checklist.
+- Drafting role-specific prompts for Research, Copy, Image, Critic, Compliance, and Recomposition.
+- Implementing repetitive API, Pydantic, React, and trace/cost plumbing.
+- Auditing gaps against the interview prompt, especially citation quality, chat intent provenance, and report completeness.
+- Generating deterministic fallback logic so the project remains reviewable without spending provider budget.
+
+Human engineering decisions were still applied to the safety boundaries: SSB DB remains read-only, `.env` is not committed, generated artifacts stay local, and missing/conflicting facts are surfaced instead of silently fabricated.
 
 ## 15. Verification Records
 
@@ -214,18 +237,32 @@ docker compose config
 
 Results:
 
-- `python -m pytest api`: 11 passed.
+- `python -m pytest api`: 12 passed on 2026-06-23.
 - `npm run lint`: TypeScript check passed.
 - `npm run build`: Vite production build passed.
 - `docker compose config`: project compose parsed successfully.
 
-Note: Docker emitted a local permission warning for `C:\Users\MR\.docker\config.json`. The compose file itself parsed correctly; the warning is a workstation Docker config permission issue.
+Concrete local job records generated during validation:
 
-The service starts without live keys. Missing live providers are reported in Settings and API responses.
+| Flow | Job ID | SKU | Result |
+| --- | --- | --- | --- |
+| Standard listing | `job_57bd917fda` | `MUG-STEEL-01` | Completed listing workflow with Supervisor -> Product Loader -> Research -> Copy -> Image -> Critic -> Compliance -> Supervisor trace. |
+| Multipack chat | `job_ae43a01d1b` | `MUG-STEEL-01` | Completed 3-pack recomposition; listing `physicalAttributes.unitCount` is 3. |
+| Combo chat | `job_7f7f8769d0` | `MUG-STEEL-01` | Completed combo recomposition; persisted trace starts with `Recomposition` and records `source=regex_fallback`. |
+| Research enrichment | `enrich_3f102c45ba` | `MUG-STEEL-01` | Produced 5 enriched fields with URL citations, evidence snippets, field-level conflicts, and Research LLM Summary cost tracking. |
+
+Provider status observed on 2026-06-23 in the local workstation environment:
+
+- `DEMO_MODE=false`.
+- LLM/Image/Search keys were configured in the local `.env`; secret values are not committed and are not exposed through app status endpoints.
+- The local Python interpreter used for tests did not have `pymysql` installed, so SSB DB access fell back to the demo catalog. `api/requirements.txt` includes `pymysql==1.1.1`, so Docker or a fresh dependency install has the MySQL driver required for real read-only DB mode.
+
+Note: Docker emitted a local permission warning for `C:\Users\MR\.docker\config.json`. The compose file itself parsed correctly; the warning is a workstation Docker config permission issue.
 
 ## 16. Limitations and Future Work
 
 - Live DeepSeek/Agnes/Tavily provider calls are implemented through adapters, but deterministic demo providers are used when keys are missing.
-- Physical image consistency is validated through deterministic metadata and image checks in demo mode; live mode should use a multimodal critic.
+- Physical image consistency is validated through deterministic metadata and image checks in demo mode; live mode should use a true multimodal image critic before claiming production-grade visual verification.
 - Pricing suggestions are conservative and should be enriched with marketplace pricing data before business use.
 - Real Amazon publishing is out of scope; the system produces reviewable A+ content objects and assets.
+- The local validation run proved the API and trace paths, but the SSB database itself was not reachable from this workstation until the environment installs `pymysql` or runs through Docker.

@@ -1,5 +1,5 @@
 {
-  "jobId": "enrich_98c31dbb1b",
+  "jobId": "enrich_3f102c45ba",
   "sku": "MUG-STEEL-01",
   "cacheHit": true,
   "enrichedFields": [
@@ -8,19 +8,47 @@
       "value": "Kitchen & Dining > Drinkware > Tumblers",
       "sourceUrl": "https://sell.amazon.com/blog/amazon-product-listings",
       "confidence": 0.78,
-      "notes": "Category normalized from SSB category and Amazon listing guidance.",
+      "notes": "Category normalized from SSB category and cited listing/spec guidance.",
+      "evidence": [
+        "SSB category: Kitchen & Dining > Drinkware > Tumblers",
+        "Reference result used for: AeroTherm Matte Black Stainless Steel Travel Mug - 16oz Vacuum Insulated Tumbler product specs"
+      ],
+      "citations": [
+        {
+          "sourceId": "S1",
+          "title": "Amazon product listing guidance",
+          "url": "https://sell.amazon.com/blog/amazon-product-listings",
+          "snippet": "Reference result used for: AeroTherm Matte Black Stainless Steel Travel Mug - 16oz Vacuum Insulated Tumbler product specs",
+          "demo": true
+        }
+      ],
+      "conflict": null,
       "demo": true
     },
     {
       "field": "common_selling_points",
       "value": [
-        "Emphasize 18/8 Double-Wall Stainless Steel construction.",
-        "Showcase Matte Black visual consistency.",
-        "Highlight measurable dimensions and everyday usage scenarios."
+        "Emphasize 18/8 Double-Wall Stainless Steel construction only when the SKU record supports it.",
+        "Showcase Matte Black visual consistency across copy and images.",
+        "Highlight measured dimensions and everyday usage scenarios without inventing performance claims."
       ],
       "sourceUrl": "https://sell.amazon.com/blog/amazon-seo",
       "confidence": 0.74,
-      "notes": "Derived from product attributes and marketplace content norms.",
+      "notes": "Selling points are derived from product attributes plus marketplace content norms.",
+      "evidence": [
+        "Reference result used for: Kitchen & Dining > Drinkware > Tumblers common selling points",
+        "Source-of-truth physical attributes remain SKU MUG-STEEL-01."
+      ],
+      "citations": [
+        {
+          "sourceId": "S3",
+          "title": "Amazon SEO and search terms",
+          "url": "https://sell.amazon.com/blog/amazon-seo",
+          "snippet": "Reference result used for: Kitchen & Dining > Drinkware > Tumblers common selling points",
+          "demo": true
+        }
+      ],
+      "conflict": null,
       "demo": true
     },
     {
@@ -33,23 +61,70 @@
       "sourceUrl": "https://sell.amazon.com/tools/a-content",
       "confidence": 0.72,
       "notes": "Compliance-safe keyword handling for Amazon listing content.",
+      "evidence": [
+        "Reference result used for: Kitchen & Dining > Drinkware > Tumblers amazon listing requirements",
+        "Compliance keywords are generic listing constraints, not product performance claims."
+      ],
+      "citations": [
+        {
+          "sourceId": "S2",
+          "title": "Amazon A+ Content overview",
+          "url": "https://sell.amazon.com/tools/a-content",
+          "snippet": "Reference result used for: Kitchen & Dining > Drinkware > Tumblers amazon listing requirements",
+          "demo": true
+        }
+      ],
+      "conflict": null,
       "demo": true
     },
     {
       "field": "certifications",
-      "value": "Verify safety claims before mentioning certifications for 18/8 Double-Wall Stainless Steel.",
+      "value": "Do not mention certifications unless evidence is provided for 18/8 Double-Wall Stainless Steel.",
       "sourceUrl": "https://sellercentral.amazon.com/help/hub/reference",
       "confidence": 0.55,
-      "notes": "No unverified certification is promoted; missing evidence is retained as a gap.",
+      "notes": "No unverified certification is promoted; missing evidence is retained as a field conflict.",
+      "evidence": [
+        "Reference result used for: 18/8 Double-Wall Stainless Steel safety certification"
+      ],
+      "citations": [
+        {
+          "sourceId": "S4",
+          "title": "Seller Central reference hub",
+          "url": "https://sellercentral.amazon.com/help/hub/reference",
+          "snippet": "Reference result used for: 18/8 Double-Wall Stainless Steel safety certification",
+          "demo": true
+        }
+      ],
+      "conflict": {
+        "type": "insufficient_evidence",
+        "policy": "do_not_claim_certification"
+      },
       "demo": true
     },
     {
       "field": "pricing_signals",
-      "value": "see cited search result",
+      "value": "live search evidence available; still advisory only",
       "sourceUrl": "https://sell.amazon.com/blog/amazon-product-listings",
       "confidence": 0.5,
       "notes": "Pricing signal is advisory only and never treated as a final price.",
-      "demo": false
+      "evidence": [
+        "Reference result used for: AeroTherm Matte Black Stainless Steel Travel Mug - 16oz Vacuum Insulated Tumbler product specs",
+        "No price is written back to SSB; reviewer approval is required."
+      ],
+      "citations": [
+        {
+          "sourceId": "S1",
+          "title": "Amazon product listing guidance",
+          "url": "https://sell.amazon.com/blog/amazon-product-listings",
+          "snippet": "Reference result used for: AeroTherm Matte Black Stainless Steel Travel Mug - 16oz Vacuum Insulated Tumbler product specs",
+          "demo": true
+        }
+      ],
+      "conflict": {
+        "type": "weak_pricing_evidence",
+        "policy": "manual_review_required"
+      },
+      "demo": true
     }
   ],
   "conflicts": [
@@ -64,6 +139,11 @@
       "type": "search_provider_warning",
       "message": "Live search failed; deterministic cited results used: [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。",
       "policy": "fallback_with_demo_citations"
+    },
+    {
+      "type": "research_llm_warning",
+      "message": "Live LLM call failed; deterministic fallback used: [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。",
+      "policy": "deterministic_evidence_summary"
     }
   ],
   "missingFields": [
@@ -72,41 +152,46 @@
   "trace": [
     {
       "agentName": "Research",
-      "inputSummary": "Enrich SKU MUG-STEEL-01 using product title/category/material/color.",
+      "inputSummary": "Enrich SKU MUG-STEEL-01 using 4 cited search result(s), then summarize with LLM field evidence.",
       "toolCalls": [
         {
           "name": "web_search",
           "input": "AeroTherm Matte Black Stainless Steel Travel Mug - 16oz Vacuum Insulated Tumbler product specs",
-          "durationMs": 357
+          "durationMs": 540
         },
         {
           "name": "web_search",
           "input": "Kitchen & Dining > Drinkware > Tumblers amazon listing requirements",
-          "durationMs": 357
+          "durationMs": 540
         },
         {
           "name": "web_search",
           "input": "Kitchen & Dining > Drinkware > Tumblers common selling points",
-          "durationMs": 357
+          "durationMs": 540
         },
         {
           "name": "web_search",
           "input": "18/8 Double-Wall Stainless Steel safety certification",
-          "durationMs": 357
+          "durationMs": 540
         },
         {
-          "name": "source_citation_guard",
-          "input": "require sourceUrl per enriched field",
+          "name": "llm_research_summarizer",
+          "input": "sources=4 required_fields=5",
+          "durationMs": 926
+        },
+        {
+          "name": "field_evidence_guard",
+          "input": "require citation/evidence/conflict per enriched field",
           "durationMs": 20
         }
       ],
-      "outputArtifact": "5 enriched fields with URL citations. Missing/conflicts retained: 2.",
-      "latencyMs": 1429,
-      "inputTokens": 900,
-      "outputTokens": 350,
-      "estimatedCostUsd": 0.02069,
-      "promptSnippet": "Research Agent: collect category norms, competitor-safe selling points, compliance terms, never fabricate specs.",
-      "warningsOrErrors": "Live search failed; deterministic cited results used: [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。"
+      "outputArtifact": "5 enriched fields with citations, evidence snippets, and field-level conflicts. Conflicts retained: 3.",
+      "latencyMs": 2163,
+      "inputTokens": 1821,
+      "outputTokens": 352,
+      "estimatedCostUsd": 0.020969,
+      "promptSnippet": "Research Agent: search results -> LLM summary -> sourceUrl/evidence/citation/conflict per field; never fabricate specs.",
+      "warningsOrErrors": "Live search failed; deterministic cited results used: [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。; Live LLM call failed; deterministic fallback used: [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。"
     }
   ]
 }

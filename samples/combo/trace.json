@@ -1,5 +1,28 @@
 [
   {
+    "agentName": "Recomposition",
+    "inputSummary": "Parse chat message for SKU MUG-STEEL-01 with intent source regex_fallback.",
+    "toolCalls": [
+      {
+        "name": "llm_intent_extractor",
+        "input": "deepseek:deepseek-v4-pro",
+        "durationMs": 543
+      },
+      {
+        "name": "regex_intent_fallback",
+        "input": "Combine this with SKU STAND-ALUM-09",
+        "durationMs": 15
+      }
+    ],
+    "outputArtifact": "intent=combo; qty=3; source=regex_fallback; job=job_b3cdd55f91",
+    "latencyMs": 543,
+    "inputTokens": 45,
+    "outputTokens": 2,
+    "estimatedCostUsd": 0.0,
+    "promptSnippet": "Recomposition intent extraction contract: prefer LLM JSON, fall back to regex, persist the true intent source.",
+    "warningsOrErrors": "Live LLM call failed; deterministic fallback used: [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。"
+  },
+  {
     "agentName": "Supervisor",
     "inputSummary": "Create combo LangGraph workflow for SKU MUG-STEEL-01; mode=full.",
     "toolCalls": [
@@ -47,41 +70,46 @@
   },
   {
     "agentName": "Research",
-    "inputSummary": "Enrich SKU MUG-STEEL-01 using product title/category/material/color.",
+    "inputSummary": "Enrich SKU MUG-STEEL-01 using 4 cited search result(s), then summarize with LLM field evidence.",
     "toolCalls": [
       {
         "name": "web_search",
         "input": "AeroTherm Matte Black Stainless Steel Travel Mug - 16oz Vacuum Insulated Tumbler product specs",
-        "durationMs": 357
+        "durationMs": 540
       },
       {
         "name": "web_search",
         "input": "Kitchen & Dining > Drinkware > Tumblers amazon listing requirements",
-        "durationMs": 357
+        "durationMs": 540
       },
       {
         "name": "web_search",
         "input": "Kitchen & Dining > Drinkware > Tumblers common selling points",
-        "durationMs": 357
+        "durationMs": 540
       },
       {
         "name": "web_search",
         "input": "18/8 Double-Wall Stainless Steel safety certification",
-        "durationMs": 357
+        "durationMs": 540
       },
       {
-        "name": "source_citation_guard",
-        "input": "require sourceUrl per enriched field",
+        "name": "llm_research_summarizer",
+        "input": "sources=4 required_fields=5",
+        "durationMs": 926
+      },
+      {
+        "name": "field_evidence_guard",
+        "input": "require citation/evidence/conflict per enriched field",
         "durationMs": 20
       }
     ],
-    "outputArtifact": "5 enriched fields with URL citations. Missing/conflicts retained: 2.",
-    "latencyMs": 1429,
-    "inputTokens": 900,
-    "outputTokens": 350,
-    "estimatedCostUsd": 0.02069,
-    "promptSnippet": "Research Agent: collect category norms, competitor-safe selling points, compliance terms, never fabricate specs.",
-    "warningsOrErrors": "Live search failed; deterministic cited results used: [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。"
+    "outputArtifact": "5 enriched fields with citations, evidence snippets, and field-level conflicts. Conflicts retained: 3.",
+    "latencyMs": 2163,
+    "inputTokens": 1821,
+    "outputTokens": 352,
+    "estimatedCostUsd": 0.020969,
+    "promptSnippet": "Research Agent: search results -> LLM summary -> sourceUrl/evidence/citation/conflict per field; never fabricate specs.",
+    "warningsOrErrors": "Live search failed; deterministic cited results used: [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。; Live LLM call failed; deterministic fallback used: [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。"
   },
   {
     "agentName": "Copy",

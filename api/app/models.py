@@ -46,6 +46,9 @@ class EnrichedField(BaseModel):
     sourceUrl: str
     confidence: float = 0.7
     notes: str = ""
+    evidence: list[str] = Field(default_factory=list)
+    citations: list[dict[str, Any]] = Field(default_factory=list)
+    conflict: dict[str, Any] | None = None
     demo: bool = False
 
 

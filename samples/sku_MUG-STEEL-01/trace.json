@@ -47,41 +47,46 @@
   },
   {
     "agentName": "Research",
-    "inputSummary": "Enrich SKU MUG-STEEL-01 using product title/category/material/color.",
+    "inputSummary": "Enrich SKU MUG-STEEL-01 using 4 cited search result(s), then summarize with LLM field evidence.",
     "toolCalls": [
       {
         "name": "web_search",
         "input": "AeroTherm Matte Black Stainless Steel Travel Mug - 16oz Vacuum Insulated Tumbler product specs",
-        "durationMs": 357
+        "durationMs": 540
       },
       {
         "name": "web_search",
         "input": "Kitchen & Dining > Drinkware > Tumblers amazon listing requirements",
-        "durationMs": 357
+        "durationMs": 540
       },
       {
         "name": "web_search",
         "input": "Kitchen & Dining > Drinkware > Tumblers common selling points",
-        "durationMs": 357
+        "durationMs": 540
       },
       {
         "name": "web_search",
         "input": "18/8 Double-Wall Stainless Steel safety certification",
-        "durationMs": 357
+        "durationMs": 540
       },
       {
-        "name": "source_citation_guard",
-        "input": "require sourceUrl per enriched field",
+        "name": "llm_research_summarizer",
+        "input": "sources=4 required_fields=5",
+        "durationMs": 926
+      },
+      {
+        "name": "field_evidence_guard",
+        "input": "require citation/evidence/conflict per enriched field",
         "durationMs": 20
       }
     ],
-    "outputArtifact": "5 enriched fields with URL citations. Missing/conflicts retained: 2.",
-    "latencyMs": 1429,
-    "inputTokens": 900,
-    "outputTokens": 350,
-    "estimatedCostUsd": 0.02069,
-    "promptSnippet": "Research Agent: collect category norms, competitor-safe selling points, compliance terms, never fabricate specs.",
-    "warningsOrErrors": "Live search failed; deterministic cited results used: [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。"
+    "outputArtifact": "5 enriched fields with citations, evidence snippets, and field-level conflicts. Conflicts retained: 3.",
+    "latencyMs": 2163,
+    "inputTokens": 1821,
+    "outputTokens": 352,
+    "estimatedCostUsd": 0.020969,
+    "promptSnippet": "Research Agent: search results -> LLM summary -> sourceUrl/evidence/citation/conflict per field; never fabricate specs.",
+    "warningsOrErrors": "Live search failed; deterministic cited results used: [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。; Live LLM call failed; deterministic fallback used: [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。"
   },
   {
     "agentName": "Copy",

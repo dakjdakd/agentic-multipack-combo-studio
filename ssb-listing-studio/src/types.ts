@@ -243,6 +243,15 @@ export interface EnrichmentApiResponse {
     sourceUrl: string;
     confidence: number;
     notes: string;
+    evidence?: string[];
+    citations?: {
+      sourceId?: string;
+      title?: string;
+      url: string;
+      snippet?: string;
+      demo?: boolean;
+    }[];
+    conflict?: Record<string, any> | null;
     demo?: boolean;
   }[];
   conflicts: Record<string, any>[];

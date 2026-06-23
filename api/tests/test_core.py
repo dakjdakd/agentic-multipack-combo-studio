@@ -113,6 +113,21 @@ def test_api_health_products_and_jobs():
     assert "items" in jobs.json()
 
 
+def test_api_enrichment_fields_include_evidence_citations_and_conflict():
+    sku = client.get("/api/products").json()["items"][0]["sku"]
+    enrich = client.post(f"/api/enrich/{sku}")
+    assert enrich.status_code == 200
+    payload = enrich.json()
+    assert payload["enrichedFields"]
+    for field in payload["enrichedFields"]:
+        assert field["sourceUrl"]
+        assert field["evidence"]
+        assert field["citations"]
+        assert "conflict" in field
+    assert payload["trace"][0]["agentName"] == "Research"
+    assert "evidence" in payload["trace"][0]["promptSnippet"]
+
+
 def test_api_listing_trace_review_eval_flow():
     sku = client.get("/api/products").json()["items"][0]["sku"]
     listing = client.post(f"/api/listings/{sku}", json={"mode": "full", "sendToReview": True})
@@ -160,6 +175,8 @@ def test_api_chat_multipack_and_combo():
     assert mp_payload["intent"] == "multipack"
     assert mp_payload["recomposeResult"]["unitCount"] == 3
     assert mp_payload["listing"]["physicalAttributes"]["unitCount"] == 3
+    assert mp_payload["trace"][0]["agentName"] == "Recomposition"
+    assert "source=" in mp_payload["trace"][0]["outputArtifact"]
 
     combo = client.post("/api/chat", json={"sessionId": "test-chat", "currentSku": sku, "message": f"Combine this with SKU {other}"})
     assert combo.status_code == 200
@@ -167,3 +184,5 @@ def test_api_chat_multipack_and_combo():
     assert combo_payload["intent"] == "combo"
     assert other in combo_payload["referencedSkus"]
     assert combo_payload["listing"]["physicalAttributes"]["unitCount"] >= 2
+    persisted_trace = client.get(f"/api/traces/{combo_payload['jobId']}").json()["steps"]
+    assert persisted_trace[0]["agentName"] == "Recomposition"
