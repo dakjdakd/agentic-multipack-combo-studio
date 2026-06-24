@@ -4,22 +4,7 @@
 
 This project is not a simple "enter a product name and let the model write a paragraph" demo. I designed it to feel like a real 0-to-1 interview prototype: where the data comes from, what each agent does, whether the output is inspectable, whether the image is close to the original product, where the cost goes, and how failures are surfaced.
 
-## What I Wanted To Solve
-
-When an e-commerce team prepares a listing, there is usually a lot of repetitive work that still cannot be done carelessly:
-
-- Read SKU, title, brand, dimensions, weight, color, material, and other base facts from the product database.
-- Enrich the product with research, but do not invent unsupported specs.
-- Write Amazon titles, five bullets, descriptions, A+ modules, and backend search terms.
-- Generate main images, lifestyle images, infographic images, and A+ visuals.
-- Check Amazon rules, banned claims, search term byte limits, and image constraints.
-- Recompute quantity, weight, dimensions, and copy when a product becomes a multipack or combo.
-- Let a human review, reject, or request revision instead of silently publishing AI output.
-- Track LLM, image generation, web search, cache savings, and overall budget.
-
-That is why I built this as a Listing Studio rather than a chat box. The focus is on something that is runnable, reviewable, explainable, and extensible.
-
-## Why This Project Is Worth Showing
+## Project Highlights
 
 | Highlight | What I Built | Why It Matters |
 | --- | --- | --- |
@@ -319,10 +304,10 @@ SSB_DB_USER=
 SSB_DB_PASSWORD=
 SSB_DB_NAME=
 
-LLM_PROVIDER=deepseek
-LLM_BASE_URL=https://api.deepseek.com
+LLM_PROVIDER=
+LLM_BASE_URL=
 LLM_API_KEY=
-LLM_MODEL=deepseek-v4-flash
+LLM_MODEL=
 
 IMAGE_PROVIDER=agnes
 IMAGE_BASE_URL=https://apihub.agnes-ai.com
@@ -333,9 +318,9 @@ SEARCH_PROVIDER=tavily
 SEARCH_BASE_URL=https://api.tavily.com
 SEARCH_API_KEY=
 
-BUDGET_TARGET_RMB=1500
-IMAGE_GENERATION_USD=0.003
-SEARCH_REQUEST_USD=0.005
+BUDGET_TARGET_RMB=
+IMAGE_GENERATION_USD=
+SEARCH_REQUEST_USD=
 ```
 
 Security notes:
@@ -417,7 +402,9 @@ Typical contents include:
 
 ## Cost Budget Design
 
-I designed the cost panel around a 1500 RMB target budget, with a looser planning ceiling around 1700 RMB.
+I designed the cost panel around a 1500 RMB target budget, but this part needs an important clarification: the current cost tracking is a simulation and estimate. It is not a real-time provider invoice, and it is not a final billing record generated strictly from every live API response.
+
+What the project has today is a cost-awareness ledger. The system estimates approximate pipeline spend from locally recorded tokens, image generation counts, search request counts, cache savings, and configurable unit prices. This lets a reviewer see that I understand how AI costs should be split, recorded, and surfaced in the product, but it is not yet production-grade billing reconciliation.
 
 | Cost item | Budget idea |
 | --- | ---: |
@@ -428,7 +415,7 @@ I designed the cost panel around a 1500 RMB target budget, with a looser plannin
 | Retry buffer | 200 RMB |
 | Total target | 1500 RMB |
 
-The numbers in the app are estimated costs rather than a final provider invoice. The point is to show cost awareness and engineering instrumentation: which providers were used, how many tokens were spent, how many image and search calls happened, and how much cache helped.
+So the cost dashboard in the README and UI is more accurately a cost simulation / estimated ledger. I am not claiming that I have already connected a real API billing system. I am showing how I think about the cost structure of an AI application: which providers a run went through, how many tokens it theoretically used, how many image and search calls happened, how much cache saved, and where these fields should be wired later if real provider usage or billing APIs are added.
 
 ## Key Fixes I Made
 
@@ -479,16 +466,3 @@ I think this version covers the core challenge loop, but it is not a production 
 - The system produces reviewable listing artifacts, not a live Seller Central publish workflow.
 
 I do not hide these limits, because I want a reviewer to see that I understand where the prototype ends and where the next production step begins.
-
-## What I Want a Reviewer To Notice
-
-This project mainly demonstrates my end-to-end implementation ability:
-
-- I can turn an open-ended challenge into a working product.
-- I can build the frontend first and then fill in the backend API.
-- I can move an LLM project beyond a single prompt into an agent workflow.
-- I can handle read-only databases, secrets, fallback paths, traces, and cost tracking.
-- I can notice usability problems and fix them instead of only making the feature barely work.
-- I can be honest about limits while still showing a clear path forward.
-
-In one sentence: I built a demoable, reviewable, live-configurable, cost-aware agentic listing studio.
